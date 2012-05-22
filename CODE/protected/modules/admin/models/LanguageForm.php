@@ -241,8 +241,7 @@ class LanguageForm extends CFormModel
     		$record->module=$origin_record->module;
     		$record->controller=$origin_record->controller;
     		$record->action=$origin_record->action;
-    		if (!$record->save())
-    			return false;
+    		$record->save();
     	}	
     	return true;
  	}

@@ -115,7 +115,7 @@ class News extends CActiveRecord
 		}
 		else {
 			
-			return '<img class="img" src="'.Image::getDefaultThumb('News', $type).'" alt=""';
+			return '<img class="img" src="'.Image::getDefaultThumb('News', $type).'" alt="">';
 		}
 	}
 	/**

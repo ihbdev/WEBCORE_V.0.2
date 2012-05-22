@@ -20,7 +20,7 @@
         			echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
     			}
 			?>
-			<?php $form=$this->beginWidget('CActiveForm', array('method'=>'post','enableAjaxValidation'=>true)); ?>	
+			<?php $form=$this->beginWidget('CActiveForm', array('method'=>'post','enableAjaxValidation'=>false)); ?>	
 			<!--begin left content-->
 			<div class="fl" style="width:480px;">
 				<ul>

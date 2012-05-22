@@ -107,7 +107,7 @@ class Product extends CActiveRecord
 		}
 		else {
 			
-			return '<img class="img" src="'.Image::getDefaultThumb('Product', $type).'" alt=""';
+			return '<img class="img" src="'.Image::getDefaultThumb('Product', $type).'" alt="">';
 		}
 	}
 

@@ -15,7 +15,7 @@
 			<input type="button" class="button" value="Tạo mới" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/create')?>'"/>
 			<input type="button" class="button" value="Xóa" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/delete')?>'"/>
 			<input type="button" class="button" value="Export" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/export')?>'"/>
-			<?php $form=$this->beginWidget('CActiveForm', array('method'=>'post','enableAjaxValidation'=>true)); ?>	
+			<?php $form=$this->beginWidget('CActiveForm', array('method'=>'post','enableAjaxValidation'=>false)); ?>	
 			<!--begin left content-->
 			<div class="fl" style="width:480px;">
 				<ul>

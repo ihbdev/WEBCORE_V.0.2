@@ -3,7 +3,7 @@ if(isset($cat))
 	$this->bread_crumbs=array(
 		array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
 		array('url'=>Yii::app()->createUrl('product/list',array('cat_alias'=>$cat->alias)),'title'=>Language::t($cat->name,'layout')),
-		array('url'=>'','title'=>Language::t($product->name)),
+		array('url'=>'','title'=>$product->name),
 	);
 else
 	$this->bread_crumbs=array(

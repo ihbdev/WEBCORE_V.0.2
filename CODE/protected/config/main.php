@@ -97,12 +97,14 @@ return array(
 			'charset' => 'utf8',
 			'schemaCachingDuration' => 180,
 		),
+		/*
 		'cache' => array(
 			'class' => 'CApcCache',
 		),
 		'session' => array(
 			'class' => 'CCacheHttpSession',
 		),
+		*/
 		'authManager'=>array(
 			'class' => 'CDbAuthManager',
 			'connectionID' => 'db',

@@ -15,7 +15,12 @@
 			<input type="button" class="button" value="Xóa" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/delete')?>'"/>
 			<input type="button" class="button" value="Export" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/export')?>'"/>
 			<input type="button" class="button" value="Import" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/import')?>'"/>
-			<?php $form=$this->beginWidget('CActiveForm', array('method'=>'post','enableAjaxValidation'=>true)); ?>	
+			<?php
+    			foreach(Yii::app()->user->getFlashes() as $key => $message) {
+        			echo '<div class="flash-' . $key . '">' . $message . "</div>\n";
+    			}
+			?>
+			<?php $form=$this->beginWidget('CActiveForm', array('method'=>'post','enableAjaxValidation'=>false)); ?>	
 			<!--begin left content-->
 			<div class="fl" style="width:480px;">
 				<ul>

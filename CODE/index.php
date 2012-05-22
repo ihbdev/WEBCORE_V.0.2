@@ -11,6 +11,6 @@ defined ( 'YII_TRACE_LEVEL' ) or define ( 'YII_TRACE_LEVEL', 3 );
 require_once ($yii);
 $app = Yii::createWebApplication ( $config );
 Yii::setPathOfAlias ( 'theme', Yii::app ()->theme->basePath );
-if (isset ( Yii::app ()->controller->module->id ) && Yii::app ()->controller->module->id != 'admin' && isset ( Yii::app ()->session ['language'] ))
+if (isset ( Yii::app ()->session ['language'] ))
 	Yii::app ()->language = Yii::app ()->session ['language'];
 $app->run ();

@@ -64,10 +64,10 @@ class LanguageController extends Controller
 	public function actionCreate() {
 		$model=new LanguageForm('create');
 		if (isset ( $_POST ['LanguageForm'] )) {
-			$model->attributes=$_POST['LanguageForm'];				
+			$model->attributes=$_POST['LanguageForm'];			
 			if(LanguageForm::copyLanguage ( $model->origin_lang, $model->lang ))
 			{
-				$this->redirect ( array ('edit', 'language' => $model->lang ) );
+				Yii::app()->user->setFlash('success', Language::t('Đã tạo ngôn ngữ thành công'));
 			}			
 			}
 		$this->render ( 'create', array ('model' => $model ) );

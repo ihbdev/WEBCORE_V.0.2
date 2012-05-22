@@ -15,7 +15,7 @@
 			<input type="button" class="button" value="Xóa" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/delete')?>'"/>
 			<input type="button" class="button" value="Export" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/export')?>'"/>
 			<input type="button" class="button" value="Import" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/language/import')?>'"/>
-		<?php $form=$this->beginWidget('CActiveForm', array('method'=>'get','id'=>'form-edit-language')); ?>
+		<?php $form=$this->beginWidget('CActiveForm', array('method'=>'post','id'=>'form-edit-language','action'=>Yii::app()->createUrl('admin/language/edit'))); ?>
 		<!--begin box search-->
             <div class="box-search">            
                 <!--begin left content-->

@@ -80,7 +80,7 @@ class StaticPage extends CActiveRecord
 		}
 		else {
 			
-			return '<img class="img" src="'.Image::getDefaultThumb('StaticPage', $type).'" alt=""';
+			return '<img class="img" src="'.Image::getDefaultThumb('StaticPage', $type).'" alt="">';
 		}
 	}
 	/*

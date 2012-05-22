@@ -94,7 +94,7 @@ class GalleryVideo extends CActiveRecord
 			return '<img class="img" src="'.$src.'" alt="'.$image->title.'">';
 		}
 		else {			
-			//return '<img class="img" src="'.Image::getDefaultThumb('GalleryVideo', $type).'" alt=""';
+			//return '<img class="img" src="'.Image::getDefaultThumb('GalleryVideo', $type).'" alt="">';
 					//Get thumb youtube
 		parse_str( parse_url( $this->link, PHP_URL_QUERY ), $vars );
 		return '<img class="img" src="http://img.youtube.com/vi/'.$vars['v'].'/1.jpg">';
