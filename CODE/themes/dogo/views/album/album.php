@@ -2,7 +2,7 @@
 if(isset($cat))
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
-	array('url'=>Yii::app()->createUrl('album/index'),'title'=>Lanugage::t('Album','layout')),
+	array('url'=>Yii::app()->createUrl('album/index'),'title'=>Language::t('Album','layout')),
 	array('url'=>'','title'=>$album->title),
 );
 else 
