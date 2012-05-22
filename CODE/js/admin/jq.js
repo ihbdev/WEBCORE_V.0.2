@@ -1,0 +1,1 @@
+window.addEvent("domready",function(){var a=new Fx.Slide("toggle");$("ex").addEvent("click",function(b){b=new Event(b);a.toggle();b.stop()})})
