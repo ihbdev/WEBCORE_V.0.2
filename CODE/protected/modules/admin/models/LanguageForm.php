@@ -18,13 +18,14 @@ class LanguageForm extends CFormModel
 	public $origin_lang;
 	public $store_lang;
     public $lang;
+    public $category;
+    public $store_category;
     public $store_module;
     public $module;
     public $store_controller;
     public $controller;
     public $store_action;
     public $action;
-    public $category;
 
 	/** 
 	 * Get list categories
@@ -277,6 +278,7 @@ class LanguageForm extends CFormModel
 	public function search(){
 		$criteria=new CDbCriteria;
 		$criteria->compare('lang', $this->lang);
+		$criteria->compare('category', $this->category);
 		$criteria->compare('module', $this->module);
 		$criteria->compare('controller', $this->controller);
 		$criteria->compare('action', $this->action);

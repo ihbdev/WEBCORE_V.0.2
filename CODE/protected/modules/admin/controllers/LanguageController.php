@@ -124,12 +124,15 @@ class LanguageController extends Controller
 			//Store 
 			$store=new LanguageForm('edit');
 			$store->lang=$_POST['LanguageForm']['lang'];
+			$store->category=$_POST['LanguageForm']['category'];
 			$store->module=$_POST['LanguageForm']['module'];
 			$store->controller=$_POST['LanguageForm']['controller'];
 			$store->action=$_POST['LanguageForm']['action'];
 			if(isset($_POST['LanguageForm']['records']))
 				$store->saveLanguage($_POST['LanguageForm']['records']);
 		} else {
+			$list_categories=array_keys($model->list_categories);
+			$model->category=array_shift($list_categories);
 			$list_modules=array_keys($model->list_modules);
 			$model->module=array_shift($list_modules);
 			$list_controllers=array_keys($model->list_controllers);
@@ -139,6 +142,7 @@ class LanguageController extends Controller
 		}
 		//Store language, module, controller and action
 		$model->store_lang=$model->lang;
+		$model->store_category=$model->category;
 		$model->store_module=$model->module;
 		$model->store_controller=$model->controller;
 		$model->store_action=$model->action;

@@ -6,7 +6,7 @@ $this->bread_crumbs=array(
 )
 ?>
 <?php $this->widget('wSearch');?> 
- <div class="big-title"><label><?php if(isset($cat))echo Language::t($cat->name); else echo Language::t('Toàn bộ sản phẩm');?></label></div>
+ <div class="big-title"><label><?php if(isset($cat))echo Language::t($cat->name,'layout'); else echo Language::t('Toàn bộ sản phẩm');?></label></div>
             	<?php $this->widget('iPhoenixListView', array(
             		'id'=>'list-product',
 					'dataProvider'=>$list_product,
