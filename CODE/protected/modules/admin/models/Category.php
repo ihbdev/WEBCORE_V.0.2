@@ -628,7 +628,7 @@ class Category extends CActiveRecord
 	public function codeUrl($type,$value=array()){
 		switch ($type) {
 			case 'controller': 
-					return array('product'=>'Sản phẩm','news'=>'Tin tức','staticPage'=>'Trang tĩnh','album'=>'Album','galleryVideo'=>'Video','config'=>'Hệ thống','language'=>'Ngôn ngữ','setting'=>'Cấu hình','order'=>'Đơn hàng','user'=>'User','qa'=>'Hỏi đáp','banner'=>'Banner','contact'=>'Liên hệ');				
+					return array('product'=>'Sản phẩm','news'=>'Tin tức','staticPage'=>'Trang tĩnh','album'=>'Album','galleryVideo'=>'Video','config'=>'Hệ thống','language'=>'Ngôn ngữ','setting'=>'Cấu hình','order'=>'Đơn hàng','user'=>'User','qa'=>'Hỏi đáp','image'=>'Image','banner'=>'Banner','contact'=>'Liên hệ');				
 				break;
 			case 'action':
 				switch ($value['controller']) {	
@@ -664,6 +664,9 @@ class Category extends CActiveRecord
 						break;
 					case 'contact':							
 						return array('index'=>'Quản lý','view_contact'=>'Hiển thị');
+						break;
+					case 'image':							
+						return array('list'=>'Danh sách');
 						break;
 					case 'user':								
 						return array('index'=>'Quản lý danh sách','create'=>'Thêm mới');
@@ -903,6 +906,9 @@ class Category extends CActiveRecord
 				'export'=>'/admin/language/export',
 				'import'=>'/admin/language/import',
 			),
+			'image'=>array(
+				'list'=>'/admin/image/list',
+			),
 			'config' => array (
 				'menu' => '/admin/category', 
 				'clear_image' => '/admin/image/clear',
@@ -986,6 +992,15 @@ class Category extends CActiveRecord
 			return "#";
 		}
 	}
+	/**
+	 * Get url update f album
+	 * @return album's url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/category/index");
+		return $url;
+ 	}
 	/**
 	 * Get active menu
 	 * @return array $result, the active menu in admin board

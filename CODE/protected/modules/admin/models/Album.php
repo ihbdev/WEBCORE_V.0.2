@@ -85,6 +85,15 @@ class Album extends CActiveRecord
  		}	
  	}
 	/**
+	 * Get update url of album
+	 * @return album's update url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/album/update",array('id'=>$this->id));
+		return $url;
+ 	}
+	/**
 	 * Get url of album
 	 * @return album's url
 	 */
@@ -417,7 +426,7 @@ class Album extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
-        		'pageSize'=>Yii::app()->user->getState('pageSize',Yii::app()->params['defaultPageSize']),
+        		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
 		));
 	}

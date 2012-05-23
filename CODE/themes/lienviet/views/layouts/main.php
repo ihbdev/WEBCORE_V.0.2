@@ -135,15 +135,15 @@
 	                    	<div class="row"><label class="chart-couting">Lượt truy cập:</label>
 	                    		<span>
 	                    			<?php
-	                    			    //Yii::app()->counter->refresh();
-					            		//echo Yii::app()->counter->getTotal();
+	                    			    Yii::app()->counter->refresh();
+					            		echo Yii::app()->counter->getTotal();
 					            	?>
 	                    		</span>
 	                    	</div>
 	                        <div class="row"><label class="chart-user">User Online:</label>
 	                        	<span>
 	                        		<?php
-            							//echo Yii::app()->counter->getOnline(); 
+            							echo Yii::app()->counter->getOnline(); 
             						?>
             					</span>
             				</div>	

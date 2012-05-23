@@ -17,7 +17,7 @@ class Image extends CActiveRecord
 	 * Config max size of thumb image
 	 */
 	const MAX_WIDTH_THUMB_IMAGE_UPDATE=300;
-	const MAX_WIDTH_THUMB_AUTO=10;
+	const MAX_WIDTH_THUMB_AUTO=100;
 	
 	/**
 	 * Config status of image
@@ -38,6 +38,12 @@ class Image extends CActiveRecord
 	/**
 	 * Config size of thumb
 	 */
+	static function getConfig_thumb_size(){
+		$configFile = Yii::app ()->theme->basePath.'/config/size_image.php';
+    	$list=require($configFile); 
+    	return $list;
+	}
+	/*
 	static $config_thumb_size=array(
 		'News'=>array(
 			'introimage'=>array('h'=>100,'w'=>130),
@@ -91,6 +97,7 @@ class Image extends CActiveRecord
 	 */
 	private $config_other_attributes=array();	
 	private $list_other_attributes;
+	public $group_parent;
 	
 	/**
 	 * Get path of origin image
@@ -121,6 +128,13 @@ class Image extends CActiveRecord
 	public function getHeight(){
 		$size=getimagesize($this->pathOrigin);
 		return $size[1];
+	}
+	
+	/**
+	 * Get size of this origin image
+	 */
+	public function getSize(){
+		return $this->width .'x'. $this->height;
 	}
 	/**
 	 * Get url of this image
@@ -164,36 +178,39 @@ class Image extends CActiveRecord
 	 */
 	public function getThumb($category=null,$type=null){
 		if($category != null && $type != null){
-		$url=Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$type.'/'.$this->filename.'.'.$this->extension;
+		$config_thumb_size=self::getConfig_thumb_size();
+		$size_type=$config_thumb_size[$category][$type]['w'].'x'.$config_thumb_size[$category][$type]['h'];
+		$url=Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
 		if(!file_exists($url)){
-			if(!file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$type)){
-				mkdir(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$type);
+			if(!file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type)){
+				mkdir(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type);
 			}
 			if(file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/origin/'.$this->filename.'.'.$this->extension)){
 				$thumb=new ResizeImage(Yii::getPathOfAlias('webroot').'/'.$this->src.'/origin/'.$this->filename.'.'.$this->extension);
-				$thumb->resize_image(self::$config_thumb_size[$category][$type]['w'],self::$config_thumb_size[$category][$type]['h']);
+				$thumb->resize_image($config_thumb_size[$category][$type]['w'],$config_thumb_size[$category][$type]['h']);
 				$thumb->save($url);
 			}
 		}
-		return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$type.'/'.$this->filename.'.'.$this->extension;
+		return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
 		}
 		else {
 			$type="auto_thumb";
-			$url=Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$type.'/'.$this->filename.'.'.$this->extension;
+			$zoom=(int)Image::MAX_WIDTH_THUMB_AUTO/$this->width;
+			$w=$zoom*$this->width;
+			$h=$zoom*$this->height;
+			$size_type=$w.'x'.$h;
+			$url=Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
 			if(!file_exists($url)){
-			if(!file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$type)){
-				mkdir(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$type);
+			if(!file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type)){
+				mkdir(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type);
 			}
 			if(file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/origin/'.$this->filename.'.'.$this->extension)){
 				$thumb=new ResizeImage(Yii::getPathOfAlias('webroot').'/'.$this->src.'/origin/'.$this->filename.'.'.$this->extension);
-				$zoom=(int)Image::MAX_WIDTH_THUMB_AUTO/$this->width;
-				$w=$zoom*$this->width;
-				$h=$zoom*$this->height;
 				$thumb->resize_image($w,$h);
 				$thumb->save($url);
 			}
 		}
-		return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$type.'/'.$this->filename.'.'.$this->extension;
+		return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
 		}
 	}
 	/**
@@ -202,50 +219,24 @@ class Image extends CActiveRecord
 	 * @param string $type, type of thumb image
 	 * @return string, absoluted path of default thumb image	  
 	 */
-	static function getDefaultThumb($category,$type){
-		$config=array(
-		'News'=>array(
-			'thumb_list_admin'=>'images/default/default45x45.jpg',
-			'thumb_update'=>'images/default/default45x45.jpg',
-			'headline'=>'images/default/default258x425.jpg',
-			'thumb_headline'=>'images/default/default50x60.jpg',
-			'thumb_homepage'=>'images/default/default90x90.jpg',
-			'thumb_detailpage'=>'images/default/default90x125.jpg',
-			'thumb_listpage'=>'images/default/default90x90.jpg',
-		),
-		'Album'=>array(
-			'thumb_update'=>array('h'=>70,'w'=>100),
-			'thumb_list_admin'=>array('h'=>45,'w'=>60),
-			'first_image_homepage'=>array('h'=>132,'w'=>182),
-			'other_image_homepage'=>array('h'=>55,'w'=>72),
-			'thumb_list_page'=>array('h'=>100,'w'=>125),
-			'thumb_image_big'=>array('h'=>378,'w'=>620),
-			'thumb_image_small'=>array('h'=>35,'w'=>35),
-		),
-		'Banner'=>array(
-			'thumb_update'=>array('h'=>70,'w'=>100),
-			'right'=>array('h'=>124,'w'=>300),
-			'thumb_right'=>array('h'=>62,'w'=>150),
-			'thumb_list_admin'=>array('h'=>45,'w'=>60),
-			'footer'=>array('h'=>130,'w'=>185),
-			'thumb_footer'=>array('h'=>65,'w'=>'92'),
-			'link_partner'=>array('h'=>50,'w'=>50),
-			'main'=>array('h'=>185,'w'=>630),
-			'thumb_main'=>array('h'=>92,'w'=>315)
-		),
-		'GalleryVideo'=>array(
-			'thumb_list_admin'=>array('h'=>45,'w'=>60),
-			'thumb_update'=>array('h'=>45,'w'=>60),
-			'thumb_detail_video'=>'images/default/default100x125.jpg',
-		),
-		'Image'=>array(
-			'thumb_image_update'=>array('h'=>300,'w'=>450),
-		)	
-	);
-		if(isset($config[$category][$type])) 
-			return Yii::app()->request->getBaseUrl(true).'/'.$config[$category][$type];
-		else 
-			return '';
+	static function getDefaultThumb($category=null,$type=null){
+		$config_thumb_size=self::getConfig_thumb_size();
+		if($category != null && $type != null){
+			$size_type=$config_thumb_size[$category][$type]['w'].'x'.$config_thumb_size[$category][$type]['h'];
+			$url='/images/default/'.$size_type.'/default.jpg';
+			if(file_exists(Yii::getPathOfAlias('webroot').'/images/default/default.jpg')){
+				if(!file_exists(Yii::getPathOfAlias('webroot').'/images/default/'.$size_type)){
+					mkdir(Yii::getPathOfAlias('webroot').'/images/default/'.$size_type);
+				}
+				$thumb=new ResizeImage(Yii::getPathOfAlias('webroot').'/images/default/default.jpg');
+				$thumb->resize_image($config_thumb_size[$category][$type]['w'],$config_thumb_size[$category][$type]['h']);
+				$thumb->save(Yii::getPathOfAlias('webroot').$url);
+			}
+			return Yii::app()->request->getBaseUrl(true).$url;
+		}
+		else{
+			return Yii::app()->request->getBaseUrl(true).'/images/default/default.jpg';
+		}
 	}
 	/**
 	 * PHP setter magic method for other attributes
@@ -288,11 +279,70 @@ class Image extends CActiveRecord
  			case self::STATUS_ACTIVE: 
  				return Yii::app()->request->getBaseUrl(true).'/images/admin/enable.png';
  				break;
- 			case self::STATUS_PENDING:
- 				return Yii::app()->request->getBaseUrl(true).'/images/admin/disable.png';
- 				break;
- 		}	
+ 			case self::STATUS_PENDING :
+				return Yii::app ()->request->getBaseUrl ( true ) . '/images/admin/disable.png';
+				break;
+		}
+	}
+	/**
+	 * Get parent of image
+	 * @return link update of parent
+	 */
+	public function getParent_url() {
+		$parent=$this->parent;
+		if (isset ( $parent->update_url ))
+			return 'Ảnh sử dụng cho thuộc tính ' . $this->parent_attribute.' của một đối tượng '.$this->category.' ( id = '.$this->parent_id.' ) <a href='.$parent->update_url.'>Click vào đây để chỉnh sửa đối tượng cha</a>';
+		else
+			return 'Ảnh rác';
  	}
+/**
+	 * Get parent of image
+	 * @return link update of parent
+	 */
+ 	public function getParent()
+ 	{
+ 			if ($this->parent_id > 0) {
+				switch ($this->category) {
+					case self::$config_category ['News'] :
+						$parent = News::model ()->findByPk ( $this->parent_id );
+						break;
+					case self::$config_category ['Product'] :
+						$parent = Product::model ()->findByPk ( $this->parent_id );
+						break;
+					case self::$config_category ['Album'] :
+						$parent = Album::model ()->findByPk ( $this->parent_id );
+						break;
+					case self::$config_category ['StaticPage'] :
+						$parent = StaticPage::model ()->findByPk ( $this->parent_id );
+						break;
+					case self::$config_category ['Banner'] :
+						$parent = Banner::model ()->findByPk ( $this->parent_id );
+						break;
+					case self::$config_category ['GalleryVideo'] :
+						$parent = GalleryVideo::model ()->findByPk ( $this->parent_id );
+						break;
+				}
+				return $parent;
+ 			}
+			else {
+				return null;
+			}
+ 	}
+	/** 
+	 * Get list categories
+	 * @return array $list, list categories
+	 */
+	public function getList_categories(){
+		$dbCommand = Yii::app()->db->createCommand("
+   			SELECT category FROM `".$this->tableName()."` GROUP BY `category`
+		");
+		$data = $dbCommand->queryAll();
+		$list=array();	 
+		foreach ($data as $item){
+			$list[$item['category']]=$item['category'];			
+		}
+        return $list;
+    }
 	/**
 	 * Returns the static model of the specified AR class.
 	 * @param string $className active record class name.
@@ -322,7 +372,7 @@ class Image extends CActiveRecord
 			array('src,filename,extension', 'required'),
 			array('other', 'length', 'max'=>2048),
 			array('title,url','safe','on'=>'update'),
-			array('title','safe','on'=>'search')
+			array('group_parent,category','safe','on'=>'search')
 		);
 	}
 
@@ -345,27 +395,38 @@ class Image extends CActiveRecord
 	{
 		return array(
 			'title'=>'Tên ảnh',
-			'url'=>'Link liên kết'
+			'url'=>'Link liên kết',
+			'thumb'=>'Ảnh',
+			'author'=>'Tác giả',
+			'created_date'=>'Ngày tạo',
+			'parent'=>'Đối tượng cha',
+			'group_parent'=>'Trạng thái',
+			'category'=>'Nhóm đối tượng',
+			'size'=>'Kích thước ảnh gốc'
 		);
 	}
-
+	
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
 	 * @return CActiveDataProvider the data provider that can return the models based on the search/filter conditions.
 	 */
-	public function search()
-	{
+	public function search() {
 		// Warning: Please modify the following code to remove attributes that
 		// should not be searched.
-
-		$criteria=new CDbCriteria;
-
-		$criteria->compare('title',$this->title);
-		$criteria->compare('parent_id',$this->parent_id);
+		$criteria = new CDbCriteria ();
+		if ($this->group_parent != null) {
+			if ($this->group_parent == 0)
+				$criteria->compare('parent_id','0');
+		if($this->group_parent == 1)
+			$criteria->addCondition('parent_id > 0');
+		}
 		$criteria->compare('category',$this->category);
-
+		if (isset ( $_GET ['pageSize'] ))
+			Yii::app ()->user->setState ( 'pageSize', $_GET ['pageSize'] );
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
+			'pagination' => array ('pageSize' => Yii::app ()->user->getState ( 'pageSize', Setting::s('DEFAULT_PAGE_SIZE','System') )), 
+			'sort' => array ('defaultOrder' => 'id DESC')
 		));
 	}
 	/**
@@ -460,7 +521,8 @@ class Image extends CActiveRecord
 	public function beforeDelete() {
 		if (parent::beforeDelete ()) {
 			$list_thumb_type=array('origin');
-			$model=self::$config_thumb_size[$this->category];
+			$config_thumb_size=self::getConfig_thumb_size();
+			$model=$config_thumb_size[$this->category];
 			foreach ($model as $type => $size){
 				$list_thumb_type[]=$type;
 			}

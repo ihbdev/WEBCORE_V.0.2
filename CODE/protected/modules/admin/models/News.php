@@ -94,6 +94,15 @@ class News extends CActiveRecord
 			return array('0'=>'Không thiết lập','1'=>'Mức 1');
 	}
 	/**
+	 * Get update url of news
+	 * @return news's update url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/news/update",array('id'=>$this->id));
+		return $url;
+ 	}
+	/**
 	 * Get url of this news
 	 * @return string $url, the absoluted path of this news
 	 */

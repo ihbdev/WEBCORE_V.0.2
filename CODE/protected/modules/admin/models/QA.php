@@ -58,7 +58,15 @@ class QA extends CActiveRecord
 	 */
 	const SPECIAL_ANSWER=1;
 	const SPECIAL_REMARK=0;
-
+	/**
+	 * Get url update of qa
+	 * @return qa's update url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/qA/update",array('id'=>$this->id));
+		return $url;
+ 	}
 	/**
 	 * Get url of this image
 	 * @return string $url, url of this image
@@ -349,7 +357,7 @@ class QA extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
-        		'pageSize'=>Yii::app()->user->getState('pageSize',Yii::app()->params['defaultPageSize']),
+        		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
 		));
 	}

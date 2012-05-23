@@ -74,6 +74,15 @@ class GalleryVideo extends CActiveRecord
  				break;
  		}	
  	}
+	/**
+	 * Get update url of gallery video
+	 * @return gallery video's update url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/galleryVideo/update",array('id'=>$this->id));
+		return $url;
+ 	}
  	/**
  	 * Get url of this video
  	 * @return string $url, absoluted path to this video
@@ -410,7 +419,7 @@ class GalleryVideo extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
-        		'pageSize'=>Yii::app()->user->getState('pageSize',Yii::app()->params['defaultPageSize']),
+        		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
 		));
 	}

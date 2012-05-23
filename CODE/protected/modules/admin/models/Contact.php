@@ -63,7 +63,15 @@ class Contact extends CActiveRecord
  				break;
  		}	
  	}
-
+	/**
+	 * Get update url of contact
+	 * @return contact's update url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/contact/view",array('id'=>$this->id));
+		return $url;
+ 	}
 	/**
 	 * PHP setter magic method for other attributes
 	 * @param $name the attribute name
@@ -209,7 +217,7 @@ class Contact extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
-        		'pageSize'=>Yii::app()->user->getState('pageSize',Yii::app()->params['defaultPageSize']),
+        		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
 		));
 	}

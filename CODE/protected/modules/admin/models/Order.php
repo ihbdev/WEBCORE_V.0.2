@@ -106,6 +106,15 @@ class Order extends CActiveRecord
  		}	
  	}
 	/**
+	 * Get update url of order
+	 * @return order's update url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/order/view",array('id'=>$this->id));
+		return $url;
+ 	}
+	/**
 	 * PHP setter magic method for other attributes
 	 * @param $name the attribute name
 	 * @param $value the attribute value

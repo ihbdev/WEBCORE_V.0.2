@@ -83,7 +83,15 @@ class Product extends CActiveRecord
  				break;
  		}	
  	}
- 	
+	/**
+	 * Get update url of product
+	 * @return update product's url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/product/update",array('id'=>$this->id));
+		return $url;
+ 	}
 	/**
 	 * Get url of this image
 	 * @return string $url, url of this product

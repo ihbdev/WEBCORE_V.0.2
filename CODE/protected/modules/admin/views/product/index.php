@@ -226,9 +226,3 @@
 		</div>
 	</div>
 	<!--end inside content-->
-	<?php 
-$cs = Yii::app()->getClientScript(); 
-$cs->registerScriptFile('js/common/jquery.alerts.js');
-$cs->registerCssFile('css/common/jquery.alerts.css');
-// Script delete
-?>

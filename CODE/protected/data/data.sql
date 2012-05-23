@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: May 22, 2012 at 07:09 PM
+-- Generation Time: May 23, 2012 at 11:26 AM
 -- Server version: 5.1.41
 -- PHP Version: 5.3.1
 
@@ -103,6 +103,47 @@ INSERT INTO `authitemchild` (`parent`, `child`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `pcounter_save`
+--
+
+CREATE TABLE IF NOT EXISTS `pcounter_save` (
+  `save_name` varchar(10) NOT NULL,
+  `save_value` int(10) unsigned NOT NULL
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pcounter_save`
+--
+
+INSERT INTO `pcounter_save` (`save_name`, `save_value`) VALUES
+('day_time', 2456071),
+('max_count', 2),
+('counter', 9),
+('yesterday', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `pcounter_users`
+--
+
+CREATE TABLE IF NOT EXISTS `pcounter_users` (
+  `user_ip` varchar(39) NOT NULL,
+  `user_time` int(10) unsigned NOT NULL,
+  UNIQUE KEY `user_ip` (`user_ip`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `pcounter_users`
+--
+
+INSERT INTO `pcounter_users` (`user_ip`, `user_time`) VALUES
+('''123.16.104.83''', 1337741872),
+('''127.0.0.1''', 1337743581);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `tbl_article`
 --
 
@@ -121,7 +162,7 @@ CREATE TABLE IF NOT EXISTS `tbl_article` (
   `created_by` int(11) NOT NULL,
   `created_date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=40 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=43 ;
 
 --
 -- Dumping data for table `tbl_article`
@@ -171,7 +212,10 @@ INSERT INTO `tbl_article` (`id`, `lang`, `catid`, `type`, `status`, `special`, `
 (36, 'vi', 0, 3, 1, 3, 0, 'Hỏi cách mua hàng?', 'hoi-cach-mua-hang-17052012', '', '{"phone":"0906244804","email":"thanhlx0204@gmail.com","question":"T\\u00f4i \\u1edf H\\u1ea3i Ph\\u00f2ng t\\u00f4i mu\\u1ed1n mua h\\u00e0ng th\\u00ec ph\\u1ea3i l\\u00e0m nh\\u01b0 th\\u1ebf n\\u00e0o?","modified":"{\\"1337226184\\":\\"1\\",\\"1337226363\\":\\"1\\",\\"1337230143\\":\\"1\\",\\"1337230772\\":\\"1\\",\\"1337230777\\":\\"1\\",\\"1337231110\\":\\"1\\",\\"1337231269\\":\\"1\\",\\"1337232131\\":\\"1\\"}","fullname":"L\\u00ea Xu\\u00e2n Th\\u00e0nh","answer":"<div style=\\"overflow: hidden;\\">\\r\\n<h1 class=\\"Title\\">Trung, Nh\\u1eadt h\\u1ecdp v\\u1ec1 \\u0111\\u1ea3o tranh ch\\u1ea5p<\\/h1>\\r\\n<h2 class=\\"Lead\\">B\\u1eafc Kinh v&agrave; Tokyo h&ocirc;m qua b\\u1eaft \\u0111\\u1ea7u cu\\u1ed9c h\\u1ecdp v\\u1ec1 c&aacute;c v\\u1ea5n  \\u0111\\u1ec1 h&agrave;ng h\\u1ea3i, trong \\u0111&oacute; v\\u1ee5 tranh ch\\u1ea5p chu\\u1ed7i \\u0111\\u1ea3o Sensaku\\/\\u0110i\\u1ebfu Ng\\u01b0 t\\u1ea1i bi\\u1ec3n  Hoa \\u0110&ocirc;ng l&agrave; t&acirc;m \\u0111i\\u1ec3m c\\u1ee7a ch\\u01b0\\u01a1ng tr&igrave;nh ngh\\u1ecb s\\u1ef1.<br \\/><a class=\\"Lead\\" href=\\"http:\\/\\/vnexpress.net\\/gl\\/the-gioi\\/2012\\/04\\/thi-truong-nhat-muon-mua-dao-tranh-chap-voi-trung-quoc\\/\\"><\\/a><\\/h2>\\r\\n<table border=\\"0\\" cellspacing=\\"0\\" cellpadding=\\"3\\" width=\\"1\\" align=\\"center\\">\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"http:\\/\\/vnexpress.net\\/Files\\/Subject\\/3b\\/bd\\/6e\\/bc\\/Island.jpg\\" border=\\"1\\" alt=\\"\\" width=\\"466\\" height=\\"260\\" \\/><\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"Image\\">M\\u1ed9t h&ograve;n \\u0111\\u1ea3o trong chu\\u1ed7i \\u0111\\u1ea3o Sensaku\\/\\u0110i\\u1ebfu Ng\\u01b0. \\u1ea2nh: <em>AP<\\/em><\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p class=\\"Normal\\"><em>BBC<\\/em> cho bi\\u1ebft cu\\u1ed9c h\\u1ecdp di\\u1ec5n ra t\\u1ea1i H&agrave;ng Ch&acirc;u,  Trung Qu\\u1ed1c v\\u1edbi s\\u1ef1 tham gia c\\u1ee7a c&aacute;c quan ch\\u1ee9c ngo\\u1ea1i giao, qu\\u1ed1c ph&ograve;ng v&agrave;  h&agrave;ng h\\u1ea3i \\u0111\\u1ebfn t\\u1eeb hai n\\u01b0\\u1edbc. Theo ch\\u01b0\\u01a1ng tr&igrave;nh ngh\\u1ecb s\\u1ef1, hai b&ecirc;n s\\u1ebd th\\u1ea3o  lu\\u1eadn v\\u1ec1 c&aacute;ch th\\u1ee9c tr&aacute;nh xung \\u0111\\u1ed9t trong t\\u01b0\\u01a1ng lai t\\u1ea1i chu\\u1ed7i \\u0111\\u1ea3o gi&agrave;u t&agrave;i  nguy&ecirc;n, c&oacute; t&ecirc;n l&agrave; Sensaku trong ti\\u1ebfng Nh\\u1eadt v&agrave; \\u0110i\\u1ebfu Ng\\u01b0 trong ti\\u1ebfng  Trung.<\\/p>\\r\\n<p class=\\"Normal\\">Chu\\u1ed7i \\u0111\\u1ea3o n&agrave;y n\\u1eb1m \\u1edf ph&iacute;a \\u0111&ocirc;ng Trung Qu\\u1ed1c v&agrave; t&acirc;y nam  c\\u1ee7a t\\u1ec9nh c\\u1ef1c nam Nh\\u1eadt B\\u1ea3n Okinawa. \\u0110\\u1ea3o hi\\u1ec7n do ph&iacute;a Tokyo qu\\u1ea3n l&yacute; nh\\u01b0ng  B\\u1eafc Kinh c\\u0169ng tuy&ecirc;n b\\u1ed1 ch\\u1ee7 quy\\u1ec1n \\u1edf \\u0111&acirc;y. C\\u0103ng th\\u1eb3ng \\u1edf Sensaku\\/\\u0110i\\u1ebfu Ng\\u01b0  leo thang sau khi tu\\u1ea7n duy&ecirc;n Nh\\u1eadt B\\u1ea3n b\\u1eaft gi\\u1eef thuy\\u1ec1n tr\\u01b0\\u1edfng m\\u1ed9t t&agrave;u c&aacute;  h\\u1ed3i th&aacute;ng 9\\/2010, sau khi hai b&ecirc;n va ch\\u1ea1m.<\\/p>\\r\\n<p class=\\"Normal\\">H&agrave;ng lo\\u1ea1t cu\\u1ed9c bi\\u1ec3u t&igrave;nh ph\\u1ea3n \\u0111\\u1ed1i Nh\\u1eadt B\\u1ea3n \\u0111&atilde; n\\u1ed5 ra \\u1edf  Trung Qu\\u1ed1c. B\\u1eafc Kinh c\\u1eaft d&ograve;ng xu\\u1ea5t kh\\u1ea9u \\u0111\\u1ea5t hi\\u1ebfm - nguy&ecirc;n li\\u1ec7u quan  tr\\u1ecdng cho c&aacute;c ng&agrave;nh c&ocirc;ng ngh\\u1ec7 cao - sang Nh\\u1eadt. Tokyo sau \\u0111&oacute; \\u0111&atilde; ph\\u1ea3i th\\u1ea3  thy\\u1ec1n tr\\u01b0\\u1edfng v&agrave; nh\\u1edd v\\u1eady c\\u0103ng th\\u1eb3ng d\\u1ecbu \\u0111i. K\\u1ec3 t\\u1eeb \\u0111&oacute; hai b&ecirc;n \\u0111&atilde; n\\u1ed7 l\\u1ef1c  h&agrave;n g\\u1eafn quan h\\u1ec7 ngo\\u1ea1i giao.<\\/p>\\r\\n<p class=\\"Normal\\">\\"Trung Qu\\u1ed1c v&agrave; Nh\\u1eadt B\\u1ea3n \\u0111&atilde; \\u0111\\u1ea1t \\u0111\\u01b0\\u1ee3c s\\u1ef1 \\u0111\\u1ed3ng thu\\u1eadn h\\u1ed3i  th&aacute;ng 12 nh\\u1eb1m thi\\u1ebft l\\u1eadp m\\u1ed9t c\\u01a1 ch\\u1ebf tham v\\u1ea5n c\\u1ea5p cao Trung-Nh\\u1eadt v\\u1ec1 c&aacute;c  v\\u1ea5n \\u0111\\u1ec1 h&agrave;ng h\\u1ea3i\\", &ocirc;ng H\\u1ed3ng L\\u1ed7i, ph&aacute;t ng&ocirc;n vi&ecirc;n B\\u1ed9 Ngo\\u1ea1i giao Trung Qu\\u1ed1c  n&oacute;i trong cu\\u1ed9c h\\u1ecdp b&aacute;o h&ocirc;m qua.<\\/p>\\r\\n<table border=\\"0\\" cellspacing=\\"0\\" cellpadding=\\"3\\" width=\\"1\\" align=\\"center\\">\\r\\n<tbody>\\r\\n<tr>\\r\\n<td><img src=\\"http:\\/\\/vnexpress.net\\/Files\\/Subject\\/3b\\/bd\\/6e\\/bc\\/sensaku4.jpg\\" border=\\"1\\" alt=\\"\\" width=\\"480\\" height=\\"399\\" \\/><\\/td>\\r\\n<\\/tr>\\r\\n<tr>\\r\\n<td class=\\"Image\\">B\\u1ea3n \\u0111\\u1ed3 cho th\\u1ea5y v\\u1ecb tr&iacute; c\\u1ee7a Sensaku\\/\\u0110i\\u1ebfu Ng\\u01b0 \\u1edf bi\\u1ec3n Hoa \\u0110&ocirc;ng. \\u0110\\u1ed3 h\\u1ecda: <em>BBC<\\/em><\\/td>\\r\\n<\\/tr>\\r\\n<\\/tbody>\\r\\n<\\/table>\\r\\n<p class=\\"Normal\\">Tuy nhi&ecirc;n, vi\\u1ec7c Nh\\u1eadt B\\u1ea3n cho ph&eacute;p \\u0110\\u1ea1i h\\u1ed9i Duy Ng&ocirc; Nh\\u0129  Th\\u1ebf gi\\u1edbi (WUC) h\\u1ecdp t\\u1ea1i Tokyo c&oacute; th\\u1ec3 ph\\u1ee7 b&oacute;ng \\u0111en l&ecirc;n cu\\u1ed9c h\\u1ecdp song  ph\\u01b0\\u01a1ng \\u1edf H&agrave;ng Ch&acirc;u. B\\u1eafc Kinh cho r\\u1eb1ng WUC c&oacute; li&ecirc;n quan \\u0111\\u1ebfn c&aacute;c t\\u1ed5 ch\\u1ee9c  kh\\u1ee7ng b\\u1ed1 &acirc;m m\\u01b0u chia r\\u1ebd khu v\\u1ef1c b\\u1ea5t \\u1ed5n T&acirc;n C\\u01b0\\u01a1ng kh\\u1ecfi Trung Qu\\u1ed1c. WUC  th&igrave; kh\\u1eb3ng \\u0111\\u1ecbnh t\\u1ed5 ch\\u1ee9c n&agrave;y ch\\u1ec9 n\\u1ed7 l\\u1ef1c th&uacute;c \\u0111\\u1ea9y quy\\u1ec1n ng\\u01b0\\u1eddi Duy Ng&ocirc; Nh\\u0129  trong vi\\u1ec7c s\\u1eed d\\u1ee5ng nh\\u1eefng ph\\u01b0\\u01a1ng th\\u1ee9c h&ograve;a b&igrave;nh v&agrave; d&acirc;n ch\\u1ee7 \\u0111\\u1ec3 quy\\u1ebft \\u0111\\u1ecbnh  t\\u01b0\\u01a1ng lai c\\u1ee7a T&acirc;n C\\u01b0\\u01a1ng.<\\/p>\\r\\n<p class=\\"Normal\\">C&aacute;c ngu\\u1ed3n tin cho hay Th\\u1ee7 t\\u01b0\\u1edbng Nh\\u1eadt B\\u1ea3n Yoshihiko  Noda v&agrave; ng\\u01b0\\u1eddi \\u0111\\u1ed3ng c\\u1ea5p c\\u1ee7a Trung Qu\\u1ed1c &Ocirc;n Gia B\\u1ea3o \\u0111&atilde; tranh c&atilde;i kh&aacute; quy\\u1ebft  li\\u1ec7t quanh v\\u1ea5n \\u0111\\u1ec1 bi\\u1ec3n \\u0111\\u1ea3o v&agrave; nh&acirc;n quy\\u1ec1n khi h\\u1ecd nh&oacute;m h\\u1ecdp \\u1edf B\\u1eafc Kinh cu\\u1ed1i  tu\\u1ea7n qua. Th\\u1eddi b&aacute;o Trung Qu\\u1ed1c <em>Global Times<\\/em> nh\\u1eadn \\u0111\\u1ecbnh r\\u1eb1ng v\\u1edbi b\\u1ed1i c\\u1ea3nh n&agrave;y, tri\\u1ec3n v\\u1ecdng c\\u1ee7a cu\\u1ed9c \\u0111&agrave;m ph&aacute;n c\\u1ea5p cao gi\\u1eefa Tokyo v&agrave; B\\u1eafc Kinh l&agrave; h\\u1ea7u nh\\u01b0 b\\u1eb1ng kh&ocirc;ng.<\\/p>\\r\\n<p class=\\"Normal\\"><strong>Anh Ng\\u1ecdc<\\/strong><\\/p>\\r\\n<\\/div>"}', 0, 1337226111),
 (37, 'vi', 0, 3, 1, 0, 0, 'Hỏi về cách vận chuyển?', 'hoi-ve-cach-van-chuyen-17052012', '', '{"fullname":"L\\u00ea Xu\\u00e2n Th\\u00e0nh","phone":"0906244804","email":"thanhlx0204@gmail.com","question":"T\\u00f4i \\u1edf S\\u00e0i G\\u00f2n, v\\u1eady h\\u00e0ng s\\u1ebd \\u0111\\u01b0\\u1ee3c v\\u1eadn chuy\\u1ec3n t\\u1eeb H\\u00e0 N\\u1ed9i v\\u00e0o nh\\u01b0 th\\u1ebf n\\u00e0o?"}', 0, 1337230961),
 (38, 'vi', 0, 3, 1, 3, 0, 'Hỏi về phí quảng cáo?', 'hoi-ve-phi-quang-cao-17052012', '', '{"fullname":"L\\u00ea Th\\u1ecb Hi\\u1ec1n","phone":"0906244804","email":"thanhlx0204@gmail.com","question":"Chi ph\\u00ed qu\\u1ea3ng c\\u00e1o tr\\u00ean website khoemoingay.com nh\\u01b0 th\\u1ebf n\\u00e0o?","answer":"&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-family: arial; font-size: small;&quot;&gt;V\\u1ec1 &amp;yacute; t\\u01b0\\u1edfng t\\u1ed5 ch\\u1ee9c ch\\u01b0\\u01a1ng tr&amp;igrave;nh, nh\\u1ea1c s\\u0129 Qu\\u1ed1c Trung chia s\\u1ebb, s&amp;aacute;u n\\u0103m tr\\u01b0\\u1edbc, Anh Qu&amp;acirc;n - M\\u1ef9 Linh l&amp;agrave;m tour &lt;em&gt;M\\u1ef9 Linh &amp;rsquo;06&lt;\\/em&gt; th&amp;agrave;nh c&amp;ocirc;ng nh\\u01b0ng l\\u1ed7 t\\u1edbi h&amp;agrave;ng tr\\u0103m tri\\u1ec7u \\u0111\\u1ed3ng. Khi bi\\u1ebft \\u0111i\\u1ec1u n&amp;agrave;y, anh  \\u0111\\u1eb7t quy\\u1ebft t&amp;acirc;m t\\u1ed5 ch\\u1ee9c liveshow cho M\\u1ef9 Linh m&amp;agrave; kh&amp;ocirc;ng l\\u1ed7. &amp;ldquo;Nh\\u01b0ng \\u0111\\u1ebfn &amp;lsquo;&lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2012\\/05\\/tuan-ngoc-khen-my-linh-hat-hay-chua-tung-thay\\/&quot;&gt;V&amp;agrave; em s\\u1ebd h&amp;aacute;t&amp;hellip;&amp;rsquo;&lt;\\/a&gt;,  ng\\u01b0\\u1eddi t\\u1ed5 ch\\u1ee9c v\\u1eabn kh&amp;ocirc;ng ph\\u1ea3i t&amp;ocirc;i n&amp;ecirc;n t&amp;ocirc;i ngh\\u0129 ra &amp;yacute; t\\u01b0\\u1edfng s\\u1ebd l&amp;agrave;m tour  k\\u1ebft h\\u1ee3p cho hai diva \\u0111\\u1ec3 th\\u1eed nghi\\u1ec7m s\\u1ef1 m\\u1edbi m\\u1ebb v\\u1edbi nh\\u1eefng trao \\u0111\\u1ed5i gi\\u1eefa hai  gi\\u1ecdng h&amp;aacute;t v&amp;agrave; hai phong c&amp;aacute;ch ch\\u01a1i nh\\u1ea1c. Ban nh\\u1ea1c Ph\\u01b0\\u01a1ng \\u0110&amp;ocirc;ng c\\u1ee7a t&amp;ocirc;i v&amp;agrave;  ban nh\\u1ea1c Anh Em c\\u1ee7a Anh Qu&amp;acirc;n s\\u1ebd \\u0111\\u1ed1i tho\\u1ea1i v\\u1edbi nhau, mang h\\u1ebft m&amp;aacute;y m&amp;oacute;c ra  nh\\u01b0 \\u1edf trong ph&amp;ograve;ng thu&amp;rdquo; - Qu\\u1ed1c Trung t\\u1ef1 h&amp;agrave;o ti\\u1ebft l\\u1ed9. Anh c\\u0169ng cho bi\\u1ebft,  liveshow s\\u1ebd kh&amp;ocirc;ng c&amp;oacute; MC, kh&amp;ocirc;ng c&amp;oacute; m&amp;uacute;a y\\u1ec3m tr\\u1ee3 m&amp;agrave; s\\u1ebd l&amp;agrave; cu\\u1ed9c tr\\u01b0ng b&amp;agrave;y  nh\\u1eefng b\\u1ed9 s\\u01b0u t\\u1eadp \\u0111&amp;agrave;n c\\u1ee7a anh v&amp;agrave; Anh Qu&amp;acirc;n. &amp;ldquo;H&amp;ocirc;m qua t&amp;ocirc;i \\u0111&amp;atilde; mua th&amp;ecirc;m hai  c&amp;acirc;y \\u0111&amp;agrave;n. Hi\\u1ec7n t\\u1ea1i t&amp;ocirc;i ngh\\u0129 m&amp;igrave;nh \\u0111ang nhi\\u1ec1u \\u0111&amp;agrave;n h\\u01a1n Qu&amp;acirc;n&amp;rdquo; - Qu\\u1ed1c Trung  t\\u1ee7m t\\u1ec9m.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-family: arial; font-size: small;&quot;&gt;Liveshow Thanh Lam - M\\u1ef9 Linh l&amp;agrave; ph\\u1ea7n ti\\u1ebfp theo trong series &amp;ldquo;C\\u1ea7m tay m&amp;ugrave;a h&amp;egrave;&amp;rdquo; do Qu\\u1ed1c Trung th\\u1ef1c hi\\u1ec7n. &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2011\\/07\\/uyen-linh-thanh-lam-thang-hoa-cung-am-nhac\\/&quot;&gt;&amp;ldquo;C\\u1ea7m tay m&amp;ugrave;a h&amp;egrave;&amp;rdquo; 2011&lt;\\/a&gt; v\\u1edbi c&amp;aacute;c gi\\u1ecdng ca Thanh Lam, Uy&amp;ecirc;n Linh, H&amp;agrave; Linh \\u0111&amp;atilde; \\u0111\\u1ec3 l\\u1ea1i \\u1ea5n t\\u01b0\\u1ee3ng \\u0111\\u1eb9p  trong l&amp;ograve;ng kh&amp;aacute;n gi\\u1ea3. Ch\\u01b0\\u01a1ng tr&amp;igrave;nh n\\u0103m nay v\\u1edbi s\\u1ef1 k\\u1ebft h\\u1ee3p c\\u1ee7a hai gi\\u1ecdng  n\\u1eef h&amp;agrave;ng \\u0111\\u1ea7u Vi\\u1ec7t Nam \\u1ea9n ch\\u1ee9a nhi\\u1ec1u b\\u1ea5t ng\\u1edd. Nh\\u1eefng ca kh&amp;uacute;c g\\u1eafn li\\u1ec1n v\\u1edbi  Thanh Lam nh\\u01b0 &lt;em&gt;\\u0110\\u1ee3i ch\\u1edd, Gi\\u1ecdt n\\u1eafng b&amp;ecirc;n th\\u1ec1m&amp;hellip;&lt;\\/em&gt; m\\u1ed9t l\\u1ea7n n\\u1eefa \\u0111\\u01b0\\u1ee3c vang l&amp;ecirc;n v\\u1edbi s\\u1ef1 ph\\u1ed1i kh&amp;iacute; ho&amp;agrave;n to&amp;agrave;n m\\u1edbi m\\u1ebb. B&amp;ecirc;n c\\u1ea1nh  \\u0111&amp;oacute;, &amp;ldquo;ng\\u01b0\\u1eddi \\u0111&amp;agrave;n b&amp;agrave; h&amp;aacute;t&amp;rdquo; s\\u1ebd th\\u1ec3 hi\\u1ec7n theo phong c&amp;aacute;ch c\\u1ee7a m&amp;igrave;nh m\\u1ed9t s\\u1ed1 ca  kh&amp;uacute;c c\\u1ee7a Anh Qu&amp;acirc;n m&amp;agrave; M\\u1ef9 Linh t\\u1eebng th\\u1ec3 hi\\u1ec7n th&amp;agrave;nh c&amp;ocirc;ng tr\\u01b0\\u1edbc \\u0111&amp;oacute;: &lt;em&gt;Thi&amp;ecirc;n \\u0111\\u01b0\\u1eddng, Ng&amp;agrave;y x\\u01b0a H&amp;agrave; N\\u1ed9i&amp;hellip;&lt;\\/em&gt;&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-family: arial; font-size: small;&quot;&gt;C\\u0169ng nh\\u01b0 v\\u1eady, ngo&amp;agrave;i vi\\u1ec7c tr&amp;igrave;nh di\\u1ec5n nh\\u1eefng ca kh&amp;uacute;c l&amp;agrave;m n&amp;ecirc;n t&amp;ecirc;n tu\\u1ed5i m&amp;igrave;nh nh\\u01b0 &lt;em&gt;Chuy\\u1ec7n t&amp;igrave;nh, Tr\\u01b0a v\\u1eafng, T&amp;oacute;c ng\\u1eafn, M&amp;ugrave;a \\u0111&amp;ocirc;ng \\u0111&amp;atilde; qua&lt;\\/em&gt;&amp;hellip; do &amp;ocirc;ng x&amp;atilde; s&amp;aacute;ng t&amp;aacute;c, M\\u1ef9 Linh s\\u1ebd th\\u1ed5i l&amp;agrave;n gi&amp;oacute; m\\u1edbi v&amp;agrave;o ca kh&amp;uacute;c ch\\u1ecb ch\\u01b0a t\\u1eebng bi\\u1ec3u di\\u1ec5n tr&amp;ecirc;n s&amp;acirc;n kh\\u1ea5u nh\\u01b0 &lt;em&gt;T&amp;igrave;nh y&amp;ecirc;u \\u1edf l\\u1ea1i&lt;\\/em&gt; c\\u1ee7a Qu\\u1ed1c Trung.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-family: arial; font-size: small;&quot;&gt;\\u0110i\\u1ec3m nh\\u1ea5n quan tr\\u1ecdng c\\u1ee7a ch\\u01b0\\u01a1ng tr&amp;igrave;nh l&amp;agrave; s\\u1ef1 h&amp;ograve;a gi\\u1ecdng c\\u1ee7a M\\u1ef9 Linh v&amp;agrave; Thanh Lam v\\u1edbi nh\\u1eefng hit: &lt;em&gt;M\\u1ed9t m&amp;igrave;nh, C&amp;oacute; th\\u1ea5y t&amp;ocirc;i tu\\u1ed5i 15, Th&amp;aacute;ng t\\u01b0 v\\u1ec1, M\\u1eb7t tr\\u1eddi &amp;ecirc;m d\\u1ecbu, \\u0110\\u1ed1 t&amp;igrave;nh, Ng&amp;agrave;y kh&amp;ocirc;ng m\\u01b0a&lt;\\/em&gt;&amp;hellip; Trong d\\u1ef1 \\u0111\\u1ecbnh c\\u1ee7a Qu\\u1ed1c Trung, anh \\u0111\\u1ec3 hai ca s\\u0129 h&amp;aacute;t hai b&amp;agrave;i ti\\u1ebfng Anh l&amp;agrave; &lt;em&gt;Tell him, Woman in love&lt;\\/em&gt; nh\\u01b0ng c\\u1ea3 M\\u1ef9 Linh v&amp;agrave; Thanh Lam \\u0111\\u1ec1u mu\\u1ed1n t\\u1eadp trung to&amp;agrave;n b\\u1ed9 v&amp;agrave;o nh\\u1eefng b&amp;agrave;i  h&amp;aacute;t Vi\\u1ec7t Nam b\\u1edfi theo h\\u1ecd, h&amp;aacute;t ti\\u1ebfng m\\u1eb9 \\u0111\\u1ebb tho\\u1ea3i m&amp;aacute;i nh\\u1ea5t, d&amp;ugrave; &amp;acirc;m \\u0111&amp;oacute;ng v&amp;agrave;  kh&amp;oacute; h\\u01a1n h&amp;aacute;t ti\\u1ebfng Anh. L&amp;yacute; gi\\u1ea3i cho vi\\u1ec7c kh&amp;ocirc;ng c&amp;oacute; &lt;em&gt;Sao ch\\u1eb3ng v\\u1ec1 v\\u1edbi em&lt;\\/em&gt; - ca kh&amp;uacute;c n\\u1ed5i ti\\u1ebfng c\\u1ee7a Qu\\u1ed1c Trung, Thanh Lam \\u0111&amp;ugrave;a vui: &amp;ldquo;Qu\\u1ed1c Trung  kh&amp;ocirc;ng cho t&amp;ocirc;i h&amp;aacute;t, s\\u1ee3 khi nghe th\\u1ea5y l\\u1ea1i kh&amp;ocirc;ng th\\u1ec3 kh&amp;ocirc;ng tr\\u1edf v\\u1ec1 v\\u1edbi t&amp;ocirc;i&amp;rdquo;.  \\u0110&amp;ocirc;i v\\u1ee3 ch\\u1ed3ng m\\u1ed9t th\\u1eddi cho th\\u1ea5y s\\u1ef1 g\\u1eafn k\\u1ebft nh\\u01b0 nh\\u1eefng ng\\u01b0\\u1eddi b\\u1ea1n t&amp;acirc;m giao  trong &amp;acirc;m nh\\u1ea1c.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-family: arial; font-size: small;&quot;&gt;Liveshow M\\u1ef9 Linh - Thanh Lam s\\u1ebd di\\u1ec5n ra t\\u1ed1i 9-10\\/6 t\\u1ea1i  H&amp;agrave; N\\u1ed9i. Ban t\\u1ed5 ch\\u1ee9c ch\\u01b0a quy\\u1ebft \\u0111\\u1ecbnh c&amp;oacute; \\u0111\\u01b0a ch\\u01b0\\u01a1ng tr&amp;igrave;nh v&amp;agrave;o TP HCM hay  kh&amp;ocirc;ng, do kh&amp;acirc;u v\\u1eadn chuy\\u1ec3n thi\\u1ebft b\\u1ecb &amp;acirc;m thanh &amp;aacute;nh s&amp;aacute;ng kh&amp;aacute; t\\u1ed1n k&amp;eacute;m. Nh\\u1ea1c  s\\u0129 Qu\\u1ed1c Trung ti\\u1ebft l\\u1ed9, m\\u1ed9t \\u0111&amp;ecirc;m &amp;ldquo;C\\u1ea7m tay m&amp;ugrave;a h&amp;egrave; 2011&amp;rdquo; \\u1edf TP HCM t\\u1eebng t\\u1ed1n  h\\u01a1n nhi\\u1ec1u hai \\u0111&amp;ecirc;m di\\u1ec5n t\\u01b0\\u01a1ng t\\u1ef1 \\u1edf H&amp;agrave; N\\u1ed9i.&lt;\\/span&gt;&lt;\\/p&gt;","modified":"{\\"1337232693\\":\\"1\\"}"}', 0, 1337232666),
-(39, 'vi', 0, 3, 1, 2, 0, 'Làm thế nào để thành công?', 'lam-the-nao-de-thanh-cong-17052012', '', '{"fullname":"Nguy\\u1ec5n Th\\u00e0nh Nam","phone":"0906244804","email":"thanhlx0204@gmail.com","question":"T\\u00f4i l\\u00e0 doanh nh\\u00e2n tr\\u1ebb l\\u00e0m th\\u1ebf n\\u00e0o \\u0111\\u1ec3 th\\u00e0nh c\\u00f4ng?","answer":"&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;L\\u01b0u \\u0110\\u1ee9c Hoa (Andy Lau) k\\u1ebft h&amp;ocirc;n r\\u1ed3i c&amp;oacute; con, nhi\\u1ec1u fan  v\\u1eabn kh&amp;ocirc;ng t\\u1eeb b\\u1ecf gi\\u1ea5c m\\u1ed9ng v\\u1edbi th\\u1ea7n t\\u01b0\\u1ee3ng. M\\u1edbi \\u0111&amp;acirc;y, Ng\\u1ea1o Di\\u1ec5m H\\u1ed3ng (Ao  Yanhong), c&amp;ocirc; g&amp;aacute;i \\u0111\\u1ebfn t\\u1eeb t\\u1ec9nh H\\u1ed3 B\\u1eafc, Trung Qu\\u1ed1c l\\u1ea1i g&amp;acirc;y s&amp;oacute;ng gi&amp;oacute; d\\u01b0 lu\\u1eadn  v\\u1edbi nh\\u1eefng suy ngh\\u0129 v&amp;agrave; ph&amp;aacute;t ng&amp;ocirc;n \\u0111\\u01b0\\u1ee3c cho l&amp;agrave; bi\\u1ec3u hi\\u1ec7n c\\u1ee7a t&amp;acirc;m l&amp;yacute; &amp;ldquo;kh&amp;ocirc;ng  b&amp;igrave;nh th\\u01b0\\u1eddng&quot;.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;Di\\u1ec5m H\\u1ed3ng n\\u0103m nay 29 tu\\u1ed5i. C&amp;ocirc; b\\u1eaft \\u0111\\u1ea7u bi\\u1ebft v&amp;agrave; m&amp;ecirc; m\\u1ea9n  L\\u01b0u \\u0110\\u1ee9c Hoa n\\u0103m l&amp;ecirc;n 8 l&amp;ecirc;n 9. T\\u1eeb n\\u0103m 1998 (15 tu\\u1ed5i), thi\\u1ebfu n\\u1eef quy\\u1ebft \\u0111\\u1ecbnh  &amp;ldquo;ch\\u1ec9 y&amp;ecirc;u L\\u01b0u \\u0110\\u1ee9c Hoa&amp;rdquo;. V&amp;igrave; mu\\u1ed1n g\\u1eb7p th\\u1ea7n t\\u01b0\\u1ee3ng, c&amp;ocirc; n\\u1ea3y ra &amp;yacute; ngh\\u0129 ph\\u1ea3i  b\\u01b0\\u1edbc ch&amp;acirc;n v&amp;agrave;o l&amp;agrave;ng gi\\u1ea3i tr&amp;iacute;. \\u0110i\\u1ec1u ki\\u1ec7n \\u1edf n&amp;ocirc;ng th&amp;ocirc;n th\\u1ea5p, nh\\u01b0ng Di\\u1ec5m H\\u1ed3ng  ch\\u01b0a bao gi\\u1edd t\\u1eeb b\\u1ecf &amp;yacute; \\u0111\\u1ecbnh c\\u1ee7a m&amp;igrave;nh. Tuy nhi&amp;ecirc;n, &amp;aacute;p l\\u1ef1c kinh t\\u1ebf \\u0111&amp;egrave; n\\u1eb7ng  l&amp;ecirc;n gi\\u1ea5c m\\u01a1 th&amp;agrave;nh ng&amp;ocirc;i sao c\\u1ee7a c&amp;ocirc; g&amp;aacute;i. &amp;ldquo;Thu nh\\u1eadp c\\u1ee7a t&amp;ocirc;i ch\\u1ec9 \\u0111\\u1ee7 thu&amp;ecirc;  ph&amp;ograve;ng v&amp;agrave; m\\u1eafm mu\\u1ed1i. Ti\\u1ec1n Internet, h\\u1ecdc ph&amp;iacute; cho c&amp;aacute;c m&amp;ocirc;n &amp;acirc;m nh\\u1ea1c, v\\u0169 \\u0111\\u1ea1o...  \\u0111&amp;agrave;nh ph\\u1ea3i ch\\u1eaft b&amp;oacute;p t\\u1eebng \\u0111\\u1ed3ng&quot;, c&amp;ocirc; n&amp;oacute;i.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;N\\u0103m 2005, bi\\u1ebft tin L\\u01b0u \\u0110\\u1ee9c Hoa \\u0111&amp;atilde; c&amp;oacute; b\\u1ea1n g&amp;aacute;i, Di\\u1ec5m  H\\u1ed3ng \\u0111au kh\\u1ed5 t&amp;igrave;m \\u0111\\u1ebfn r\\u01b0\\u1ee3u v&amp;agrave; 12 vi&amp;ecirc;n thu\\u1ed1c ng\\u1ee7, may nh\\u1edd \\u0111\\u01b0\\u1ee3c c\\u1ea5p c\\u1ee9u m\\u1edbi  tho&amp;aacute;t ch\\u1ebft. Ba n\\u0103m sau, c&amp;ocirc; b&amp;igrave;nh t\\u0129nh h\\u01a1n tr\\u01b0\\u1edbc th&amp;ocirc;ng tin nam di\\u1ec5n vi&amp;ecirc;n  \\u0111&amp;atilde; k\\u1ebft h&amp;ocirc;n: &amp;ldquo;T&amp;ocirc;i b\\u1eaft \\u0111\\u1ea7u kh&amp;ocirc;ng c&amp;ograve;n m\\u01a1 t\\u01b0\\u1edfng l&amp;agrave;m v\\u1ee3 anh \\u1ea5y n\\u1eefa, nh\\u01b0ng hy  v\\u1ecdng \\u0111\\u01b0\\u1ee3c l&amp;agrave;m ng\\u01b0\\u1eddi t&amp;igrave;nh, th\\u1eadm ch&amp;iacute; b\\u1ea1n c\\u1ee7a anh \\u1ea5y. T&amp;ocirc;i y&amp;ecirc;u L\\u01b0u \\u0110\\u1ee9c Hoa,  n&amp;ecirc;n kh&amp;ocirc;ng mu\\u1ed1n l&amp;agrave;m t\\u1ed5n th\\u01b0\\u01a1ng \\u0111\\u1ebfn anh v&amp;agrave; gia \\u0111&amp;igrave;nh&amp;rdquo;- c&amp;ocirc; g&amp;aacute;i s\\u1eafp b\\u01b0\\u1edbc sang  tu\\u1ed5i 30 k\\u1ec3 v\\u1edbi b&amp;aacute;o gi\\u1edbi.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;\\u0110\\u1ebfn khi &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/guong-mat-nghe-sy\\/2012\\/05\\/vo-luu-duc-hoa-sinh-con-gai\\/&quot;&gt;thi&amp;ecirc;n kim nh&amp;agrave; L\\u01b0u \\u0110\\u1ee9c Hoa&lt;\\/a&gt; ra \\u0111\\u1eddi, Di\\u1ec5m H\\u1ed3ng v\\u1eabn ki&amp;ecirc;n nh\\u1eabn: &amp;ldquo;T&amp;ocirc;i nh\\u1edb anh \\u1ea5y mu\\u1ed1n c&amp;oacute; con trai,  nh\\u01b0ng con g&amp;aacute;i c\\u0169ng t\\u1ed1t, t&amp;ocirc;i s\\u1eb5n s&amp;agrave;ng sinh con cho L\\u01b0u \\u0110\\u1ee9c Hoa n\\u1ebfu anh \\u1ea5y  mu\\u1ed1n. Chu L\\u1ec7 Thi&amp;ecirc;n qu\\u1ea3 th\\u1eadt c&amp;oacute; ph&amp;uacute;c&quot;.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;Ng\\u1ea1o Di\\u1ec5m H\\u1ed3ng c&amp;ograve;n cho ph&amp;oacute;ng vi&amp;ecirc;n bi\\u1ebft, c&amp;ocirc; v\\u1eabn c&amp;ograve;n l&amp;agrave;  con g&amp;aacute;i v&amp;agrave; ch\\u1ec9 nguy\\u1ec7n &amp;ldquo;d&amp;agrave;nh cho duy nh\\u1ea5t L\\u01b0u \\u0110\\u1ee9c Hoa&amp;rdquo;. &amp;ldquo;T&amp;ocirc;i \\u0111&amp;atilde; \\u0111\\u1ee3i 20  n\\u0103m, d&amp;ugrave; c&amp;oacute; \\u0111\\u1ee3i th&amp;ecirc;m 20, 40 n\\u0103m n\\u1eefa t&amp;ocirc;i v\\u1eabn b\\u1eb1ng l&amp;ograve;ng&amp;rdquo;, c&amp;ocirc; n&amp;oacute;i. V&amp;igrave; qu&amp;aacute;  \\u0111am m&amp;ecirc; t&amp;agrave;i t\\u1eed, Di\\u1ec5m H\\u1ed3ng ho&amp;agrave;n to&amp;agrave;n kh&amp;ocirc;ng th\\u1ec3 ti\\u1ebfp nh\\u1eadn b\\u1ea5t k\\u1ef3 ng\\u01b0\\u1eddi \\u0111&amp;agrave;n  &amp;ocirc;ng n&amp;agrave;o kh&amp;aacute;c. N\\u0103m 2011, tham gia m\\u1ed9t ch\\u01b0\\u01a1ng tr&amp;igrave;nh truy\\u1ec1n h&amp;igrave;nh \\u1edf Giang  T&amp;ocirc;, c&amp;ocirc; cho bi\\u1ebft &amp;ldquo;nguy\\u1ec7n v\\u1ecdng c\\u1ea3 \\u0111\\u1eddi t&amp;ocirc;i l&amp;agrave; g\\u1eb7p v&amp;agrave; l&amp;agrave;m v\\u1ee3 L\\u01b0u \\u0110\\u1ee9c Hoa&amp;rdquo;.  Trong ch\\u01b0\\u01a1ng tr&amp;igrave;nh n&amp;agrave;y, c&amp;ocirc; c&amp;oacute; h&amp;agrave;nh \\u0111\\u1ed9ng khi\\u1ebfn kh&amp;aacute;n gi\\u1ea3 kh&amp;oacute; hi\\u1ec3u: kh&amp;ocirc;ng  cho nam d\\u1eabn ch\\u01b0\\u01a1ng tr&amp;igrave;nh \\u0111\\u1ed9ng v&amp;agrave;o tay.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;Ng\\u1ea1o Di\\u1ec5m H\\u1ed3ng \\u0111\\u01b0\\u1ee3c coi l&amp;agrave; &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2007\\/03\\/3b9f4850\\/&quot;&gt;D\\u01b0\\u01a1ng L\\u1ec7 Quy&amp;ecirc;n&lt;\\/a&gt; th\\u1ee9 hai. C&amp;ocirc; g&amp;aacute;i qu&amp;ecirc; t\\u1ec9nh Cam T&amp;uacute;c n&amp;agrave;y b\\u1ecf h\\u1ecdc \\u0111i t&amp;igrave;m th\\u1ea7n t\\u01b0\\u1ee3ng, \\u0111\\u1ebfn n\\u1ed7i b\\u1ed1 m\\u1eb9 ph\\u1ea3i b&amp;aacute;n nh&amp;agrave;, th\\u1eadm ch&amp;iacute; &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2007\\/03\\/3b9f4850\\/&quot;&gt;b&amp;aacute;n th\\u1eadn&lt;\\/a&gt; \\u0111\\u1ec3 con theo \\u0111u\\u1ed5i gi\\u1ea5c m\\u01a1. N\\u0103m 2007, D\\u01b0\\u01a1ng L\\u1ec7 Quy&amp;ecirc;n \\u0111\\u1ebfn \\u0111\\u01b0\\u1ee3c Hong Kong  tham gia m\\u1ed9t bu\\u1ed5i giao l\\u01b0u gi\\u1eefa L\\u01b0u \\u0110\\u1ee9c Hoa v&amp;agrave; fan. Nh\\u01b0ng kh&amp;ocirc;ng ch\\u1ecbu  d\\u1eebng l\\u1ea1i \\u1edf \\u0111&amp;oacute;, c&amp;ocirc; c&amp;ograve;n mu\\u1ed1n n&amp;oacute;i chuy\\u1ec7n v\\u1edbi anh. Cha c\\u1ee7a L\\u1ec7 Quy&amp;ecirc;n \\u0111&amp;atilde; &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2007\\/03\\/3b9f48c1\\/&quot;&gt;ph\\u1ea3i t\\u1ef1 t\\u1eed&lt;\\/a&gt;, \\u0111\\u1ec3 l\\u1ea1i di ch&amp;uacute;c d&amp;agrave;i, y&amp;ecirc;u c\\u1ea7u L\\u01b0u \\u0110\\u1ee9c Hoa \\u0111&amp;aacute;p \\u1ee9ng nguy\\u1ec7n v\\u1ecdng c\\u1ee7a con g&amp;aacute;i &amp;ocirc;ng. Nh\\u01b0ng nam di\\u1ec5n vi&amp;ecirc;n \\u0111&amp;atilde; &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2007\\/03\\/3b9f48c1\\/&quot;&gt;t\\u1eeb ch\\u1ed1i&lt;\\/a&gt;.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;&lt;strong&gt;Hu\\u1ec7 Nguy\\u1ec5n&lt;\\/strong&gt;&lt;\\/span&gt;&lt;\\/p&gt;"}', 0, 1337233387);
+(39, 'vi', 0, 3, 1, 2, 0, 'Làm thế nào để thành công?', 'lam-the-nao-de-thanh-cong-17052012', '', '{"fullname":"Nguy\\u1ec5n Th\\u00e0nh Nam","phone":"0906244804","email":"thanhlx0204@gmail.com","question":"T\\u00f4i l\\u00e0 doanh nh\\u00e2n tr\\u1ebb l\\u00e0m th\\u1ebf n\\u00e0o \\u0111\\u1ec3 th\\u00e0nh c\\u00f4ng?","answer":"&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;L\\u01b0u \\u0110\\u1ee9c Hoa (Andy Lau) k\\u1ebft h&amp;ocirc;n r\\u1ed3i c&amp;oacute; con, nhi\\u1ec1u fan  v\\u1eabn kh&amp;ocirc;ng t\\u1eeb b\\u1ecf gi\\u1ea5c m\\u1ed9ng v\\u1edbi th\\u1ea7n t\\u01b0\\u1ee3ng. M\\u1edbi \\u0111&amp;acirc;y, Ng\\u1ea1o Di\\u1ec5m H\\u1ed3ng (Ao  Yanhong), c&amp;ocirc; g&amp;aacute;i \\u0111\\u1ebfn t\\u1eeb t\\u1ec9nh H\\u1ed3 B\\u1eafc, Trung Qu\\u1ed1c l\\u1ea1i g&amp;acirc;y s&amp;oacute;ng gi&amp;oacute; d\\u01b0 lu\\u1eadn  v\\u1edbi nh\\u1eefng suy ngh\\u0129 v&amp;agrave; ph&amp;aacute;t ng&amp;ocirc;n \\u0111\\u01b0\\u1ee3c cho l&amp;agrave; bi\\u1ec3u hi\\u1ec7n c\\u1ee7a t&amp;acirc;m l&amp;yacute; &amp;ldquo;kh&amp;ocirc;ng  b&amp;igrave;nh th\\u01b0\\u1eddng&quot;.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;Di\\u1ec5m H\\u1ed3ng n\\u0103m nay 29 tu\\u1ed5i. C&amp;ocirc; b\\u1eaft \\u0111\\u1ea7u bi\\u1ebft v&amp;agrave; m&amp;ecirc; m\\u1ea9n  L\\u01b0u \\u0110\\u1ee9c Hoa n\\u0103m l&amp;ecirc;n 8 l&amp;ecirc;n 9. T\\u1eeb n\\u0103m 1998 (15 tu\\u1ed5i), thi\\u1ebfu n\\u1eef quy\\u1ebft \\u0111\\u1ecbnh  &amp;ldquo;ch\\u1ec9 y&amp;ecirc;u L\\u01b0u \\u0110\\u1ee9c Hoa&amp;rdquo;. V&amp;igrave; mu\\u1ed1n g\\u1eb7p th\\u1ea7n t\\u01b0\\u1ee3ng, c&amp;ocirc; n\\u1ea3y ra &amp;yacute; ngh\\u0129 ph\\u1ea3i  b\\u01b0\\u1edbc ch&amp;acirc;n v&amp;agrave;o l&amp;agrave;ng gi\\u1ea3i tr&amp;iacute;. \\u0110i\\u1ec1u ki\\u1ec7n \\u1edf n&amp;ocirc;ng th&amp;ocirc;n th\\u1ea5p, nh\\u01b0ng Di\\u1ec5m H\\u1ed3ng  ch\\u01b0a bao gi\\u1edd t\\u1eeb b\\u1ecf &amp;yacute; \\u0111\\u1ecbnh c\\u1ee7a m&amp;igrave;nh. Tuy nhi&amp;ecirc;n, &amp;aacute;p l\\u1ef1c kinh t\\u1ebf \\u0111&amp;egrave; n\\u1eb7ng  l&amp;ecirc;n gi\\u1ea5c m\\u01a1 th&amp;agrave;nh ng&amp;ocirc;i sao c\\u1ee7a c&amp;ocirc; g&amp;aacute;i. &amp;ldquo;Thu nh\\u1eadp c\\u1ee7a t&amp;ocirc;i ch\\u1ec9 \\u0111\\u1ee7 thu&amp;ecirc;  ph&amp;ograve;ng v&amp;agrave; m\\u1eafm mu\\u1ed1i. Ti\\u1ec1n Internet, h\\u1ecdc ph&amp;iacute; cho c&amp;aacute;c m&amp;ocirc;n &amp;acirc;m nh\\u1ea1c, v\\u0169 \\u0111\\u1ea1o...  \\u0111&amp;agrave;nh ph\\u1ea3i ch\\u1eaft b&amp;oacute;p t\\u1eebng \\u0111\\u1ed3ng&quot;, c&amp;ocirc; n&amp;oacute;i.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;N\\u0103m 2005, bi\\u1ebft tin L\\u01b0u \\u0110\\u1ee9c Hoa \\u0111&amp;atilde; c&amp;oacute; b\\u1ea1n g&amp;aacute;i, Di\\u1ec5m  H\\u1ed3ng \\u0111au kh\\u1ed5 t&amp;igrave;m \\u0111\\u1ebfn r\\u01b0\\u1ee3u v&amp;agrave; 12 vi&amp;ecirc;n thu\\u1ed1c ng\\u1ee7, may nh\\u1edd \\u0111\\u01b0\\u1ee3c c\\u1ea5p c\\u1ee9u m\\u1edbi  tho&amp;aacute;t ch\\u1ebft. Ba n\\u0103m sau, c&amp;ocirc; b&amp;igrave;nh t\\u0129nh h\\u01a1n tr\\u01b0\\u1edbc th&amp;ocirc;ng tin nam di\\u1ec5n vi&amp;ecirc;n  \\u0111&amp;atilde; k\\u1ebft h&amp;ocirc;n: &amp;ldquo;T&amp;ocirc;i b\\u1eaft \\u0111\\u1ea7u kh&amp;ocirc;ng c&amp;ograve;n m\\u01a1 t\\u01b0\\u1edfng l&amp;agrave;m v\\u1ee3 anh \\u1ea5y n\\u1eefa, nh\\u01b0ng hy  v\\u1ecdng \\u0111\\u01b0\\u1ee3c l&amp;agrave;m ng\\u01b0\\u1eddi t&amp;igrave;nh, th\\u1eadm ch&amp;iacute; b\\u1ea1n c\\u1ee7a anh \\u1ea5y. T&amp;ocirc;i y&amp;ecirc;u L\\u01b0u \\u0110\\u1ee9c Hoa,  n&amp;ecirc;n kh&amp;ocirc;ng mu\\u1ed1n l&amp;agrave;m t\\u1ed5n th\\u01b0\\u01a1ng \\u0111\\u1ebfn anh v&amp;agrave; gia \\u0111&amp;igrave;nh&amp;rdquo;- c&amp;ocirc; g&amp;aacute;i s\\u1eafp b\\u01b0\\u1edbc sang  tu\\u1ed5i 30 k\\u1ec3 v\\u1edbi b&amp;aacute;o gi\\u1edbi.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;\\u0110\\u1ebfn khi &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/guong-mat-nghe-sy\\/2012\\/05\\/vo-luu-duc-hoa-sinh-con-gai\\/&quot;&gt;thi&amp;ecirc;n kim nh&amp;agrave; L\\u01b0u \\u0110\\u1ee9c Hoa&lt;\\/a&gt; ra \\u0111\\u1eddi, Di\\u1ec5m H\\u1ed3ng v\\u1eabn ki&amp;ecirc;n nh\\u1eabn: &amp;ldquo;T&amp;ocirc;i nh\\u1edb anh \\u1ea5y mu\\u1ed1n c&amp;oacute; con trai,  nh\\u01b0ng con g&amp;aacute;i c\\u0169ng t\\u1ed1t, t&amp;ocirc;i s\\u1eb5n s&amp;agrave;ng sinh con cho L\\u01b0u \\u0110\\u1ee9c Hoa n\\u1ebfu anh \\u1ea5y  mu\\u1ed1n. Chu L\\u1ec7 Thi&amp;ecirc;n qu\\u1ea3 th\\u1eadt c&amp;oacute; ph&amp;uacute;c&quot;.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;Ng\\u1ea1o Di\\u1ec5m H\\u1ed3ng c&amp;ograve;n cho ph&amp;oacute;ng vi&amp;ecirc;n bi\\u1ebft, c&amp;ocirc; v\\u1eabn c&amp;ograve;n l&amp;agrave;  con g&amp;aacute;i v&amp;agrave; ch\\u1ec9 nguy\\u1ec7n &amp;ldquo;d&amp;agrave;nh cho duy nh\\u1ea5t L\\u01b0u \\u0110\\u1ee9c Hoa&amp;rdquo;. &amp;ldquo;T&amp;ocirc;i \\u0111&amp;atilde; \\u0111\\u1ee3i 20  n\\u0103m, d&amp;ugrave; c&amp;oacute; \\u0111\\u1ee3i th&amp;ecirc;m 20, 40 n\\u0103m n\\u1eefa t&amp;ocirc;i v\\u1eabn b\\u1eb1ng l&amp;ograve;ng&amp;rdquo;, c&amp;ocirc; n&amp;oacute;i. V&amp;igrave; qu&amp;aacute;  \\u0111am m&amp;ecirc; t&amp;agrave;i t\\u1eed, Di\\u1ec5m H\\u1ed3ng ho&amp;agrave;n to&amp;agrave;n kh&amp;ocirc;ng th\\u1ec3 ti\\u1ebfp nh\\u1eadn b\\u1ea5t k\\u1ef3 ng\\u01b0\\u1eddi \\u0111&amp;agrave;n  &amp;ocirc;ng n&amp;agrave;o kh&amp;aacute;c. N\\u0103m 2011, tham gia m\\u1ed9t ch\\u01b0\\u01a1ng tr&amp;igrave;nh truy\\u1ec1n h&amp;igrave;nh \\u1edf Giang  T&amp;ocirc;, c&amp;ocirc; cho bi\\u1ebft &amp;ldquo;nguy\\u1ec7n v\\u1ecdng c\\u1ea3 \\u0111\\u1eddi t&amp;ocirc;i l&amp;agrave; g\\u1eb7p v&amp;agrave; l&amp;agrave;m v\\u1ee3 L\\u01b0u \\u0110\\u1ee9c Hoa&amp;rdquo;.  Trong ch\\u01b0\\u01a1ng tr&amp;igrave;nh n&amp;agrave;y, c&amp;ocirc; c&amp;oacute; h&amp;agrave;nh \\u0111\\u1ed9ng khi\\u1ebfn kh&amp;aacute;n gi\\u1ea3 kh&amp;oacute; hi\\u1ec3u: kh&amp;ocirc;ng  cho nam d\\u1eabn ch\\u01b0\\u01a1ng tr&amp;igrave;nh \\u0111\\u1ed9ng v&amp;agrave;o tay.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;Ng\\u1ea1o Di\\u1ec5m H\\u1ed3ng \\u0111\\u01b0\\u1ee3c coi l&amp;agrave; &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2007\\/03\\/3b9f4850\\/&quot;&gt;D\\u01b0\\u01a1ng L\\u1ec7 Quy&amp;ecirc;n&lt;\\/a&gt; th\\u1ee9 hai. C&amp;ocirc; g&amp;aacute;i qu&amp;ecirc; t\\u1ec9nh Cam T&amp;uacute;c n&amp;agrave;y b\\u1ecf h\\u1ecdc \\u0111i t&amp;igrave;m th\\u1ea7n t\\u01b0\\u1ee3ng, \\u0111\\u1ebfn n\\u1ed7i b\\u1ed1 m\\u1eb9 ph\\u1ea3i b&amp;aacute;n nh&amp;agrave;, th\\u1eadm ch&amp;iacute; &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2007\\/03\\/3b9f4850\\/&quot;&gt;b&amp;aacute;n th\\u1eadn&lt;\\/a&gt; \\u0111\\u1ec3 con theo \\u0111u\\u1ed5i gi\\u1ea5c m\\u01a1. N\\u0103m 2007, D\\u01b0\\u01a1ng L\\u1ec7 Quy&amp;ecirc;n \\u0111\\u1ebfn \\u0111\\u01b0\\u1ee3c Hong Kong  tham gia m\\u1ed9t bu\\u1ed5i giao l\\u01b0u gi\\u1eefa L\\u01b0u \\u0110\\u1ee9c Hoa v&amp;agrave; fan. Nh\\u01b0ng kh&amp;ocirc;ng ch\\u1ecbu  d\\u1eebng l\\u1ea1i \\u1edf \\u0111&amp;oacute;, c&amp;ocirc; c&amp;ograve;n mu\\u1ed1n n&amp;oacute;i chuy\\u1ec7n v\\u1edbi anh. Cha c\\u1ee7a L\\u1ec7 Quy&amp;ecirc;n \\u0111&amp;atilde; &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2007\\/03\\/3b9f48c1\\/&quot;&gt;ph\\u1ea3i t\\u1ef1 t\\u1eed&lt;\\/a&gt;, \\u0111\\u1ec3 l\\u1ea1i di ch&amp;uacute;c d&amp;agrave;i, y&amp;ecirc;u c\\u1ea7u L\\u01b0u \\u0110\\u1ee9c Hoa \\u0111&amp;aacute;p \\u1ee9ng nguy\\u1ec7n v\\u1ecdng c\\u1ee7a con g&amp;aacute;i &amp;ocirc;ng. Nh\\u01b0ng nam di\\u1ec5n vi&amp;ecirc;n \\u0111&amp;atilde; &lt;a class=&quot;Normal&quot; href=&quot;http:\\/\\/vnexpress.net\\/gl\\/van-hoa\\/2007\\/03\\/3b9f48c1\\/&quot;&gt;t\\u1eeb ch\\u1ed1i&lt;\\/a&gt;.&lt;\\/span&gt;&lt;\\/p&gt;\\r\\n&lt;p class=&quot;Normal&quot;&gt;&lt;span style=&quot;font-size: small;&quot;&gt;&lt;strong&gt;Hu\\u1ec7 Nguy\\u1ec5n&lt;\\/strong&gt;&lt;\\/span&gt;&lt;\\/p&gt;"}', 0, 1337233387),
+(40, 'vi', 0, 6, 1, 0, 0, 'Banner bọc ghế', 'banner-boc-ghe-23052012', '', '{"description":"","images":"78,79,80,81"}', 1, 1337743192),
+(41, 'vi', 0, 6, 1, 0, 0, 'Banner độ xe', 'banner-do-xe-23052012', '', '{"description":"","images":"82,83,84"}', 1, 1337743500),
+(42, 'vi', 0, 6, 1, 0, 0, 'Banner sơn xe', 'banner-son-xe-23052012', '', '{"description":"","images":"85,86"}', 1, 1337743523);
 
 -- --------------------------------------------------------
 
@@ -294,9 +338,8 @@ INSERT INTO `tbl_category` (`id`, `lang`, `alias`, `name`, `parent_id`, `child_i
 (92, 'vi', 'san-pham-danh-muc-menu-trang-front-end', 'Sản phẩm', 2, NULL, NULL, 3, '', '{"controller":"product","action":"view_all","params":"","description":"","modified":"{\\"1337247014\\":\\"1\\"}"}', 1, 1337222462),
 (93, 'vi', 'gioi-thieu-danh-muc-menu-trang-front-end', 'Giới thiệu', 2, NULL, NULL, 4, '', '{"controller":"staticPage","action":"view_category","params":"{\\"cat_alias\\":\\"gioi-thieu\\"}","description":""}', 1, 1337222473),
 (94, 'vi', 'hoi-dap-danh-muc-menu-trang-front-end', 'Hỏi đáp', 2, NULL, NULL, 5, '', '{"controller":"qa","action":"view_qa","description":"","params":""}', 1, 1337222492),
-(95, 'vi', 'huong-dan-danh-muc-menu-trang-front-end', 'Hướng dẫn', 2, NULL, NULL, 6, '', '{"controller":"staticPage","action":"view_page","params":"{\\"cat_alias\\":\\"gioi-thieu\\",\\"pageStatic_alias\\":\\"triet-ly-kinh-doanh\\"}","description":"","modified":"{\\"1337248214\\":\\"1\\"}"}', 1, 1337222509),
 (96, 'vi', 'lien-he-danh-muc-menu-trang-front-end', 'Liên hệ', 2, NULL, NULL, 7, '', '{"controller":"contact","action":"view_contact","description":"","params":""}', 1, 1337222523),
-(97, 'vi', 'album-anh-danh-muc-menu-trang-front-end', 'Album ảnh', 2, NULL, NULL, 8, '', '{"controller":"album","action":"view_all","params":"","description":"","modified":"{\\"1337247446\\":\\"1\\"}"}', 1, 1337247392),
+(97, 'vi', 'album', 'Album', 2, NULL, NULL, 8, '', '{"controller":"album","action":"view_all","params":"","description":"","modified":"{\\"1337247446\\":\\"1\\",\\"1337742839\\":\\"1\\"}"}', 1, 1337247392),
 (98, 'vi', 'video-danh-muc-menu-trang-front-end', 'Video', 2, NULL, NULL, 9, '', '{"controller":"galleryVideo","action":"view_category","description":"","params":"{\\"cat_alias\\":\\"danh-muc-11-danh-muc-1-danh-muc-video\\"}","modified":"{\\"1337247454\\":\\"1\\"}"}', 1, 1337247401);
 
 -- --------------------------------------------------------
@@ -320,7 +363,7 @@ CREATE TABLE IF NOT EXISTS `tbl_image` (
   `created_by` int(11) NOT NULL,
   `created_date` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=78 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=87 ;
 
 --
 -- Dumping data for table `tbl_image`
@@ -403,7 +446,16 @@ INSERT INTO `tbl_image` (`id`, `status`, `title`, `url`, `category`, `parent_att
 (74, 1, NULL, NULL, 'GalleryVideo', 'introimage', 29, 'upload/2012/05/16', 'Koala-56', 'jpg', '[]', 1, 1337185773),
 (75, 1, NULL, NULL, 'GalleryVideo', 'introimage', 31, 'upload/2012/05/16', 'Penguins-51', 'jpg', '[]', 1, 1337185962),
 (76, 1, NULL, NULL, 'News', 'introimage', 23, 'upload/2012/05/17', 'Koala', 'jpg', '[]', 1, 1337222342),
-(77, 1, NULL, NULL, 'News', 'introimage', 11, 'upload/2012/05/17', 'Jellyfish', 'jpg', '[]', 1, 1337247192);
+(77, 1, NULL, NULL, 'News', 'introimage', 11, 'upload/2012/05/17', 'Jellyfish', 'jpg', '[]', 1, 1337247192),
+(78, 1, NULL, NULL, 'Banner', 'images', 40, 'upload/2012/05/23', 'Desert', 'jpg', '[]', 1, 1337743190),
+(79, 1, NULL, NULL, 'Banner', 'images', 40, 'upload/2012/05/23', 'Hydrangeas', 'jpg', '[]', 1, 1337743190),
+(80, 1, NULL, NULL, 'Banner', 'images', 40, 'upload/2012/05/23', 'Lighthouse', 'jpg', '[]', 1, 1337743191),
+(81, 1, NULL, NULL, 'Banner', 'images', 40, 'upload/2012/05/23', 'Penguins', 'jpg', '[]', 1, 1337743191),
+(82, 1, NULL, NULL, 'Banner', 'images', 41, 'upload/2012/05/23', 'bien-hi', 'jpg', '[]', 1, 1337743498),
+(83, 1, NULL, NULL, 'Banner', 'images', 41, 'upload/2012/05/23', 'Jellyfish', 'jpg', '[]', 1, 1337743498),
+(84, 1, NULL, NULL, 'Banner', 'images', 41, 'upload/2012/05/23', 'Tulips', 'jpg', '[]', 1, 1337743498),
+(85, 1, NULL, NULL, 'Banner', 'images', 42, 'upload/2012/05/23', 'Koala', 'jpg', '[]', 1, 1337743521),
+(86, 1, NULL, NULL, 'Banner', 'images', 42, 'upload/2012/05/23', 'Lighthouse-13', 'jpg', '[]', 1, 1337743521);
 
 -- --------------------------------------------------------
 
@@ -421,7 +473,7 @@ CREATE TABLE IF NOT EXISTS `tbl_language` (
   `controller` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   `action` varchar(32) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=121 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=11474 ;
 
 --
 -- Dumping data for table `tbl_language`
@@ -547,7 +599,239 @@ INSERT INTO `tbl_language` (`id`, `lang`, `origin`, `translation`, `category`, `
 (117, 'vi', 'Tổng tiền', '', '', '', 'cart', 'plusMinusCart'),
 (118, 'vi', 'Mua hàng tiếp', '', '', '', 'cart', 'plusMinusCart'),
 (119, 'vi', 'Lưu ý', '', '', '', 'cart', 'plusMinusCart'),
-(120, 'vi', 'Một số sản phẩm chưa được báo giá cụ thể, khi đặt hàng khách hàng sẽ thoả thuận để có được giá phù hợp nhất', '', '', '', 'cart', 'plusMinusCart');
+(120, 'vi', 'Một số sản phẩm chưa được báo giá cụ thể, khi đặt hàng khách hàng sẽ thoả thuận để có được giá phù hợp nhất', '', '', '', 'cart', 'plusMinusCart'),
+(121, 'vi', 'Danh mục 3.2', '', 'layout', '', '', ''),
+(122, 'vi', 'Cách tập thể dục đơn giản tại nhà', '', '', '', 'news', 'view'),
+(733, 'vi', 'Ngôn ngữ đã được xóa', '', '', 'admin', 'language', 'delete'),
+(4425, 'vi', 'Đã tạo ngôn ngữ thành công', '', '', 'admin', 'language', 'create'),
+(11246, 'en', 'Trang chủ', 'Home', 'layout', '', '', ''),
+(11247, 'en', 'Tất cả', 'All', 'layout', '', '', ''),
+(11248, 'en', 'Tìm kiếm', 'Find', 'layout', '', '', ''),
+(11249, 'en', 'Sản phẩm mới', 'Lastest products', '', '', 'site', 'home'),
+(11250, 'en', 'Giá', 'Price', '', '', 'site', 'home'),
+(11251, 'en', 'Tin tức mới', 'Lastest news', '', '', 'site', 'home'),
+(11252, 'en', 'Chi tiết', 'Detail', '', '', 'site', 'home'),
+(11253, 'en', 'IHB Việt Nam', '', 'layout', '', '', ''),
+(11254, 'en', 'IHB, Website, SEO', '', 'layout', '', '', ''),
+(11255, 'en', 'CMS iPhoenix', '', 'layout', '', '', ''),
+(11256, 'en', '.:IHB Việt Nsam:.', '', 'layout', '', '', ''),
+(11257, 'en', 'Liên hệ qua Email', 'Email contact', 'layout', '', '', ''),
+(11258, 'en', 'Ngôn ngữ', 'Language', 'layout', '', '', ''),
+(11259, 'en', 'Hotline', 'Hotline', 'layout', '', '', ''),
+(11260, 'en', 'Giỏ hàng', 'Cart', 'layout', '', '', ''),
+(11261, 'en', 'Tin tức', 'News', 'layout', '', '', ''),
+(11262, 'en', 'Sản phẩm', 'Product', 'layout', '', '', ''),
+(11263, 'en', 'Giới thiệu', 'Present', 'layout', '', '', ''),
+(11264, 'en', 'Hỏi đáp', 'Question - Answer', 'layout', '', '', ''),
+(11265, 'en', 'Hướng dẫn', 'Guide', 'layout', '', '', ''),
+(11266, 'en', 'Liên hệ', 'Contact', 'layout', '', '', ''),
+(11267, 'en', 'Album ảnh', 'Album', 'layout', '', '', ''),
+(11268, 'en', 'Video', '', 'layout', '', '', ''),
+(11269, 'en', 'Hướng dẫn mua hàng', '', 'layout', '', '', ''),
+(11270, 'en', 'Phương thức thanh toán', '', 'layout', '', '', ''),
+(11271, 'en', 'Danh mục sản phẩm', 'List product', 'layout', '', '', ''),
+(11272, 'en', 'Danh mục 1', 'List 1', 'layout', '', '', ''),
+(11273, 'en', 'Danh mục 1.1', 'List 1.1', 'layout', '', '', ''),
+(11274, 'en', 'Danh mục 1.2', 'List 1.2', 'layout', '', '', ''),
+(11275, 'en', 'Danh mục 1.3', 'List 1.3', 'layout', '', '', ''),
+(11276, 'en', 'Danh mục 2', 'List 2', 'layout', '', '', ''),
+(11277, 'en', 'Danh mục 2.1', 'List 2.1', 'layout', '', '', ''),
+(11278, 'en', 'Danh mục 2.2', 'List 2.2', 'layout', '', '', ''),
+(11279, 'en', 'Danh mục 3', 'List 3', 'layout', '', '', ''),
+(11280, 'en', 'Sản phẩm nổi bật', 'Remark product', 'layout', '', '', ''),
+(11281, 'en', 'Đang online', 'Online', 'layout', '', '', ''),
+(11282, 'en', 'Showroom', 'Showroom', 'layout', '', '', ''),
+(11283, 'en', 'Nhà số 6, ngõ 850, đường Láng', '', 'layout', '', '', ''),
+(11284, 'en', 'Tel/Fax', 'Tel/Fax', 'layout', '', '', ''),
+(11285, 'en', '0906244804', '', 'layout', '', '', ''),
+(11286, 'en', 'Mobile', 'Mobile', 'layout', '', '', ''),
+(11287, 'en', 'Email', 'Email', 'layout', '', '', ''),
+(11288, 'en', 'thanhlx0204@gmail.com', '', 'layout', '', '', ''),
+(11289, 'en', 'Design by IHB Việt Nam', '', 'layout', '', '', ''),
+(11290, 'en', 'Các sản phẩm bán chạy', 'Best seller', 'layout', '', '', ''),
+(11291, 'en', 'Danh mục 1.4', 'List 1.4', 'layout', '', '', ''),
+(11292, 'en', 'Dịch vụ thiết kế website', '', '', '', 'news', 'view'),
+(11293, 'en', 'Các tin khác', 'Other', '', '', 'news', 'view'),
+(11294, 'en', 'Giá', 'Price', '', '', 'product', 'list'),
+(11295, 'en', 'Sản phẩm 3', '', '', '', 'product', 'view'),
+(11296, 'en', 'Xem thêm ảnh', 'View other images', '', '', 'product', 'view'),
+(11297, 'en', 'Cho vào giỏ', 'Add to cart', '', '', 'product', 'view'),
+(11298, 'en', 'Đã thêm sản phẩm vào giỏ hàng', '', '', '', 'product', 'view'),
+(11299, 'en', 'Mã SP', 'Code', '', '', 'product', 'view'),
+(11300, 'en', 'Giá', 'Price', '', '', 'product', 'view'),
+(11301, 'en', 'Tình trạng', 'Status', '', '', 'product', 'view'),
+(11302, 'en', 'Còn hàng', 'Available', '', '', 'product', 'view'),
+(11303, 'en', 'Tính năng nổi bật', 'Description', '', '', 'product', 'view'),
+(11304, 'en', 'Thông số kỹ thuật', 'Parameter', '', '', 'product', 'view'),
+(11305, 'en', 'Sản phẩm tương tự', 'Other', '', '', 'product', 'view'),
+(11306, 'en', 'Chi tiết', 'Detail ', '', '', 'product', 'view'),
+(11307, 'en', 'Mã', 'Code', '', '', 'cart', 'cart'),
+(11308, 'en', 'Danh mục', 'List', '', '', 'cart', 'cart'),
+(11309, 'en', 'Đơn giá', 'Price', '', '', 'cart', 'cart'),
+(11310, 'en', 'Số lượng', 'Amount', '', '', 'cart', 'cart'),
+(11311, 'en', 'Thành tiền', 'Money', '', '', 'cart', 'cart'),
+(11312, 'en', 'Xóa SP', 'Delete', '', '', 'cart', 'cart'),
+(11313, 'en', 'Tổng tiền', 'Total', '', '', 'cart', 'cart'),
+(11314, 'en', 'Mua hàng tiếp', 'Continue', '', '', 'cart', 'cart'),
+(11315, 'en', 'Lưu ý', 'Note', '', '', 'cart', 'cart'),
+(11316, 'en', 'Một số sản phẩm chưa được báo giá cụ thể, khi đặt hàng khách hàng sẽ thoả thuận để có được giá phù hợp nhất', 'Contact', '', '', 'cart', 'cart'),
+(11317, 'en', 'Toàn bộ sản phẩm', 'All', '', '', 'product', 'index'),
+(11318, 'en', 'Giá', 'Price', '', '', 'product', 'index'),
+(11319, 'en', 'IHB Việt Nam', '', '', '', 'site', 'contact'),
+(11320, 'en', 'Số TK', '', '', '', 'site', 'contact'),
+(11321, 'en', '0123456789 - Ngân hàng Vietcombank chi nhánh Nam Định', '', '', '', 'site', 'contact'),
+(11322, 'en', 'MST', '', '', '', 'site', 'contact'),
+(11323, 'en', '00123456789', '', '', '', 'site', 'contact'),
+(11324, 'en', 'Email', 'Email', '', '', 'site', 'contact'),
+(11325, 'en', 'thanhlx0204@gmail.com', '', '', '', 'site', 'contact'),
+(11326, 'en', 'Website', '', '', '', 'site', 'contact'),
+(11327, 'en', 'www.donoithatgo.vn', '', '', '', 'site', 'contact'),
+(11328, 'en', 'Văn phòng giao dịch', 'Office', '', '', 'site', 'contact'),
+(11329, 'en', 'Nhà số 6, ngõ 850, đường Láng', '', '', '', 'site', 'contact'),
+(11330, 'en', 'ĐT', 'Mobile', '', '', 'site', 'contact'),
+(11331, 'en', '0906244804', '', '', '', 'site', 'contact'),
+(11332, 'en', 'Showroom', '', '', '', 'site', 'contact'),
+(11333, 'en', 'Bản đồ 1', 'Map 1', '', '', 'site', 'contact'),
+(11334, 'en', 'Bản đồ 2', 'Map 2', '', '', 'site', 'contact'),
+(11335, 'en', '(*) Phần thông tin bắt buộc', 'Require', '', '', 'site', 'contact'),
+(11336, 'en', 'Gửi đi', 'Send', '', '', 'site', 'contact'),
+(11337, 'en', 'Trang chủ', 'Home', '', '', 'album', 'index'),
+(11338, 'en', 'Album', 'Album', '', '', 'album', 'index'),
+(11339, 'en', 'Album', 'Album', 'layout', '', '', ''),
+(11340, 'en', 'Các tin khác', 'Other', '', '', 'album', 'view'),
+(11341, 'en', 'Sản phẩm 2.1', '', '', '', 'product', 'view'),
+(11342, 'en', 'Sản phẩm 2', '', '', '', 'product', 'view'),
+(11343, 'en', 'Sản phẩm 2.2', '', '', '', 'product', 'view'),
+(11344, 'en', 'Sản phẩm 1.1', '', '', '', 'product', 'view'),
+(11345, 'en', 'Sản phẩm 1', '', '', '', 'product', 'view'),
+(11346, 'en', 'Sản phẩm 1.2', '', '', '', 'product', 'view'),
+(11347, 'en', 'Sản phẩm 1.3', '', '', '', 'product', 'view'),
+(11348, 'en', 'Danh mục 1.6', 'List 1.6', 'layout', '', '', ''),
+(11349, 'en', '8 “chiến thuật” duy trì sức khỏe suốt mùa hè', '', '', '', 'news', 'view'),
+(11350, 'en', 'Chi tiết dịch vụ thanh toán qua thẻ cào', '', '', '', 'news', 'view'),
+(11351, 'en', 'Tầm nhìn sứ mệnh', '', 'layout', '', '', ''),
+(11352, 'en', 'Danh sách câu hỏi', 'List question', 'layout', '', '', ''),
+(11353, 'en', 'Câu trả lời', 'Answer', 'layout', '', '', ''),
+(11354, 'en', 'Câu trả lời', 'Answer', '', '', 'qA', 'view'),
+(11355, 'en', 'Câu hỏi khác', 'Other', '', '', 'qA', 'view'),
+(11356, 'en', 'Mã', 'Code', '', '', 'cart', 'plusMinusCart'),
+(11357, 'en', 'Danh mục', 'List', '', '', 'cart', 'plusMinusCart'),
+(11358, 'en', 'Đơn giá', 'Price', '', '', 'cart', 'plusMinusCart'),
+(11359, 'en', 'Số lượng', 'Amount', '', '', 'cart', 'plusMinusCart'),
+(11360, 'en', 'Thành tiền', 'Money', '', '', 'cart', 'plusMinusCart'),
+(11361, 'en', 'Xóa SP', 'Delete', '', '', 'cart', 'plusMinusCart'),
+(11362, 'en', 'Tổng tiền', 'Total', '', '', 'cart', 'plusMinusCart'),
+(11363, 'en', 'Mua hàng tiếp', 'Continue', '', '', 'cart', 'plusMinusCart'),
+(11364, 'en', 'Lưu ý', 'Note', '', '', 'cart', 'plusMinusCart'),
+(11365, 'en', 'Một số sản phẩm chưa được báo giá cụ thể, khi đặt hàng khách hàng sẽ thoả thuận để có được giá phù hợp nhất', 'Contact', '', '', 'cart', 'plusMinusCart'),
+(11366, 'en', 'Danh mục 3.2', 'List 3.2', 'layout', '', '', ''),
+(11367, 'en', 'Cách tập thể dục đơn giản tại nhà', '', '', '', 'news', 'view'),
+(11368, 'en', 'Ngôn ngữ đã được xóa', '', '', 'admin', 'language', 'delete'),
+(11369, 'en', 'Đã tạo ngôn ngữ thành công', '', '', 'admin', 'language', 'create'),
+(11370, 'en', 'Cho vào gi', '', '', '', 'product', 'view'),
+(11371, 'vi', 'Cho vào gi', '', '', '', 'product', 'view'),
+(11372, 'en', 'Tổng truy nhập', '', 'layout', '', '', ''),
+(11373, 'vi', 'Tổng truy nhập', '', 'layout', '', '', ''),
+(11374, 'en', 'Trang chủ', '', '', '', 'site', 'home'),
+(11375, 'vi', 'Trang chủ', '', '', '', 'site', 'home'),
+(11376, 'en', 'Tin nổi bật', '', '', '', 'site', 'home'),
+(11377, 'vi', 'Tin nổi bật', '', '', '', 'site', 'home'),
+(11378, 'en', 'Sản phẩm nổi bật', '', '', '', 'site', 'home'),
+(11379, 'vi', 'Sản phẩm nổi bật', '', '', '', 'site', 'home'),
+(11380, 'en', 'IHB Việt Nam', '', '', '', 'site', 'home'),
+(11381, 'vi', 'IHB Việt Nam', '', '', '', 'site', 'home'),
+(11382, 'en', 'IHB, Website, SEO', '', '', '', 'site', 'home'),
+(11383, 'vi', 'IHB, Website, SEO', '', '', '', 'site', 'home'),
+(11384, 'en', 'CMS iPhoenix', '', '', '', 'site', 'home'),
+(11385, 'vi', 'CMS iPhoenix', '', '', '', 'site', 'home'),
+(11386, 'en', '.:IHB Việt Nsam:.', '', '', '', 'site', 'home'),
+(11387, 'vi', '.:IHB Việt Nsam:.', '', '', '', 'site', 'home'),
+(11388, 'en', 'Giỏ hàng', '', '', '', 'site', 'home'),
+(11389, 'vi', 'Giỏ hàng', '', '', '', 'site', 'home'),
+(11390, 'en', 'Tin tức', '', '', '', 'site', 'home'),
+(11391, 'vi', 'Tin tức', '', '', '', 'site', 'home'),
+(11392, 'en', 'Sản phẩm', '', '', '', 'site', 'home'),
+(11393, 'vi', 'Sản phẩm', '', '', '', 'site', 'home'),
+(11394, 'en', 'Giới thiệu', '', '', '', 'site', 'home'),
+(11395, 'vi', 'Giới thiệu', '', '', '', 'site', 'home'),
+(11396, 'en', 'Hỏi đáp', '', '', '', 'site', 'home'),
+(11397, 'vi', 'Hỏi đáp', '', '', '', 'site', 'home'),
+(11398, 'en', 'Hướng dẫn', '', '', '', 'site', 'home'),
+(11399, 'vi', 'Hướng dẫn', '', '', '', 'site', 'home'),
+(11400, 'en', 'Liên hệ', '', '', '', 'site', 'home'),
+(11401, 'vi', 'Liên hệ', '', '', '', 'site', 'home'),
+(11402, 'en', 'Album ảnh', '', '', '', 'site', 'home'),
+(11403, 'vi', 'Album ảnh', '', '', '', 'site', 'home'),
+(11404, 'en', 'Video', '', '', '', 'site', 'home'),
+(11405, 'vi', 'Video', '', '', '', 'site', 'home'),
+(11406, 'en', 'Danh mục sản phẩm', '', '', '', 'site', 'home'),
+(11407, 'vi', 'Danh mục sản phẩm', '', '', '', 'site', 'home'),
+(11408, 'en', 'Danh mục 1', '', '', '', 'site', 'home'),
+(11409, 'vi', 'Danh mục 1', '', '', '', 'site', 'home'),
+(11410, 'en', 'Danh mục 1.1', '', '', '', 'site', 'home'),
+(11411, 'vi', 'Danh mục 1.1', '', '', '', 'site', 'home'),
+(11412, 'en', 'Danh mục 1.2', '', '', '', 'site', 'home'),
+(11413, 'vi', 'Danh mục 1.2', '', '', '', 'site', 'home'),
+(11414, 'en', 'Danh mục 1.3', '', '', '', 'site', 'home'),
+(11415, 'vi', 'Danh mục 1.3', '', '', '', 'site', 'home'),
+(11416, 'en', 'Danh mục 2', '', '', '', 'site', 'home'),
+(11417, 'vi', 'Danh mục 2', '', '', '', 'site', 'home'),
+(11418, 'en', 'Danh mục 2.1', '', '', '', 'site', 'home'),
+(11419, 'vi', 'Danh mục 2.1', '', '', '', 'site', 'home'),
+(11420, 'en', 'Danh mục 2.2', '', '', '', 'site', 'home'),
+(11421, 'vi', 'Danh mục 2.2', '', '', '', 'site', 'home'),
+(11422, 'en', 'Danh mục 3', '', '', '', 'site', 'home'),
+(11423, 'vi', 'Danh mục 3', '', '', '', 'site', 'home'),
+(11424, 'en', 'Quảng cáo', '', '', '', 'site', 'home'),
+(11425, 'vi', 'Quảng cáo', '', '', '', 'site', 'home'),
+(11426, 'en', 'Album', '', '', '', 'site', 'home'),
+(11427, 'vi', 'Album', '', '', '', 'site', 'home'),
+(11428, 'en', 'Trang chủ', '', '', '', 'news', 'list'),
+(11429, 'vi', 'Trang chủ', '', '', '', 'news', 'list'),
+(11430, 'en', 'Tin tức', '', '', '', 'news', 'list'),
+(11431, 'vi', 'Tin tức', '', '', '', 'news', 'list'),
+(11432, 'en', 'IHB Việt Nam', '', '', '', 'news', 'list'),
+(11433, 'vi', 'IHB Việt Nam', '', '', '', 'news', 'list'),
+(11434, 'en', 'IHB, Website, SEO', '', '', '', 'news', 'list'),
+(11435, 'vi', 'IHB, Website, SEO', '', '', '', 'news', 'list'),
+(11436, 'en', 'CMS iPhoenix', '', '', '', 'news', 'list'),
+(11437, 'vi', 'CMS iPhoenix', '', '', '', 'news', 'list'),
+(11438, 'en', '.:IHB Việt Nsam:.', '', '', '', 'news', 'list'),
+(11439, 'vi', '.:IHB Việt Nsam:.', '', '', '', 'news', 'list'),
+(11440, 'en', 'Giỏ hàng', '', '', '', 'news', 'list'),
+(11441, 'vi', 'Giỏ hàng', '', '', '', 'news', 'list'),
+(11442, 'en', 'Sản phẩm', '', '', '', 'news', 'list'),
+(11443, 'vi', 'Sản phẩm', '', '', '', 'news', 'list'),
+(11444, 'en', 'Giới thiệu', '', '', '', 'news', 'list'),
+(11445, 'vi', 'Giới thiệu', '', '', '', 'news', 'list'),
+(11446, 'en', 'Hỏi đáp', '', '', '', 'news', 'list'),
+(11447, 'vi', 'Hỏi đáp', '', '', '', 'news', 'list'),
+(11448, 'en', 'Liên hệ', '', '', '', 'news', 'list'),
+(11449, 'vi', 'Liên hệ', '', '', '', 'news', 'list'),
+(11450, 'en', 'Album', '', '', '', 'news', 'list'),
+(11451, 'vi', 'Album', '', '', '', 'news', 'list'),
+(11452, 'en', 'Video', '', '', '', 'news', 'list'),
+(11453, 'vi', 'Video', '', '', '', 'news', 'list'),
+(11454, 'en', 'Danh mục sản phẩm', '', '', '', 'news', 'list'),
+(11455, 'vi', 'Danh mục sản phẩm', '', '', '', 'news', 'list'),
+(11456, 'en', 'Danh mục 1', '', '', '', 'news', 'list'),
+(11457, 'vi', 'Danh mục 1', '', '', '', 'news', 'list'),
+(11458, 'en', 'Danh mục 1.1', '', '', '', 'news', 'list'),
+(11459, 'vi', 'Danh mục 1.1', '', '', '', 'news', 'list'),
+(11460, 'en', 'Danh mục 1.2', '', '', '', 'news', 'list'),
+(11461, 'vi', 'Danh mục 1.2', '', '', '', 'news', 'list'),
+(11462, 'en', 'Danh mục 1.3', '', '', '', 'news', 'list'),
+(11463, 'vi', 'Danh mục 1.3', '', '', '', 'news', 'list'),
+(11464, 'en', 'Danh mục 2', '', '', '', 'news', 'list'),
+(11465, 'vi', 'Danh mục 2', '', '', '', 'news', 'list'),
+(11466, 'en', 'Danh mục 2.1', '', '', '', 'news', 'list'),
+(11467, 'vi', 'Danh mục 2.1', '', '', '', 'news', 'list'),
+(11468, 'en', 'Danh mục 2.2', '', '', '', 'news', 'list'),
+(11469, 'vi', 'Danh mục 2.2', '', '', '', 'news', 'list'),
+(11470, 'en', 'Danh mục 3', '', '', '', 'news', 'list'),
+(11471, 'vi', 'Danh mục 3', '', '', '', 'news', 'list'),
+(11472, 'en', 'Quảng cáo', '', '', '', 'news', 'list'),
+(11473, 'vi', 'Quảng cáo', '', '', '', 'news', 'list');
 
 -- --------------------------------------------------------
 
@@ -628,7 +912,7 @@ CREATE TABLE IF NOT EXISTS `tbl_setting` (
   `description` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=38 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=54 ;
 
 --
 -- Dumping data for table `tbl_setting`
@@ -671,7 +955,23 @@ INSERT INTO `tbl_setting` (`id`, `name`, `value`, `category`, `description`) VAL
 (34, 'GALLERYVIDEO_PAGE_SIZE', '4', 'GalleryVideo', ''),
 (35, 'LIMIT_SIMILAR_GALLERYVIDEO', '2', 'GalleryVideo', ''),
 (36, 'SEARCH_PAGE_SIZE', '9', 'Product', ''),
-(37, 'DEFAULT_PAGE_SIZE', '9', 'System', '');
+(37, 'DEFAULT_PAGE_SIZE', '9', 'System', ''),
+(38, 'ADMIN_LANGUAGE', 'vi', 'System', ''),
+(39, 'LIST_INTROHOME_LENGTH', '25', 'News', ''),
+(40, 'HOTLINE_HANOI', '0906244804', 'Contact', ''),
+(41, 'HOTLINE_SAIGON', '0934748686', 'Contact', ''),
+(42, 'HOTLINE_DANANG', '0934748686', 'Contact', ''),
+(43, 'CONTACT_SUPPORT_1', 'thanhlx0204@gmail.com', 'Contact', ''),
+(44, 'CONTACT_SUPPORT_2', 'thanhlx0204@gmail.com', 'Contact', ''),
+(45, 'CONTACT_SUPPORT_3', 'thanhlx0204@gmail.com', 'Contact', ''),
+(46, 'CONTACT_NAME', 'Lê Xuân Thành', 'Contact', ''),
+(47, 'CONTACT_MAIL', 'thanhlx0204@gmail.com', 'Contact', ''),
+(48, 'CONTACT_ADDRESS', 'Nhà số 6, ngõ 850, đường Láng', 'Contact', ''),
+(49, 'CONTACT_PHONE', '0934748686', 'Contact', ''),
+(50, 'CONTACT_FAX', '0934748686', 'Contact', ''),
+(51, 'PRODUCT_SERVICE_1', '3', 'Product', ''),
+(52, 'PRODUCT_SERVICE_2', '3', 'Product', ''),
+(53, 'PRODUCT_SERVICE_3', '3', 'Product', '');
 
 -- --------------------------------------------------------
 

@@ -114,14 +114,11 @@ class ImageController extends Controller
 	 * 
 	 * List all images belong to a object (banner or album)
 	 * @param $catid
-	 * @param $params_size_1
-	 * @param $params_size_2
+	 * @param $parent_id
 	 */
-	public function actionList($category,$parent_id) {
+	public function actionList() {
 		$model=new Image('search');		
 		$model->unsetAttributes();  // clear any default values
-		$model->parent_id=$parent_id;
-		$model->category=$category;
 		$model->attributes=$_GET['Image'];
 		$this->render('list',array(
 			'model'=>$model,
@@ -142,34 +139,7 @@ class ImageController extends Controller
 			}
 		}
 		echo json_encode(array('success'=>true));
-	}
-	
-	/**
-	 * Reverse status of image
-	 * @param integer $id, the ID of model to be reversed
-	 */
-	public function actionReverseStatus($id)
-	{
-		$src=Image::reverseStatus($id);
-			if($src) 
-				echo json_encode(array('success'=>true,'src'=>$src));
-			else 
-				echo json_encode(array('success'=>false));		
-	}
-	
-	/**
-	 * Suggests title of image.
-	 */
-	public function actionSuggestTitle()
-	{
-		if(isset($_GET['q']) && ($keyword=trim($_GET['q']))!=='')
-		{
-			$titles=Image::model()->suggestTitle($keyword);
-			if($titles!==array())
-				echo implode("\n",$titles);
-		}
-	}
-	
+	}	
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.

@@ -1,8 +1,9 @@
 <?php 
 	echo CHtml::activeHiddenField($model,$attribute,array('id'=>'list_image_'.$attribute)); 
     $category=get_class($model);
-    $h=Image::$config_thumb_size[$category][$type_image]['h'];
-    $w=Image::$config_thumb_size[$category][$type_image]['w'];
+ 	$config_thumb_size=Image::getConfig_thumb_size();
+    $h=$config_thumb_size[$category][$type_image]['h'];
+    $w=$config_thumb_size[$category][$type_image]['w'];
 	$this->widget('ext.EAjaxUpload.EAjaxUpload',
 	array(
         'id'=>'multiupload_image',
@@ -61,8 +62,6 @@
     <div type="hidden" value="" id="popup_value"></div>
     <?php 
     $cs = Yii::app()->getClientScript(); 
-    $cs->registerScriptFile(Yii::app()->request->getBaseUrl(true).'/js/common/jquery.alerts.js');
-	$cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/common/jquery.alerts.css');
     $cs->registerScript('',
     "$('.slider-folder').delegate('.close', 'click', function() {
   			$('#popup_value').val($(this).parent().attr('id'));

@@ -9,6 +9,11 @@
 <script src="<?php echo Yii::app()->request->getBaseUrl(true)?>/js/admin/iphoenix.js" language="javascript" type="text/javascript"></script>
 <script src="<?php echo Yii::app()->request->getBaseUrl(true)?>/js/admin/csspopup.js" type="text/javascript" ></script>
 <script src="<?php echo Yii::app()->request->getBaseUrl(true)?>/js/admin/popup.js" type="text/javascript" ></script>
+<?php 
+$cs = Yii::app()->getClientScript(); 
+$cs->registerScriptFile(Yii::app()->request->getBaseUrl(true).'/js/common/jquery.alerts.js');
+$cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/common/jquery.alerts.css');
+?>
 <title>.:: Trang quản trị | IHB Việt Nam ::.</title>
 <!--[if IE]>
 <style type="text/css" media="screen, projection">

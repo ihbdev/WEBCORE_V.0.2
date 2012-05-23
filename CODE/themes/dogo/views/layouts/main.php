@@ -103,7 +103,21 @@
 	<div class="wrapper">
     	<div class="char-outer">
             <h5>Thống kê</h5>
-                <div class="row"><label><?php echo Language::t('Đang online','layout');?>:</label><span><?php echo rand(13,14);?></span></div>
+            	<div class="row"><label><?php echo Language::t('Tổng truy nhập','layout');?>:</label>
+                <span>
+               	<?php
+	                Yii::app()->counter->refresh();
+					echo Yii::app()->counter->getTotal();
+				?>
+				</span>
+				</div>
+                <div class="row"><label><?php echo Language::t('Đang online','layout');?>:</label>
+                <span>
+               	<?php
+					echo Yii::app()->counter->getOnline();
+				?>
+				</span>
+				</div>				
         </div><!--char-outer-->
          	
         <div class="footer-right">

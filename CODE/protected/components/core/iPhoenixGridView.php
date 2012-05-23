@@ -7,7 +7,8 @@ class iPhoenixGridView extends CGridView
 	public $actions = array ();
 	public function init() {
 		parent::init ();
-		$this->beforeAjaxUpdate = 'function(id,options){
+		if(strpos($this->template, 'checkbox')){
+			$this->beforeAjaxUpdate = 'function(id,options){
 									name=$("thead :checkbox").attr("name");
 									name=name.substring(0, name.length - 4) + "[]";
 									list_checked=new Array();
@@ -25,6 +26,7 @@ class iPhoenixGridView extends CGridView
         							options.type="POST";
         							return true;
         						}';
+		}
 	}
 	public function renderCheckbox() {
 		$cs = Yii::app ()->getClientScript ();

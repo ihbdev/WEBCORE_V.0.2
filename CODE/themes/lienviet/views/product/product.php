@@ -79,9 +79,3 @@ $this->bread_crumbs=array(
                     </div><!--product-list-->
                 </div><!--box-content-->
             </div><!--box-->
-<?php 
-$cs = Yii::app()->getClientScript(); 
-$cs->registerScriptFile(Yii::app()->theme->baseUrl.'/js/common/jquery.alerts.js');
-$cs->registerCssFile(Yii::app()->theme->baseUrl.'/css/common/jquery.alerts.css');
-// Script delete
-?>

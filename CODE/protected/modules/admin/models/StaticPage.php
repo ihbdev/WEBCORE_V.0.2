@@ -59,6 +59,15 @@ class StaticPage extends CActiveRecord
 		else
 			return array('0'=>'Không thiết lập','1'=>'Mức 1');
 	}
+	/**
+	 * Get url update of static page
+	 * @return static page's update url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/staticPage/update",array('id'=>$this->id));
+		return $url;
+ 	}
 	/*
 	 * Get url
 	 */

@@ -45,9 +45,9 @@ class Banner extends CActiveRecord
 	const CODE_HEADLINE=7;
 	const CODE_LEFT=5;
 	const CODE_FOOTER=47;
-	const CODE_BOCGHE=48;
-	const CODE_DOXE=49;
-	const CODE_SONXE=50;
+	const CODE_BOCGHE=40;
+	const CODE_DOXE=41;
+	const CODE_SONXE=42;
 	
 	/**
 	 * @var string old images of the banner	 
@@ -115,6 +115,15 @@ class Banner extends CActiveRecord
 		}
 		return '<img src="'.$src.'">';
 	}
+/**
+	 * Get update url of banner
+	 * @return banner's update url
+	 */
+	public function getUpdate_url()
+ 	{
+ 		$url=Yii::app()->createUrl("admin/banner/update",array('id'=>$this->id));
+		return $url;
+ 	}
 	/**
 	 * PHP setter magic method for other attributes
 	 * @param $name the attribute name
@@ -304,7 +313,7 @@ class Banner extends CActiveRecord
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination'=>array(
-        		'pageSize'=>Yii::app()->user->getState('pageSize',Yii::app()->params['defaultPageSize']),
+        		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
 		));
 	}

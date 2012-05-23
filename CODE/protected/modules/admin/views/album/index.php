@@ -197,9 +197,3 @@
 		</div>
 	</div>
 	<!--end inside content-->
-	<?php 
-$cs = Yii::app()->getClientScript(); 
-$cs->registerScriptFile(Yii::app()->request->getBaseUrl(true).'/js/common/jquery.alerts.js');
-$cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/common/jquery.alerts.css');
-// Script delete
-?>

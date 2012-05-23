@@ -232,10 +232,6 @@ $('#select5').click(function () {
     $('#tab4').attr("class","content");	
 });
 </script>
-<?php  
-$cs = Yii::app()->getClientScript(); 
-$cs->registerScriptFile('js/admin/popup.js');
-?>
 <!-- Main popup -->
 <div class="bg-overlay"></div>
 <div class="main-popup"><a class="popup-close" onclick="hidenPopUp();return false;"></a>

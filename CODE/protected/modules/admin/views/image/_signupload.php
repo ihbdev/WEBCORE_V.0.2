@@ -1,8 +1,9 @@
 <?php
 	echo CHtml::activeHiddenField($model,$attribute,array('id'=>'list_image_'.$attribute)); 
     $category=get_class($model);
-      $h=Image::$config_thumb_size[$category][$type_image]['h'];
-    $w=Image::$config_thumb_size[$category][$type_image]['w'];
+    $config_thumb_size=Image::getConfig_thumb_size();
+    $h=$config_thumb_size[$category][$type_image]['h'];
+    $w=$config_thumb_size[$category][$type_image]['w'];
 	$this->widget('ext.EAjaxUpload.EAjaxUpload',
 	array(
         'id'=>'signupload_image',
@@ -63,9 +64,3 @@
     		echo '<div class="item-image" id="'.$image_id.'"><img style="height:'.$h.'px; width:'.$w.'px" src="'.$image->getThumb($category,$type_image).'" /></div>';
     }
     ?>
-    </div>
-        <?php 
-    $cs = Yii::app()->getClientScript(); 
-    $cs->registerScriptFile('js/common/jquery.alerts.js');
-	$cs->registerCssFile('css/common/jquery.alerts.css');
-	?>
