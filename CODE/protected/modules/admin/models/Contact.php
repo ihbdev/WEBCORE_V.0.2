@@ -211,7 +211,6 @@ class Contact extends CActiveRecord
 
 		$criteria=new CDbCriteria;
 		$criteria->compare('status',$this->status);
-		$criteria->order="id DESC";
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);
 		return new CActiveDataProvider($this, array(
@@ -219,6 +218,7 @@ class Contact extends CActiveRecord
 			'pagination'=>array(
         		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
+    		'sort' => array ('defaultOrder' => 'id DESC')
 		));
 	}
 	/**

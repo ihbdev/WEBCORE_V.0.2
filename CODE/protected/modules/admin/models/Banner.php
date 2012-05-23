@@ -307,7 +307,6 @@ class Banner extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('title',$this->title,true);
-		$criteria->order="id DESC";
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);
 		return new CActiveDataProvider($this, array(
@@ -315,6 +314,7 @@ class Banner extends CActiveRecord
 			'pagination'=>array(
         		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
+    		'sort' => array ('defaultOrder' => 'id DESC')
 		));
 	}
 	/**

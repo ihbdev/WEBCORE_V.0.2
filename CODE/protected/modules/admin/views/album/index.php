@@ -159,7 +159,7 @@
 								return false;}',
         					),
         				),
-						'headerHtmlOptions'=>array('width'=>'10%','class'=>'table-title'),
+						'headerHtmlOptions'=>array('width'=>'5%','class'=>'table-title'),
 					), 
 					array(
 						'name'=>'visits',

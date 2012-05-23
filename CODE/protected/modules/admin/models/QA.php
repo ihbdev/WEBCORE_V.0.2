@@ -352,7 +352,6 @@ class QA extends CActiveRecord
 			if ($this->status_answer == self::STATUS_NOT_ANSWER)
 				$criteria->addNotInCondition('special', self::getCode_special ( self::SPECIAL_ANSWER ) );
 		}
-		$criteria->order="id DESC";
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);
 		return new CActiveDataProvider($this, array(
@@ -360,6 +359,7 @@ class QA extends CActiveRecord
 			'pagination'=>array(
         		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
+    		'sort' => array ('defaultOrder' => 'id DESC')
 		));
 	}
 	/**

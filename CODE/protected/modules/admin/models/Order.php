@@ -274,11 +274,11 @@ class Order extends CActiveRecord
 		}		
 		if (isset ( $_GET ['pageSize'] ))
 			Yii::app ()->user->setState ( 'pageSize', $_GET ['pageSize'] );
-		$criteria->order="id DESC";
 		return new CActiveDataProvider($this, array(
 			'criteria'=>$criteria,
 			'pagination' => array (
 				'pageSize' => Yii::app ()->user->getState ( 'pageSize', Setting::s('DEFAULT_PAGE_SIZE','System'))),
+			'sort' => array ('defaultOrder' => 'id DESC')
 		));
 	}
 	/**

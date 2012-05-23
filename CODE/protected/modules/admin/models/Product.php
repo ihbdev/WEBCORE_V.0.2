@@ -443,13 +443,16 @@ class Product extends CActiveRecord
 				}
 			$criteria->addInCondition ( 'manufacturer_id', $list_child_id );
 		}
-		$criteria->order = "id DESC";
 		if (isset ( $_GET ['pageSize'] ))
 			Yii::app ()->user->setState ( 'pageSize', $_GET ['pageSize'] );
 		if ($this->special != '') {
 			$criteria->addInCondition ( 'special', self::getCode_special ( $this->special ) );
 		}
-		return new CActiveDataProvider ( $this, array ('criteria' => $criteria, 'pagination' => array ('pageSize' => Yii::app ()->user->getState ( 'pageSize', Setting::s('DEFAULT_PAGE_SIZE','System') ) ) ) );
+		return new CActiveDataProvider ( $this, array (
+					'criteria' => $criteria, 
+					'pagination' => array ('pageSize' => Yii::app ()->user->getState ( 'pageSize', Setting::s('DEFAULT_PAGE_SIZE','System') ) ),
+					'sort' => array ('defaultOrder' => 'id DESC')
+				) );
 	}
 	/**
 	 * Suggests a list of existing names matching the specified keyword.

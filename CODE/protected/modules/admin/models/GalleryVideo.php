@@ -414,7 +414,6 @@ class GalleryVideo extends CActiveRecord
 				}
 			$criteria->addInCondition ( 'catid', $list_child_id );
 		}
-		$criteria->order="id DESC";
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);
 		return new CActiveDataProvider($this, array(
@@ -422,6 +421,7 @@ class GalleryVideo extends CActiveRecord
 			'pagination'=>array(
         		'pageSize'=>Yii::app()->user->getState('pageSize',Setting::s('DEFAULT_PAGE_SIZE','System')),
     		),
+    		'sort' => array ('defaultOrder' => 'id DESC')
 		));
 	}
 	/**
