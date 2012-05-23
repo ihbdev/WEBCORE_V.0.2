@@ -172,11 +172,13 @@ class LanguageController extends Controller
             for ($row = 2; $row <= $highestRow; ++$row) {
                 $origin=$objWorksheet->getCellByColumnAndRow(0, $row)->getValue();
                 $translation=$objWorksheet->getCellByColumnAndRow(1, $row)->getValue();
-                $module=$objWorksheet->getCellByColumnAndRow(2, $row)->getValue();
-                $controller=$objWorksheet->getCellByColumnAndRow(3, $row)->getValue();
-                $action=$objWorksheet->getCellByColumnAndRow(4, $row)->getValue();    
+                $category=$objWorksheet->getCellByColumnAndRow(2, $row)->getValue();
+                $module=$objWorksheet->getCellByColumnAndRow(3, $row)->getValue();
+                $controller=$objWorksheet->getCellByColumnAndRow(4, $row)->getValue();    
+                $action=$objWorksheet->getCellByColumnAndRow(5, $row)->getValue(); 
                	$criteria = new CDbCriteria ();
 				$criteria->compare ( 'lang', $model->lang );
+				$criteria->compare ( 'category', $category );
 				$criteria->compare ( 'module', $module );
 				$criteria->compare ( 'controller', $controller);
 				$criteria->compare ( 'action', $action );
@@ -193,6 +195,7 @@ class LanguageController extends Controller
 					$item->lang = $model->lang;
 					$item->origin = $origin;
 					$item->translation = $translation;
+					$item->category=$category;
 					$item->module = $module;
 					$item->controller = $controller;
 					$item->action = $action;
@@ -222,6 +225,7 @@ class LanguageController extends Controller
 			//Set header for file excel
 			$data [0] ['origin'] = 'ORIGIN';
 			$data [0] ['translation'] = 'TRANSLATION';
+			$data [0] ['category'] = 'CATEGORY';
 			$data [0] ['module'] = 'MODULE';
 			$data [0] ['controller'] = 'CONTROLLER';
 			$data [0] ['action'] = 'ACTION';
@@ -230,6 +234,7 @@ class LanguageController extends Controller
 			foreach ( $list as $record ) {
 				$data [$index] ['origin'] = $record->origin;
 				$data [$index] ['translation'] = $record->translation;
+				$data [$index] ['category'] = $record->category;
 				$data [$index] ['module'] = $record->module;
 				$data [$index] ['controller'] = $record->controller;
 				$data [$index] ['action'] = $record->action;
@@ -246,9 +251,10 @@ class LanguageController extends Controller
 				$j = $index + 1;
 				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'A' . $j, isset ( $item ['origin'] ) ? $item ['origin'] : '' );
 				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'B' . $j, isset ( $item ['translation'] ) ? $item ['translation'] : '' );
-				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'C' . $j, isset ( $item ['module'] ) ? $item ['module'] : '' );
-				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'D' . $j, isset ( $item ['controller'] ) ? $item ['controller'] : '' );
-				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'E' . $j, isset ( $item ['action'] ) ? $item ['action'] : '' );
+				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'C' . $j, isset ( $item ['category'] ) ? $item ['category'] : '' );
+				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'D' . $j, isset ( $item ['module'] ) ? $item ['module'] : '' );
+				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'E' . $j, isset ( $item ['controller'] ) ? $item ['controller'] : '' );
+				$objPHPExcel->setActiveSheetIndex ( 0 )->setCellValue ( 'F' . $j, isset ( $item ['action'] ) ? $item ['action'] : '' );
 			}
 			//Export file CSV
 			$objWriter = PHPExcel_IOFactory::createWriter ( $objPHPExcel, 'Excel2007' );

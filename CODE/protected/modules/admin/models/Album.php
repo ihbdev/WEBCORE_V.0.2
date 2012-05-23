@@ -283,6 +283,7 @@ class Album extends CActiveRecord
 			'special' => 'Lọc theo nhóm hiển thị',
 			'lang' => 'Ngôn ngữ',
 			'catid'=>'Danh mục',
+			'visits'=>'Người đọc'
 		);
 	}
 	/**

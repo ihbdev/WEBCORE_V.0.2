@@ -76,6 +76,8 @@ class AlbumController extends Controller
 		$criteria->compare ( 'alias', $album_alias );
 		$album = Album::model ()->find ( $criteria );
 		if (isset ( $album )) {
+			$album->visits=$album->visits+1;
+			$album->save();
 			$this->render ( 'album', array ('cat' => $cat, 'album' => $album ) );
 		}
 	}			

@@ -76,6 +76,8 @@ class NewsController extends Controller
 		$criteria->compare ( 'alias', $news_alias );
 		$news = News::model ()->find ( $criteria );
 		if (isset ( $news )) {
+			$news->visits=$news->visits+1;
+			$news->save();
 			$this->render ( 'news', array ('cat' => $cat, 'news' => $news ) );
 		}
 	}	

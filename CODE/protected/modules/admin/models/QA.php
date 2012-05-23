@@ -254,7 +254,8 @@ class QA extends CActiveRecord
 			'created_date'=>'Thời điểm đặt câu hỏi',
 			'lang'=>'Ngôn ngữ',
 			'list_special' => 'Hiển thị',
-			'special'=>'Hiển thị'
+			'special'=>'Hiển thị',
+			'visits'=>'Người đọc'
 		);
 	}
 /**

@@ -160,10 +160,10 @@
 								return false;}',
         					),        					
         				),
-						'headerHtmlOptions'=>array('width'=>'10%','class'=>'table-title'),
+						'headerHtmlOptions'=>array('width'=>'7%','class'=>'table-title'),
 					),  
 					array(
-						'header'=>'Trạng thái hàng trong kho',
+						'header'=>'Hàng trong kho',
 						'class'=>'iPhoenixButtonColumn',
     					'template'=>'{reverse_amount}',
     					'buttons'=>array
@@ -188,8 +188,16 @@
 								return false;}',
         					),
         				),
-						'headerHtmlOptions'=>array('width'=>'15%','class'=>'table-title'),
-					),     											   	   
+						'headerHtmlOptions'=>array('width'=>'7%','class'=>'table-title'),
+					),  
+					array(
+						'name'=>'visits',
+						'headerHtmlOptions'=>array('width'=>'5%','class'=>'table-title'),		
+					), 
+					array(
+						'name'=>'sold_products',
+						'headerHtmlOptions'=>array('width'=>'5%','class'=>'table-title'),		
+					),    											   	   
 					array(
 						'header'=>'Công cụ',
 						'class'=>'CButtonColumn',

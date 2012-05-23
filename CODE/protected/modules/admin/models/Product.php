@@ -49,7 +49,7 @@ class Product extends CActiveRecord
 	public $old_introimage;
 	public $old_name;
 	public $list_special;
-	private $config_other_attributes=array('visits','list_suggest','modified','unit','year','warranty','parameter','description','unit_price','introimage','otherimage','metakey','metadesc');	
+	private $config_other_attributes=array('list_suggest','modified','unit','year','warranty','parameter','description','unit_price','introimage','otherimage','metakey','metadesc');	
 	private $list_other_attributes;
 	
 	/**
@@ -290,7 +290,9 @@ class Product extends CActiveRecord
 			'introimage'=>'Ảnh giới thiệu',
 			'otherimage'=>'Các ảnh khác',
 			'amount_status'=>'Trạng thái',
-			'list_suggest'=>'Sản phẩm liên quan'
+			'list_suggest'=>'Sản phẩm liên quan',
+			'sold_products'=>'Đã bán',
+			'visits'=>'Đã xem'
 		);
 	}
 	/**

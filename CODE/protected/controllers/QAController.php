@@ -31,6 +31,8 @@ class QAController extends Controller
 			$criteria->addInCondition ( 'special', QA::getCode_special ( QA::SPECIAL_ANSWER ) );
 			$qa = QA::model ()->find ( $criteria );
 			if (isset ( $qa )) {
+				$qa->visits=$qa->visits+1;
+				$qa->save();
 				$this->render ( 'qa', array ('cat' => $cat, 'qa' => $qa ) );
 			}	
 	}

@@ -77,6 +77,8 @@ class GalleryVideoController extends Controller
 		$criteria->compare ( 'alias', $video_alias );
 		$video = GalleryVideo::model ()->find ( $criteria );
 		if (isset ( $video )) {
+			$video->visits=$video->visits+1;
+			$video->save();
 			$this->render ( 'video', array ('cat' => $cat, 'video' => $video ) );
 		}
 	}			

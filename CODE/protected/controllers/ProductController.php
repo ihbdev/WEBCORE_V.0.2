@@ -60,6 +60,8 @@ class ProductController extends Controller {
 		$criteria->compare ( 'alias', $product_alias );
 		$product = Product::model ()->find ( $criteria );
 		if (isset ( $product )) {
+			$product->visits=$product->visits+1;
+			$product->save();
 			$this->render ( 'product', array ('cat' => $cat, 'product' => $product ) );
 		}
 	}

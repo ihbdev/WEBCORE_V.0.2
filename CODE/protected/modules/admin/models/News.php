@@ -371,8 +371,9 @@ class News extends CActiveRecord
 			'special'=>'Lọc theo nhóm hiển thị',
 			'catid' => 'Thuộc danh mục',
 			'lang'=>'Ngôn ngữ',
-			'order_view'=>'Mức ưu tiên hiển thị',
-			'list_suggest'=>'Bài viết liên quan'
+			'order_view'=>'Mức hiển thị',
+			'list_suggest'=>'Bài viết liên quan',
+			'visits'=>'Người đọc'
 		);
 	}
 	/**

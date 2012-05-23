@@ -69,6 +69,8 @@ class StaticPageController extends Controller
 		$criteria->compare ( 'alias', $staticPage_alias );
 		$page = StaticPage::model ()->find ( $criteria );
 		if (isset ( $page )) {
+			$page->visits=$page->visits+1;
+			$page->save();
 			$this->render ( 'page', array ('cat' => $cat, 'page' => $page ) );
 		}
 	}			

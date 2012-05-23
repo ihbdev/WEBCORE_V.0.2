@@ -121,7 +121,7 @@
 					array(
 						'name'=>'order_view',
 						'value'=>'$data->order_view',
-						'headerHtmlOptions'=>array('width'=>'8%','class'=>'table-title'),		
+						'headerHtmlOptions'=>array('width'=>'5%','class'=>'table-title'),		
 					),
 					array(
 						'name'=>'author',
@@ -160,7 +160,11 @@
         					),
         				),
 						'headerHtmlOptions'=>array('width'=>'5%','class'=>'table-title'),
-					),    											   	   
+					),    
+					array(
+						'name'=>'visits',
+						'headerHtmlOptions'=>array('width'=>'5%','class'=>'table-title'),		
+					),											   	   
 					array(
 						'header'=>'Công cụ',
 						'class'=>'CButtonColumn',

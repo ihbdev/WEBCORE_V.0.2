@@ -44,6 +44,11 @@ class CartController extends Controller {
 				}
 				$model->list_item=$list_item;
 				if($model->save()){
+					foreach ($list_product as $id=>$amount){
+						$product=Product::model()->findByPk($id);
+						$product->sold_products=$product->sold_products+$amount;
+						$product->save();
+					}
 					Yii::app()->session['cart']=array();
 					$model->unsetAttributes();
 					Yii::app()->user->setFlash('success', Language::t('Đơn hàng đã được ghi nhận'));
