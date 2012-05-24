@@ -39,6 +39,8 @@ class Product extends CActiveRecord
 	const LIST_ADMIN=10;
 	const PRESENT_CATEGORY=31;
 	
+	const META_LENGTH=30;
+	
 	/**
 	 * @var array $config_unit_price, config the unit of product price
 	 */
@@ -246,8 +248,7 @@ class Product extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name,catid,code,introimage,manufacturer_id','required','message'=>'Dữ liệu bắt buộc','on'=>'write'),
-			array('description,parameter', 'length', 'max'=>1024,'message'=>'Tối đa 1024 kí tự','on'=>'write'),
-			array('list_special,lang,unit_price,otherimage,list_suggest', 'safe','on'=>'write'),
+			array('description,parameter,list_special,lang,unit_price,otherimage,list_suggest,metadesc', 'safe','on'=>'write'),
 			array('num_price', 'numerical', 'integerOnly'=>true,'message'=>'Sai định dạng','on'=>'write'),
 			array('name,lang, manufacturer_id, catid,special, amount_status','safe','on'=>'search'),	
 		);
@@ -344,6 +345,10 @@ class Product extends CActiveRecord
 					$alias =$alias.'-'.$suffix;
 				}
 				$this->alias=$alias;
+				if($this->metadesc == ''){
+					$description=$this->description;
+					$this->metadesc=iPhoenixString::createIntrotext($description,self::META_LENGTH);					
+				}	
 			}	
 			else {
 				$modified=$this->modified;

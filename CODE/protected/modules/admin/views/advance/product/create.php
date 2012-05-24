@@ -88,6 +88,19 @@
 						</div>									
 					</div><!--end left above content-->	
 					<div id="right_row">
+					<div class="row">
+							<li>
+								<?php echo $form->labelEx($model,'list_suggest'); ?>
+								<?php echo $form->textField($model,'list_suggest',array('readonly'=>'readonly','style'=>'width:160px')); ?>
+								<a title="Chọn sản phẩm" href="#" onclick="showPopUp();" id="btn-add-product" class="button" style="width: 100px;padding:1px;margin-top:-5px;text-decoration:none;">Chọn sản phẩm</a>				
+							</li>
+					</div>
+					<div class="row">
+							<li>
+								<?php echo $form->labelEx($model,'metadesc'); ?>
+								<?php echo $form->textArea($model,'metadesc',array('cols'=>40,'rows'=>5)); ?>			
+							</li>
+						</div>
 					<div class="row" style="min-height:100px;">
 							<li>
 								<?php echo $form->labelEx($model,'introimage'); ?>
@@ -102,13 +115,6 @@
 								<?php echo $form->error($model, 'otherimage'); ?>
 							</li>
 					</div>	
-					<div class="row">
-							<li>
-								<?php echo $form->labelEx($model,'list_suggest'); ?>
-								<?php echo $form->textField($model,'list_suggest',array('readonly'=>'readonly','style'=>'width:160px')); ?>
-								<a title="Chọn sản phẩm" href="#" onclick="showPopUp();" id="btn-add-product" class="button" style="width: 100px;padding:1px;margin-top:-5px;text-decoration:none;">Chọn sản phẩm</a>				
-							</li>
-					</div>
 					</div><!--end right above content-->							
 					</div><!--end above content-->
 						 <div class="row">
