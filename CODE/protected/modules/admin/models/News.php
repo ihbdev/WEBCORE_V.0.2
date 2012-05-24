@@ -57,6 +57,7 @@ class News extends CActiveRecord
 	 ** PRESENT_CATEGORY_EN 
 	 */
 	const INTRO_LENGTH=100; 	
+	const META_LENGTH=30;
 	const INTRO_HOMEPAGE_LENGTH=20;	
 	const OTHER_NEWS=5;
 	const LIST_NEWS=10;
@@ -79,7 +80,7 @@ class News extends CActiveRecord
 	 * @var array config list other attributes of the banner
 	 * this attribute no need to search	 
 	 */	
-	private $config_other_attributes=array('modified','fulltext','introtext','introimage','list_suggest','metakey','metadesc');	
+	private $config_other_attributes=array('modified','fulltext','introtext','introimage','list_suggest','metadesc');	
 	private $list_other_attributes;
 	/**
 	 * Get list order view
@@ -301,7 +302,7 @@ class News extends CActiveRecord
 			array('catid,order_view', 'numerical', 'integerOnly'=>true,'message'=>'Sai định dạng','on'=>'write,copy'),
 			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write,copy'),
 			array('introimage', 'length', 'max'=>8,'on'=>'write,copy'),
-			array('fulltext,list_special,lang,list_suggest', 'safe', 'on'=>'write,copy'),
+			array('fulltext,list_special,lang,list_suggest,metadesc', 'safe', 'on'=>'write,copy'),
 			array('created_date,created_by', 'safe', 'on'=>'copy'),
 			array('introimage','safe','on'=>'upload_image'),
 			array('title,catid,special,lang','safe','on'=>'search'),
@@ -373,7 +374,8 @@ class News extends CActiveRecord
 			'lang'=>'Ngôn ngữ',
 			'order_view'=>'Mức hiển thị',
 			'list_suggest'=>'Bài viết liên quan',
-			'visits'=>'Người đọc'
+			'visits'=>'Người đọc',
+			'metadesc'=>'Meta description'
 		);
 	}
 	/**
@@ -430,7 +432,11 @@ class News extends CActiveRecord
 					$alias =$alias.'-'.$suffix;
 				}
 				$this->alias=$alias;
+				if($this->metadesc == ''){
+					$fulltext=$this->fulltext;
+					$this->metadesc=iPhoenixString::createIntrotext($fulltext,self::META_LENGTH);
 				}	
+			}
 			else {
 				$modified=$this->modified;
 				$modified[time()]=Yii::app()->user->id;
@@ -456,8 +462,9 @@ class News extends CActiveRecord
 			if($this->old_fulltext != $this->fulltext || $this->isNewRecord){
 				$fulltext=$this->fulltext;
 				$this->fulltext=CHtml::encode($fulltext);
-				if($fulltext != "")
-					$this->introtext=CHtml::encode(iPhoenixString::createIntrotext($fulltext,self::INTRO_LENGTH));
+				if($fulltext != ""){
+					$this->introtext=iPhoenixString::createIntrotext($fulltext,self::INTRO_LENGTH);
+				}
 				else 
 					$this->introtext="";
 				}

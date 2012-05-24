@@ -48,20 +48,36 @@ static function remove_vietnamese_accents($str)
 	}
 static function convertTitle($str){
 	$str=self::remove_vietnamese_accents($str);
+	$str=self::replaceWhitespace($str);	
 	return str_replace(' ','-',$str);
 }
 static function createIntrotext($string,$count){
 	$tmp=strip_tags($string);
+	$tmp=html_entity_decode ($tmp, ENT_QUOTES ,'UTF-8');	
+	$tmp=self::replaceWhitespace($tmp);	
 	$list_word=explode(" ",$tmp);
 	$list_intro_word=array();
 	if(sizeof($list_word)>$count){
 		$list_intro_word=array_slice($list_word, 0, $count);
 		$list_intro_word[]="...";
-		return implode(" ",$list_intro_word);
+		$result=implode(" ",$list_intro_word);
 	}
 	else 
-		return $tmp;
+		$result=$tmp;
+	return $result;
 }
+static function replaceWhitespace($str) {
+  $result = $str;
+  foreach (array("  ", "\t", "\n", "\r", " \t",  " \r",  " \n",
+    "\t\t", "\t ", "\t\r", "\t\n",
+    "\r\r", "\r ", "\r\t", "\r\n",
+    "\n\n", "\n ", "\n\t", "\n\r",
+  ) as $replacement) {
+    $result = str_replace($replacement, " ", $result);
+  }
+ return $str !== $result ? self::replaceWhitespace($result) : $result;
+}
+  
 static function createAlias($string){
 	$tmp=self::convertTitle(self::remove_vietnamese_accents($string));
 	$alias=preg_replace("/[^A-Za-z0-9-]/","",$tmp); 

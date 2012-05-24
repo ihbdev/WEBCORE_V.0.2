@@ -97,6 +97,12 @@
 								<a title="Chọn tin" href="#" onclick="showPopUp();" id="btn-add-product" class="button" style="width: 60px;padding:1px;margin-top:-5px;text-decoration:none;">Chọn tin</a>			
 							</li>
 						</div>
+						<div class="row">
+							<li>
+								<?php echo $form->labelEx($model,'metadesc'); ?>
+								<?php echo $form->textArea($model,'metadesc',array('cols'=>40,'rows'=>5)); ?>			
+							</li>
+						</div>
 					</div>
 					</div>		
                     <div class="row">
