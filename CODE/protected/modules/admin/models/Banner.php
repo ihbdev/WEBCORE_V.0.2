@@ -168,7 +168,6 @@ class Banner extends CActiveRecord
 	{
 		return array(
 			array('title,images','required','message'=>'Dữ liệu bắt buộc','on'=>'write',),
-			array('title', 'unique','message'=>'Banner đã tồn tại','on'=>'write'),
 			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write'),
 			array('description', 'length', 'max'=>512,'message'=>'Tối đa 512 kí tự','on'=>'write'),
 			array('title','safe','on'=>'search'),
@@ -241,14 +240,11 @@ class Banner extends CActiveRecord
 				$this->created_date=time();
 				$this->created_by=Yii::app()->user->id;
 				$this->status=Banner::STATUS_ACTIVE;
-				//Set alias
-				$this->alias=iPhoenixString::createAlias($this->title).'-'.date('d').date('m').date('Y');	
 			}	
 			else {
 				$modified=$this->modified;
 				$modified[time()]=Yii::app()->user->id;
 				$this->modified=json_encode($modified);	
-				if($this->title != $this->old_title) $this->alias=iPhoenixString::createAlias($this->title).'-'.date('d').date('m').date('Y');
 			}	
 			$this->type=Article::ARTICLE_BANNER;
 			$this->other=json_encode($this->list_other_attributes);

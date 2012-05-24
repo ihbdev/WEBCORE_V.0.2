@@ -338,13 +338,25 @@ class Product extends CActiveRecord
 				$this->created_by=Yii::app()->user->id;
 				$this->status=PRODUCT::STATUS_ACTIVE;
 				//Set alias
-				$this->alias=iPhoenixString::createAlias($this->name).'-'.date('d').date('m').date('Y');	
+				$alias=iPhoenixString::createAlias($this->name);	
+				while(sizeof(Product::model()->findAll('alias = "'.$alias.'"'))>0){
+					$suffix=rand(1,99);
+					$alias =$alias.'-'.$suffix;
+				}
+				$this->alias=$alias;
 			}	
 			else {
 				$modified=$this->modified;
 				$modified[time()]=Yii::app()->user->id;
 				$this->modified=json_encode($modified);	
-				if($this->name != $this->old_name) $this->alias=iPhoenixString::createAlias($this->name).'-'.date('d').date('m').date('Y');
+				if($this->name != $this->old_name) {
+					$alias=iPhoenixString::createAlias($this->name);	
+					while(sizeof(Product::model()->findAll('alias = "'.$alias.'"'))>0){
+						$suffix=rand(1,99);
+						$alias =$alias.'-'.$suffix;
+					}
+					$this->alias=$alias;
+				}
 				//Handler list suggest news
 				$list_clear=array_diff(explode(',',$this->list_suggest),array(''));
 				$list_filter=array_diff($list_clear,array($this->id));

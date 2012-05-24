@@ -47,28 +47,28 @@ return array(
 			'urlFormat'=>'path',
 			'showScriptName'=>false,
 			'rules'=>array(				
-				'hien-thi-san-pham/<cat_alias>/<product_alias>'=>array('product/view','urlSuffix'=>'.html'),
-				'list-san-pham/<cat_alias>'=>'product/list',
-				'tat-ca-san-pham'=>'product/index',
+				'san-pham/<cat_alias>/<product_alias>'=>array('product/view','urlSuffix'=>'.html'),
+				'san-pham/<cat_alias>'=>'product/list',
+				'san-pham'=>'product/index',
 		
-				'hien-thi-tin-tuc/<cat_alias>/<news_alias>'=>array('news/view','urlSuffix'=>'.html'),
-				'list-tin-tuc/<cat_alias>'=>'news/list',
-				'tat-ca-tin-tuc'=>'news/index',
+				'tin-tuc/<cat_alias>/<news_alias>'=>array('news/view','urlSuffix'=>'.html'),
+				'tin-tuc/<cat_alias>'=>'news/list',
+				'tin-tuc'=>'news/index',
 		
-				'hien-thi-trang-tinh/<cat_alias>/<staticPage_alias>'=>array('staticPage/view','urlSuffix'=>'.html'),
-				'list-trang-tinh/<cat_alias>'=>'staticPage/list',
-				'tat-ca-trang-tinh'=>'staticPage/index',
+				'thong-tin/<cat_alias>/<staticPage_alias>'=>array('staticPage/view','urlSuffix'=>'.html'),
+				'thong-tin/<cat_alias>'=>'staticPage/list',
+				'thong-tin'=>'staticPage/index',
 		
-				'hien-thi-cau-hoi/<qa_alias>'=>array('qA/view','urlSuffix'=>'.html'),
-				'tat-ca-cau-hoi'=>'qA/index',
+				'hoi-dap/<qa_alias>'=>array('qA/view','urlSuffix'=>'.html'),
+				'hoi-dap'=>'qA/index',
 		
-				'hien-thi-album/<cat_alias>/<album_alias>'=>array('album/view','urlSuffix'=>'.html'),
-				'list-album/<cat_alias>'=>'album/list',
-				'tat-ca-album'=>'album/index',
+				'album/<cat_alias>/<album_alias>'=>array('album/view','urlSuffix'=>'.html'),
+				'album/<cat_alias>'=>'album/list',
+				'album'=>'album/index',
 		
-				'hien-thi-video/<cat_alias>/<video_alias>'=>array('galleryVideo/view','urlSuffix'=>'.html'),
-				'list-video/<cat_alias>'=>'galleryVideo/list',
-				'tat-ca-video'=>'galleryVideo/index',
+				'video/<cat_alias>/<video_alias>'=>array('galleryVideo/view','urlSuffix'=>'.html'),
+				'video/<cat_alias>'=>'galleryVideo/list',
+				'video'=>'galleryVideo/index',
 		
 				'tim-kiem'=>'search/product',
 		

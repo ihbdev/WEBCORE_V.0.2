@@ -301,13 +301,25 @@ class QA extends CActiveRecord
 				$this->created_date=time();
 				$this->status=News::STATUS_ACTIVE;
 				//Set alias
-				$this->alias=iPhoenixString::createAlias($this->title).'-'.date('d').date('m').date('Y');						
+				$alias=iPhoenixString::createAlias($this->title);		
+				while(sizeof(QA::model()->findAll('alias = "'.$alias.'"'))>0){
+					$suffix=rand(1,99);
+					$alias =$alias.'-'.$suffix;
+				}
+				$this->alias=$alias;				
 			}	
 			else {
 				$modified=$this->modified;
 				$modified[time()]=Yii::app()->user->id;
 				$this->modified=json_encode($modified);	
-				if($this->title != $this->old_title) $this->alias=iPhoenixString::createAlias($this->title).'-'.date('d').date('m').date('Y');
+				if($this->title != $this->old_title) {
+					$alias=iPhoenixString::createAlias($this->title);		
+					while(sizeof(QA::model()->findAll('alias = "'.$alias.'"'))>0){
+						$suffix=rand(1,99);
+						$alias =$alias.'-'.$suffix;
+					}
+					$this->alias=$alias;	
+				}
 			}	
 			if($this->answer !="" && !in_array(self::SPECIAL_ANSWER, $this->list_special)){
 					$list=$this->list_special;

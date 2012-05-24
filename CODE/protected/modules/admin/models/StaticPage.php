@@ -348,20 +348,24 @@ class StaticPage extends CActiveRecord
 				$this->created_by=Yii::app()->user->id;
 				$this->status=StaticPage::STATUS_ACTIVE;
 				//Set alias
-				$this->alias=iPhoenixString::createAlias($this->title);	
-				while(!$this->validateUniqueAlias()){
-					$pre=rand(1,100);
-					$this->alias=$pre.'-'.$this->alias;
-					}
+				$alias=iPhoenixString::createAlias($this->title);	
+				while(sizeof(StaticPage::model()->findAll('alias = "'.$alias.'"'))>0){
+					$suffix=rand(1,99);
+					$alias =$alias.'-'.$suffix;
+				}
+				$this->alias=$alias;
 				}	
 			else {
 				$modified=$this->modified;
 				$modified[time()]=Yii::app()->user->id;
 				$this->modified=json_encode($modified);	
-				if($this->title != $this->old_title) $this->alias=iPhoenixString::createAlias($this->title);
-				while(!$this->validateUniqueAlias()){
-					$pre=rand(1,100);
-					$this->alias=$pre.'-'.$this->alias;
+				if($this->title != $this->old_title) {
+					$alias=iPhoenixString::createAlias($this->title);	
+					while(sizeof(StaticPage::model()->findAll('alias = "'.$alias.'"'))>0){
+						$suffix=rand(1,99);
+						$alias =$alias.'-'.$suffix;
+					}
+					$this->alias=$alias;
 				}
 				//Handler list suggest staticPage
 				$list_clear=array_diff(explode(',',$this->list_suggest),array(''));

@@ -424,33 +424,25 @@ class News extends CActiveRecord
 				$this->created_date=time();
 				$this->created_by=Yii::app()->user->id;
 				$this->status=News::STATUS_ACTIVE;
-				//Set alias
-				$this->alias=iPhoenixString::createAlias($this->title);	
-				if(!$this->validateUniqueAlias())
-				{
-					$parent=Category::model()->findByPk($this->catid);
-					if(isset($parent))	$this->alias = $parent->alias.'-'.$this->alias;
+				$alias=iPhoenixString::createAlias($this->title);
+				while(sizeof(News::model()->findAll('alias = "'.$alias.'"'))>0){
+					$suffix=rand(1,99);
+					$alias =$alias.'-'.$suffix;
 				}
-				while(!$this->validateUniqueAlias()){
-					$pre=rand(1,100);
-					$this->alias=$pre.'-'.$this->alias;
-					}
+				$this->alias=$alias;
 				}	
 			else {
 				$modified=$this->modified;
 				$modified[time()]=Yii::app()->user->id;
 				$this->modified=json_encode($modified);	
-				if($this->title != $this->old_title) 
-					$this->alias=iPhoenixString::createAlias($this->title);
-				if(!$this->validateUniqueAlias())
-				{
-					$parent=Category::model()->findByPk($this->catid);
-					if(isset($parent))	$this->alias = $parent->alias.'-'.$this->alias;
+				if($this->title != $this->old_title) {
+					$alias=iPhoenixString::createAlias($this->title);
+					while(sizeof(News::model()->findAll('alias = "'.$alias.'"'))>0){
+					$suffix=rand(1,99);
+					$alias =$alias.'-'.$suffix;
 				}
-				while(!$this->validateUniqueAlias()){
-					$pre=rand(1,100);
-					$this->alias=$pre.'-'.$this->alias;
-					}
+				$this->alias=$alias;
+				}
 				//Handler list suggest news
 				$list_clear=array_diff(explode(',',$this->list_suggest),array(''));
 				$list_filter=array_diff($list_clear,array($this->id));

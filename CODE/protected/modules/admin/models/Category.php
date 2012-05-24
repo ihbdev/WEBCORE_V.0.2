@@ -28,7 +28,7 @@ class Category extends CActiveRecord
 	 * Config code (id) of the main category groups which have parent_id=0
 	 */
 	const GROUP_ROOT=0;
-	const GROUP_ADMIN_MENU=1;
+	const GROUP_ADVANCE_ADMIN_MENU=1;
 	const GROUP_USER_MENU=2;
 	const GROUP_STATICPAGE=3;
 	const GROUP_NEWS=4;
@@ -36,6 +36,7 @@ class Category extends CActiveRecord
 	const GROUP_MANUFACTURER=6;
 	const GROUP_ALBUM=7;
 	const GROUP_GALLERYVIDEO=8;
+	const GROUP_ADMIN_MENU=100;
 	/*
 	 * Config default controller and action when create admin menu
 	 */
@@ -160,7 +161,7 @@ class Category extends CActiveRecord
 		while ($check){
 			$current=Category::model()->findByPk($current_id);
 			$bread_crumb[]=$current_id;
-			if(in_array($current->parent_id,array(Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_ADMIN_MENU,Category::GROUP_MANUFACTURER,Category::GROUP_USER_MENU))){
+			if(in_array($current->parent_id,array(Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_ADMIN_MENU,Category::GROUP_ADVANCE_ADMIN_MENU,Category::GROUP_MANUFACTURER,Category::GROUP_USER_MENU))){
 				$check=false;
 			}
 			else 
@@ -178,7 +179,7 @@ class Category extends CActiveRecord
 		$current_id=$this->id;
 		while ($check){
 			$current=Category::model()->findByPk($current_id);
-			if(in_array($current->parent_id,array(Category::GROUP_ADMIN_MENU,Category::GROUP_USER_MENU,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_MANUFACTURER,Category::GROUP_NEWS,Category::GROUP_STATICPAGE,Category::GROUP_PRODUCT)))
+			if(in_array($current->parent_id,array(Category::GROUP_ADMIN_MENU,Category::GROUP_ADVANCE_ADMIN_MENU,Category::GROUP_USER_MENU,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_MANUFACTURER,Category::GROUP_NEWS,Category::GROUP_STATICPAGE,Category::GROUP_PRODUCT)))
 			{
 				$check=false;
 			}
@@ -273,7 +274,7 @@ class Category extends CActiveRecord
 		foreach ($list_category as $category){
 			$category->group=$this->group;
 			//Get route and params if group is menu
-			if($this->group==Category::GROUP_ADMIN_MENU || $this->group==Category::GROUP_USER_MENU){
+			if($this->group==Category::GROUP_ADVANCE_ADMIN_MENU || $this->group==Category::GROUP_ADMIN_MENU || $this->group==Category::GROUP_USER_MENU){
 				$this->tmp_list[$category->id]=array('level'=>$new_level,'name'=>$category->name,'url'=>$category->url,'root'=>$category->root);
 			}
 			elseif(in_array($this->group,array(Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO))){
@@ -819,6 +820,9 @@ class Category extends CActiveRecord
 						//Config admin menu
 						$value=json_encode(array('group'=>Category::GROUP_ADMIN_MENU));
 						$result[$value]='Quản lý menu trang quản trị';
+						//Config admin menu advance
+						$value=json_encode(array('group'=>Category::GROUP_ADVANCE_ADMIN_MENU));
+						$result[$value]='Quản lý menu trang quản trị nâng cao';
 						//Config user menu
 						$value=json_encode(array('group'=>Category::GROUP_USER_MENU));
 						$result[$value]='Quản lý menu trang front end';
@@ -925,7 +929,7 @@ class Category extends CActiveRecord
 	 * @return string, the url of menu
 	 */
 	public function getUrl() {
-		if ($this->group == Category::GROUP_ADMIN_MENU || $this->group == Category::GROUP_USER_MENU) {
+		if ($this->group==Category::GROUP_ADVANCE_ADMIN_MENU || $this->group == Category::GROUP_ADMIN_MENU || $this->group == Category::GROUP_USER_MENU) {
 			$config = array (
 					'news' => array (
 						'manager_category' => array ('group' => Category::GROUP_NEWS),

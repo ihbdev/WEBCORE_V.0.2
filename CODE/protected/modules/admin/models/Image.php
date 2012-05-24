@@ -33,7 +33,8 @@ class Image extends CActiveRecord
 		'Album'=>'Album',
 		'GalleryVideo'=>'GalleryVideo',
 		'Banner'=>'Banner',
-		'StaticPage'=>'StaticPage'
+		'StaticPage'=>'StaticPage',
+		'Category'=>'Category'
 	);
 	/**
 	 * Config size of thumb
@@ -499,6 +500,10 @@ class Image extends CActiveRecord
 						$parent = GalleryVideo::model ()->findByPk ( $this->parent_id );
 						$parent->scenario = 'upload-image';
 						break;
+					case self::$config_category ['Category'] :
+						$parent = Category::model ()->findByPk ( $this->parent_id );
+						$parent->scenario = 'upload-image';
+						break;
 				}
 			$attribute=$this->parent_attribute;
 			$old_attributes = array_diff ( explode ( ',', $parent->$attribute ), array ('' ) );
@@ -555,6 +560,9 @@ class Image extends CActiveRecord
 						break;
 					case self::$config_category ['GalleryVideo'] :
 						$parent = GalleryVideo::model ()->findByPk ( $this->parent_id );
+						break;
+					case self::$config_category ['Category'] :
+						$parent = Category::model ()->findByPk ( $this->parent_id );
 						break;
 				}
 				$attribute = $this->parent_attribute;

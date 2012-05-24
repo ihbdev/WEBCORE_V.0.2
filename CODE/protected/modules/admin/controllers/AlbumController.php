@@ -71,7 +71,7 @@ class AlbumController extends Controller
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
-		$this->render('create',array(
+		$this->render('basic/create',array(
 			'model'=>$model,
 			'list_category'=>$list_category
 			
@@ -108,7 +108,7 @@ class AlbumController extends Controller
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
-			$this->render ( 'update', array ('model' => $model, 'list_category'=>$list_category) );
+			$this->render ( 'basic/update', array ('model' => $model, 'list_category'=>$list_category) );
 		}
 		else 
 			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));

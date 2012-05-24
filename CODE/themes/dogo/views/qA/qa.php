@@ -1,4 +1,5 @@
 <?php 
+$this->pageTitle = 'Trả lời câu hỏi '.$qa->question;
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
 	array('url'=>Yii::app()->createUrl('qA/index'),'title'=>Language::t('Danh sách câu hỏi','layout')),

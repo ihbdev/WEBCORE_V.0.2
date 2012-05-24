@@ -1,4 +1,5 @@
 <?php 
+$this->pageTitle = 'Sản phẩm '.$product->name;
 if(isset($cat))
 	$this->bread_crumbs=array(
 		array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),

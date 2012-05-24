@@ -69,4 +69,12 @@ class DefaultController extends Controller
 		Yii::app()->user->logout();
 		$this->redirect(array('default/login'));
 	}
+	/**
+	 * Switch view basic and view advance
+	 */
+	public function actionView($view)
+	{
+		Yii::app()->session['view']=$view;
+		Yii::app()->request->redirect('/admin/product/index');
+	}	
 }

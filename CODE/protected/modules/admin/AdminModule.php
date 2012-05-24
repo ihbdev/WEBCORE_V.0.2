@@ -12,9 +12,14 @@ class AdminModule extends CWebModule
 			'admin.models.*',
 			'admin.components.*',
 		));
-		
+		if (!isset ( Yii::app ()->session ['view'] )) Yii::app ()->session ['view']=basic;
+		else 
+		{
+			if (Yii::app ()->session ['view'] != 'advance')
+				Yii::app ()->session ['view']='basic';
+		}
 		//Configure layout path of modules Admin
-		$this->layoutPath = Yii::getPathOfAlias('admin.views.layouts');
+		$this->viewPath = Yii::getPathOfAlias('admin.views.'.Yii::app ()->session ['view']);
 	}
 	public function beforeControllerAction($controller, $action)
 	{

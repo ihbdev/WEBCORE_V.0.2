@@ -9,6 +9,8 @@ $cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/admin/sprite.cs
 			<h1>
 			<?php 
 			switch ($group){
+				case Category::GROUP_ADVANCE_ADMIN_MENU: echo "Danh mục menu trang quản trị nâng cao";
+				break;
 				case Category::GROUP_ADMIN_MENU: echo "Danh mục menu trang quản trị";
 				break;
 				case Category::GROUP_USER_MENU: echo 'Danh mục menu trang frontend';
@@ -38,7 +40,9 @@ $cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/admin/sprite.cs
 					<li><a class="header-menu-active new-icon" href=""><span>
 			<?php 
 			switch ($group){
-					case Category::GROUP_ADMIN_MENU: echo "Danh mục menu trang quản trị";
+				case Category::GROUP_ADVANCE_ADMIN_MENU: echo "Danh mục menu trang quản trị nâng cao";
+				break;
+				case Category::GROUP_ADMIN_MENU: echo "Danh mục menu trang quản trị";
 				break;
 				case Category::GROUP_USER_MENU: echo 'Danh mục menu trang frontend';
 				break;
@@ -70,6 +74,8 @@ $cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/admin/sprite.cs
 			<!--begin left content-->
 			<?php 	
 			switch ($group){
+				case Category::GROUP_ADVANCE_ADMIN_MENU: $form='_form_menu';
+				break;
 				case Category::GROUP_ADMIN_MENU: $form='_form_menu';
 				break;
 				case Category::GROUP_USER_MENU: $form='_form_menu';

@@ -75,6 +75,11 @@ class CategoryController extends Controller
 			$model->group=$group;
 			switch ($group){
 				case 
+				Category::GROUP_ADVANCE_ADMIN_MENU: 
+				$model->scenario='menu';	
+				$form='_form_menu';
+				break;
+				case 
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	
 				$form='_form_menu';
@@ -144,6 +149,11 @@ class CategoryController extends Controller
 			$model->group=$group;
 			switch ($group){
 				case 
+				Category::GROUP_ADVANCE_ADMIN_MENU: 
+				$model->scenario='menu';	
+				$form='_form_menu';
+				break;
+				case 
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	
 				$form='_form_menu';
@@ -211,6 +221,11 @@ class CategoryController extends Controller
 			//Define group of category
 			$model->group=$group;
 			switch ($group){
+				case 
+				Category::GROUP_ADVANCE_ADMIN_MENU: 
+				$model->scenario='menu';	
+				$form='_form_menu';
+				break;
 				case 
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	
@@ -324,6 +339,10 @@ class CategoryController extends Controller
 			$model->group=$group;
 			switch ($group){
 				case 
+				Category::GROUP_ADVANCE_ADMIN_MENU: 
+				$model->scenario='menu';	
+				break;
+				case 
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	
 				break;
@@ -374,6 +393,10 @@ class CategoryController extends Controller
 		$model=new Category();
 		$model->group=$group;
 		switch ($group){
+				case 
+				Category::GROUP_ADVANCE_ADMIN_MENU: 
+				$model->scenario='menu';	
+				break;
 				case 
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	
@@ -437,6 +460,11 @@ class CategoryController extends Controller
 			}
 			$model->group=$group;
 			switch ($group){
+				case 
+				Category::GROUP_ADVANCE_ADMIN_MENU: 
+				$model->scenario='menu';	
+				$form='_form_menu';
+				break;
 				case 
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	

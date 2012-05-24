@@ -1,7 +1,8 @@
 <?php 
+$this->pageTitle = 'Trang chủ website '.Setting::s('FRONT_SITE_TITLE','System');
 $this->bread_crumbs=array(
 	array('url'=>'','title'=>Language::t('Trang chủ','layout')),
-)
+);
 ?>
 <?php $this->widget('wSearch');?> 
 <?php if($this->beginCache('home-lastest-product',array('dependency'=>array(

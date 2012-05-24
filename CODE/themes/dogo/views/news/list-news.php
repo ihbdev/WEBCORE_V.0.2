@@ -1,4 +1,8 @@
 <?php 
+if(isset($cat))
+	$this->pageTitle = 'Các bài viết trong nhóm '.$cat->name;
+else 
+	$this->pageTitle = 'Tất cả bài viết';
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
 	array('url'=>Yii::app()->createUrl('news/index'),'title'=>Language::t('Tin tức','layout')),

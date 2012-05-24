@@ -43,7 +43,7 @@ $cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/common/jquery.a
 			</div>
 			<!--begin right content-->
 			<div id="TP_right_panel" class="TP_toolbar_item">
-				<p><a href="<?php echo Yii::app()->request->getBaseUrl(true);?>">Trang chủ</a> | <a href="<?php echo Yii::app()->createUrl('/admin/default/logout');?>">Đăng xuất</a> (<span style="color:#d9251d;"><?php echo Yii::app()->user->name;?></span>)</p>
+				<p><a href="<?php echo Yii::app()->createUrl('admin/default/view',array('view'=>'advance'));?>">Giao diện nâng cao</a> | <a href="<?php echo Yii::app()->request->getBaseUrl(true);?>">Trang chủ</a> | <a href="<?php echo Yii::app()->createUrl('/admin/default/logout');?>">Đăng xuất</a> (<span style="color:#d9251d;"><?php echo Yii::app()->user->name;?></span>)</p>
 				<p style="font-size:11px; margin-top:2px;"><?php echo date(" H:i, d/m/Y").'&nbsp &nbsp &nbsp &nbsp'; ?></p>
 			</div>
 			<!--end right content-->

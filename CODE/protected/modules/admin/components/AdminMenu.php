@@ -8,8 +8,15 @@ class AdminMenu extends CPortlet
 	}
 	protected function renderContent()
 	{
-		$model=Category::model()->findByPk(Category::GROUP_ADMIN_MENU);
-		$model->group=Category::GROUP_ADMIN_MENU;
+		switch(Yii::app ()->session ['view']){
+			case 'advance':
+				$model=Category::model()->findByPk(Category::GROUP_ADVANCE_ADMIN_MENU);
+				$model->group=Category::GROUP_ADVANCE_ADMIN_MENU;
+				break;
+			default: 
+				$model=Category::model()->findByPk(Category::GROUP_ADMIN_MENU);
+				$model->group=Category::GROUP_ADMIN_MENU;				
+		}
 		//Create list menu which are used when view menu
 		$list=$model->list_Categories;
 		$previous_id=0;

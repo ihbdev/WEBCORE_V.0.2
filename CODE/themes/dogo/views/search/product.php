@@ -1,4 +1,5 @@
 <?php 
+$this->pageTitle = 'Kết quả tìm kiếm';
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
 	array('url'=>'','title'=>Language::t('Kết quả tìm kiếm','layout')),

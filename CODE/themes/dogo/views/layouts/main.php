@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl?>/css/style.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl?>/css/nivo-slider.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl?>/css/jquery.fancybox-1.3.4.css">
-<title><?php echo Language::t(Setting::s('FRONT_SITE_TITLE','System'),'layout');?></title>
+<title><?php echo $this->pageTitle;?></title>
 </head>
 <body>
 <div class="webtitle">

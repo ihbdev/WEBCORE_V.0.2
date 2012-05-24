@@ -1,4 +1,9 @@
 <?php 
+if(isset($cat))
+	$this->pageTitle = 'Các video trong nhóm '.$cat->name;
+else 
+	$this->pageTitle = 'Tất cả video';
+	
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
 	array('url'=>Yii::app()->createUrl('galleryVideo/index'),'title'=>Language::t('Album','layout')),
