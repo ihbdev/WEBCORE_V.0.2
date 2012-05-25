@@ -1,5 +1,6 @@
 <?php 
 $this->pageTitle = 'Bài viết '.$news->title;
+Yii::app()->clientScript->registerMetaTag($news->metadesc, 'description');
 if(isset($cat))
 	$this->bread_crumbs=array(
 		array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),

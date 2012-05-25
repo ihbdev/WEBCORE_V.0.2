@@ -90,9 +90,14 @@ class GalleryVideoController extends Controller
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
 		$this->render('create',array(
 			'model'=>$model,
-			'list_category'=>$list_category
+			'list_category'=>$list_category,
+			'list_keyword_categories'=>$list_keyword_categories	
 			
 		));
 	}
@@ -124,7 +129,15 @@ class GalleryVideoController extends Controller
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
-			$this->render ( 'update', array ('model' => $model,'list_category'=>$list_category ) );
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
+			$this->render ( 'update', array (
+				'model' => $model,
+				'list_category'=>$list_category,
+				'list_keyword_categories'=>$list_keyword_categories	
+			) );
 		}		
 	}
 
@@ -166,9 +179,14 @@ class GalleryVideoController extends Controller
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
 		$this->render('index',array(
 			'model'=>$model,
-			'list_category'=>$list_category
+			'list_category'=>$list_category,
+			'list_keyword_categories'=>$list_keyword_categories
 		));
 	}
 	

@@ -20,13 +20,22 @@
 			<!--begin left content-->
 			<div class="fl">
 				<ul>
+					<div id="above_row">
+					<div id="left_row">
 					<div class="row">
 					<li>
 						<?php echo $form->labelEx($model,'title'); ?>
 						<?php echo $form->textField($model,'title',array('style'=>'width:280px;','maxlength'=>'128'))?>
 						<?php echo $form->error($model,'title'); ?>
 					</li>	
-					</div>	
+					</div>
+					<div class="row">
+						<li>
+							<?php echo $form->labelEx($model,'lang'); ?>
+							<?php echo $form->dropDownList($model,'lang',LanguageForm::getList_languages_exist(),array('style'=>'width:200px')); ?>
+							<?php echo $form->error($model, 'lang'); ?>
+						</li>
+						</div>	
 					    <?php 
 							$list = QA::getList_label_specials();
 							unset($list[QA::SPECIAL_ANSWER]);						
@@ -52,6 +61,10 @@
 						<?php echo $form->error($model,'phone'); ?>
 					</li>	
 					</div>
+					</div>
+					<!-- end left -->
+					<!-- begin right -->
+					<div id="right_row">
 					<div class="row">
 					<li>
 						<?php echo $form->labelEx($model,'email'); ?>
@@ -66,13 +79,9 @@
 						<?php echo $form->error($model,'question'); ?>
 					</li>	
 					</div>	
-					<div class="right_row">
-						<li>
-							<?php echo $form->labelEx($model,'lang'); ?>
-							<?php echo $form->dropDownList($model,'lang',LanguageForm::getList_languages_exist(),array('style'=>'width:200px')); ?>
-							<?php echo $form->error($model, 'lang'); ?>
-						</li>
-						</div>
+					</div>				
+					<!-- end right -->
+					</div>
 					<div class="row">
 					<li>
 						<?php echo $form->labelEx($model,'answer'); ?>

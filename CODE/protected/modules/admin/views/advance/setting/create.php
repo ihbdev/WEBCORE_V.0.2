@@ -39,6 +39,7 @@
                         <?php echo $form->textField($model,'value',array('style'=>'width:150px')); ?>
                   		<?php echo $form->error($model, 'value'); ?>
                     </li>
+                    </div>
                     <li>
                    		<input type="reset" class="button" value="Hủy thao tác" style="margin-left:153px; width:125px;" />
                     	<input type="submit" class="button" value="Thêm" style="margin-left:20px; width:125px;" />					 

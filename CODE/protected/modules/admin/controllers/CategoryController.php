@@ -85,6 +85,11 @@ class CategoryController extends Controller
 				$form='_form_menu';
 				break;
 				case 
+				Category::GROUP_KEYWORD: 
+				$model->scenario='keyword';	
+				$form='_form_keyword';
+				break;
+				case 
 				Category::GROUP_USER_MENU: 
 				$model->scenario='menu';	
 				$form='_form_menu';
@@ -159,6 +164,11 @@ class CategoryController extends Controller
 				$form='_form_menu';
 				break;
 				case 
+				Category::GROUP_KEYWORD: 
+				$model->scenario='keyword';	
+				$form='_form_keyword';
+				break;
+				case 
 				Category::GROUP_USER_MENU: 
 				$model->scenario='menu';	
 				$form='_form_menu';
@@ -230,6 +240,11 @@ class CategoryController extends Controller
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	
 				$form='_form_menu';
+				break;
+				case 
+				Category::GROUP_KEYWORD: 
+				$model->scenario='keyword';	
+				$form='_form_keyword';
 				break;
 				case 
 				Category::GROUP_USER_MENU: 
@@ -347,6 +362,11 @@ class CategoryController extends Controller
 				$model->scenario='menu';	
 				break;
 				case 
+				Category::GROUP_KEYWORD: 
+				$model->scenario='keyword';	
+				$form='_form_keyword';
+				break;
+				case 
 				Category::GROUP_USER_MENU: 
 				$model->scenario='menu';	
 				break;
@@ -400,6 +420,11 @@ class CategoryController extends Controller
 				case 
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	
+				break;
+				case 
+				Category::GROUP_KEYWORD: 
+				$model->scenario='keyword';	
+				$form='_form_keyword';
 				break;
 				case 
 				Category::GROUP_USER_MENU: 
@@ -469,6 +494,11 @@ class CategoryController extends Controller
 				Category::GROUP_ADMIN_MENU: 
 				$model->scenario='menu';	
 				$form='_form_menu';
+				break;
+				case 
+				Category::GROUP_KEYWORD: 
+				$model->scenario='keyword';	
+				$form='_form_keyword';
 				break;
 				case 
 				Category::GROUP_USER_MENU: 

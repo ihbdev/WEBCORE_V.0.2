@@ -1,5 +1,6 @@
 <?php 
 $this->pageTitle = 'Album '.$album->title;
+Yii::app()->clientScript->registerMetaTag($album->metadesc, 'description');
 if(isset($cat))
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),

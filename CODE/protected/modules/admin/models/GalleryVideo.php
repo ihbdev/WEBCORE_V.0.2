@@ -44,6 +44,8 @@ class GalleryVideo extends CActiveRecord
 	
 	const LIST_ADMIN=10;
 	
+	const META_LENGTH=30;
+	
 	/**	 	 
 	 * @var string $old_video, keep the information of model to check changing in model
 	 */
@@ -51,6 +53,7 @@ class GalleryVideo extends CActiveRecord
 	public $old_introimage;
 	public $old_title;	
 	public $list_special;
+	public $old_keyword;
 	/**
 	 * @var array config list other attributes of the banner
 	 * this attribute no need to search	 
@@ -224,10 +227,9 @@ class GalleryVideo extends CActiveRecord
 			array('title,link,catid','required','message'=>'Dữ liệu bắt buộc','on'=>'write',),
 			array('title', 'unique','message'=>'Video này đã tồn tại','on'=>'write'),
 			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write'),
-			array('description', 'length', 'max'=>512,'message'=>'Tối đa 512 kí tự','on'=>'write'),
 			array('introimage', 'length', 'max'=>8,'message'=>'Tối đa 512 kí tự','on'=>'write'),
-			array('list_special,lang', 'safe','on'=>'write'),
-			array('title,lang,catid,special','safe','on'=>'search'),
+			array('list_special,lang,metadesc,description,keyword', 'safe','on'=>'write'),
+			array('title,lang,catid,special,keyword','safe','on'=>'search'),
 			array('link','safe','on'=>'upload_video'),
 			array('introimage','safe','on'=>'upload_image'),
 		);
@@ -280,6 +282,7 @@ class GalleryVideo extends CActiveRecord
 		$this->list_special=iPhoenixStatus::decodeStatus($this->special);
 		//Store old title
 		$this->old_title=$this->title;
+		$this->old_keyword=$this->keyword;
 		
 		if(isset($this->list_other_attributes['modified']))
 			$this->list_other_attributes['modified']=(array)json_decode($this->list_other_attributes['modified']);
@@ -312,7 +315,7 @@ class GalleryVideo extends CActiveRecord
 					$suffix=rand(1,99);
 					$alias =$alias.'-'.$suffix;
 				}
-				$this->alias=$alias;
+				$this->alias=$alias;				
 			}	
 			else {
 				$modified=$this->modified;
@@ -327,6 +330,24 @@ class GalleryVideo extends CActiveRecord
 					$this->alias=$alias;
 				}
 			}	
+			if($this->metadesc == ''){
+					$description=$this->description;
+					$this->metadesc=iPhoenixString::createIntrotext($description,self::META_LENGTH);
+				}
+		//Handler keyword
+			if($this->old_keyword != $this->keyword || $this->isNewRecord){
+				$old_category=Category::model()->findByPk($this->old_keyword);
+				if(isset($old_category)){
+					$old_category->amount=$old_category->amount-1;
+					if($old_category->amount < 0) $old_category->amount=0;
+					$old_category->save();	
+				}
+				$new_category=Category::model()->findByPk($this->keyword);
+				if(isset($new_category)){
+					$new_category->amount=$new_category->amount+1;
+					$new_category->save();	
+				}
+			}
 			//Encode special
 			$this->special=iPhoenixStatus::encodeStatus($this->list_special); 
 			$this->type=Article::ARTICLE_VIDEO;
@@ -426,6 +447,11 @@ class GalleryVideo extends CActiveRecord
 				}
 			$criteria->addInCondition ( 'catid', $list_child_id );
 		}
+		//Filter keyword category
+		$cat = Category::model ()->findByPk ( $this->keyword );
+		if ($cat != null) {
+			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
+		}	
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);
 		return new CActiveDataProvider($this, array(

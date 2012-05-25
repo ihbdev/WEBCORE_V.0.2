@@ -50,12 +50,14 @@ class Album extends CActiveRecord
 	const LIST_ADMIN=10;
 	const LIST_ALBUM=10;
 	const OTHER_ALBUM=5;
+	const META_LENGTH=30;
 	
 	
 	public $old_images;
 	public $old_title;
 	public $list_special;
 	private $list_other_attributes;
+	public $old_keyword;
 	/**
 	 * Config other new attributes for album.
 	 * @var modified: modified time
@@ -249,9 +251,8 @@ class Album extends CActiveRecord
 			array('title,images,catid','required','message'=>'Dữ liệu bắt buộc','on'=>'write',),
 			array('title', 'unique','message'=>'Album đã tồn tại','on'=>'write'),
 			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write'),
-			array('description', 'length', 'max'=>512,'message'=>'Tối đa 512 kí tự','on'=>'write'),
-			array('lang,list_special','safe','on'=>'write'),
-			array('title,special,lang,catid','safe','on'=>'search'),
+			array('lang,list_special,metadesc,description,keyword','safe','on'=>'write'),
+			array('title,special,lang,catid,keyword','safe','on'=>'search'),
 			array('images','safe','on'=>'upload_image'),
 		);
 	}
@@ -283,7 +284,8 @@ class Album extends CActiveRecord
 			'special' => 'Lọc theo nhóm hiển thị',
 			'lang' => 'Ngôn ngữ',
 			'catid'=>'Danh mục',
-			'visits'=>'Người đọc'
+			'visits'=>'Người đọc',
+			'catid'=>'Danh mục'
 		);
 	}
 	/**
@@ -299,6 +301,7 @@ class Album extends CActiveRecord
 		$this->list_special=iPhoenixStatus::decodeStatus($this->special);	
 		//Store old title
 		$this->old_title=$this->title;
+		$this->old_keyword=$this->keyword;
 		if(isset($this->list_other_attributes['modified']))
 			$this->list_other_attributes['modified']=(array)json_decode($this->list_other_attributes['modified']);
 		else 
@@ -345,6 +348,24 @@ class Album extends CActiveRecord
 					$this->alias=$alias;
 				}
 			}	
+			if($this->metadesc == ''){
+					$description=$this->description;
+					$this->metadesc=iPhoenixString::createIntrotext($description,self::META_LENGTH);
+			}
+			//Handler keyword
+			if($this->old_keyword != $this->keyword || $this->isNewRecord){
+				$old_category=Category::model()->findByPk($this->old_keyword);
+				if(isset($old_category)){
+					$old_category->amount=$old_category->amount-1;
+					if($old_category->amount < 0) $old_category->amount=0;
+					$old_category->save();	
+				}
+				$new_category=Category::model()->findByPk($this->keyword);
+				if(isset($new_category)){
+					$new_category->amount=$new_category->amount+1;
+					$new_category->save();	
+				}
+			}
 			//Encode special
 			$this->special=iPhoenixStatus::encodeStatus($this->list_special);
 			/*
@@ -432,6 +453,11 @@ class Album extends CActiveRecord
 					$list_child_id [] = $id;
 				}
 			$criteria->addInCondition ( 'catid', $list_child_id );
+		}
+		//Filter keyword category
+		$cat = Category::model ()->findByPk ( $this->keyword );
+		if ($cat != null) {
+			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
 		}
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);

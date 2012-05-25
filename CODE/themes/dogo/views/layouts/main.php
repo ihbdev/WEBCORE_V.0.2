@@ -5,8 +5,8 @@
 <meta name='AUTHOR' content='<?php echo Language::t(Setting::s('META_AUTHOR','System'),'layout');?>'>
 <meta name='COPYRIGHT' content='<?php echo Language::t(Setting::s('META_COPYRIGHT','System'),'layout');?>'>
 <meta name="keywords" content= "<?php echo Language::t(Setting::s('META_KEYWORD','System'),'layout');?>">
-<meta name="desc" content="<?php echo Language::t(Setting::s('META_DESCRIPTION','System'),'layout');?>">
 <link rel="shortcut icon" href="<?php Yii::app()->theme->baseUrl?>/images/fav.png" type="image/x-icon" />
+<title><?php echo $this->pageTitle;?></title>
 <!--css default-->
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl?>/css/reset.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl?>/css/common.css">
@@ -14,7 +14,6 @@
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl?>/css/style.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl?>/css/nivo-slider.css">
 <link rel="stylesheet" type="text/css" href="<?php echo Yii::app()->theme->baseUrl?>/css/jquery.fancybox-1.3.4.css">
-<title><?php echo $this->pageTitle;?></title>
 </head>
 <body>
 <div class="webtitle">

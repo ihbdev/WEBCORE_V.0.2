@@ -98,7 +98,7 @@
 					<div class="row">
 							<li>
 								<?php echo $form->labelEx($model,'metadesc'); ?>
-								<?php echo $form->textArea($model,'metadesc',array('cols'=>40,'rows'=>5)); ?>			
+								<?php echo $form->textArea($model,'metadesc',array('style'=>'width:280px;max-width:280px;','rows'=>6)); ?>			
 							</li>
 						</div>
 					<div class="row" style="min-height:100px;">

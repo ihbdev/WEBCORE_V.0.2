@@ -1,6 +1,6 @@
 <div class="fl menu-tree" style="width: 370px;">
 <ul>
-	<li><label><b>Cây danh mục</b></label></li>
+	<li><label><b>Cấu trúc cây</b></label></li>
 	<li>
 		<?php 
 			foreach ( $list as $id => $cat ) {

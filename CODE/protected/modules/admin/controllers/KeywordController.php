@@ -1,7 +1,7 @@
 <?php
 /**
  * 
- * NewsController class file 
+ * KeywordController class file 
  * @author ihbvietnam <hotro@ihbvietnam.com>
  * @link http://iphoenix.vn
  * @copyright Copyright &copy; 2012 IHB Vietnam
@@ -10,18 +10,16 @@
  */
 
 /**
- * NewsController includes actions relevant to News model:
- *** create News
- *** copy News
+ * KeywordController includes actions relevant to system keyword
+ *** create
  *** update
- *** delete News
- *** index News
- *** reverse status News
- *** suggest title News
- *** update suggest
- *** load model  
+ *** delete
+ *** index
+ *** suggest name
+ *** load model
+ *** perform action to list of selected models from checkbox   
  */
-class NewsController extends Controller
+class KeywordController extends Controller
 {
 	/**
 	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
@@ -48,16 +46,8 @@ class NewsController extends Controller
 	{
 		return array(
 			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','create','copy','suggestTitle','dynamicCat','checkbox','updateSuggest'),
-				'roles'=>array('create'),
-			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('update'),
-				'users'=>array('@'),
-			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('reverseStatus','delete'),
-				'roles'=>array('update'),
+				'actions'=>array('update','create','index','delete','checkbox','suggestName'),
+				'roles'=>array('admin'),
 			),
 			array('deny',  // deny all users
 				'users'=>array('*'),
@@ -71,56 +61,27 @@ class NewsController extends Controller
 	 */
 	public function actionCreate()
 	{
-		$model=new News('write');
+		$model=new Keyword('write');
 		// Ajax validate
 		$this->performAjaxValidation($model);	
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-
-		if(isset($_POST['News']))
+		if(isset($_POST['Keyword']))
 		{
-			$model->attributes=$_POST['News'];
-			if(!isset($_POST['News']['list_special'])) $model->list_special=array();
+			$model->attributes=$_POST['Keyword'];
 			if($model->save())
 				$this->redirect(array('update','id'=>$model->id));
 		}
+			
 		//Group categories that contains news
 		$group=new Category();		
-		$group->group=Category::GROUP_NEWS;
-		$list_category=$group->list_categories;
-		if (! Yii::app ()->getRequest ()->getIsAjaxRequest ())
-				Yii::app ()->session ['checked-suggest-list'] = array();
-		//Handler list suggest news		
-		$this->initCheckbox('checked-suggest-list');
-		$suggest=new News('search');
-		$suggest->unsetAttributes();  // clear any default values
-		if(isset($_GET['catid'])) $suggest->catid=$model->catid;
-		if(isset($_GET['SuggestNews']))
-			$suggest->attributes=$_GET['SuggestNews'];
-		
-		//Group keyword
-		$group=new Category();		
 		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$list_categories=$group->list_categories;
+		
 		$this->render('create',array(
 			'model'=>$model,
-			'list_category'=>$list_category,
-			'suggest'=>$suggest,
-			'list_keyword_categories'=>$list_keyword_categories
-			
+			'list_categories'=>$list_categories			
 		));
-	}
-	/**
-	 * Copy a new model
-	 * @param integer $id the ID of model to be copied
-	 */
-	public function actionCopy($id)
-	{
-		$copy=News::copy($id);
-		if(isset($copy))
-		{
-				$this->redirect(array('update','id'=>$copy->id));
-		}
 	}
 	/**
 	 * Updates a particular model.
@@ -130,54 +91,28 @@ class NewsController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);
-		if(Yii::app()->user->checkAccess('update', array('post' => $model)))	
-		{	
-		$model->scenario = 'write';
 		// Ajax validate
 		$this->performAjaxValidation($model);	
 		// Uncomment the following line if AJAX validation is needed
 		// $this->performAjaxValidation($model);
-		if(isset($_POST['News']))
+		if(isset($_POST['Keyword']))
 		{
-			if(!isset($_POST['News']['list_special'])) $model->list_special=array();
-			$model->attributes=$_POST['News'];
-			if($model->save()){				
+			$model->attributes=$_POST['Keyword'];
+			if($model->save())
 				$this->redirect(array('update','id'=>$model->id));
-			}
 		}
+		
 		//Group categories that contains news
 		$group=new Category();		
-		$group->group=Category::GROUP_NEWS;
-		$list=$group->list_categories;
-		$list_category=array();
-		foreach ($list as $id=>$cat){
-			$list_category[$id]=$cat;
-		}
-		if (! Yii::app ()->getRequest ()->getIsAjaxRequest ())
-				Yii::app ()->session ['checked-suggest-list'] = array_diff ( explode ( ',', $model->list_suggest ), array ('' ) );
-		//Handler list suggest news
-		$this->initCheckbox('checked-suggest-list');
-		$suggest=new News('search');
-		$suggest->unsetAttributes();  // clear any default values
-		if(isset($_GET['catid'])) $suggest->catid=$model->catid;
-		if(isset($_GET['SuggestNews']))
-			$suggest->attributes=$_GET['SuggestNews'];
-			
-		//Group keyword
-		$group=new Category();		
 		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$list_categories=$group->list_categories;
+			
 		$this->render('update',array(
 			'model'=>$model,
-			'list_category'=>$list_category,
-			'suggest'=>$suggest,
-			'list_keyword_categories'=>$list_keyword_categories
-		));		
-		}
-		else 
-			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
+			'list_categories'=>$list_categories			
+		));
 	}
-
+	
 	/**
 	 * Deletes a particular model.
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
@@ -199,38 +134,29 @@ class NewsController extends Controller
 	}
 
 	/**
-	 * Performs the action with multi-selected news from checked models in section
+	 * Performs the action with multi-selected model from checked models in section
 	 * @param string action to perform
 	 * @return boolean, true if the action is procced successfully, otherwise return false
-	 */
+	 */	
 	public function actionCheckbox($action)
 	{
-		$this->initCheckbox('checked-news-list');
-		$list_checked = Yii::app()->session["checked-news-list"];
+		$this->initCheckbox('checked-keyword-list');
+		$list_checked = Yii::app()->session["checked-keyword-list"];
 		switch ($action) {
 			case 'delete' :
 				if (Yii::app ()->user->checkAccess ( 'update')) {
 					foreach ( $list_checked as $id ) {
-						$item = News::model ()->findByPk ( (int)$id );
+						$item = Keyword::model ()->findByPk ( $id );
 						if (isset ( $item ))
 							if (! $item->delete ()) {
 								echo 'false';
 								Yii::app ()->end ();
 							}
 					}
+					Yii::app ()->session ["checked-keyword-list"] = array ();
 				} else {
 					echo 'false';
 					Yii::app ()->end ();
-				}
-				break;
-			case 'copy' :
-				foreach ( $list_checked as $id ) {
-					$copy=News::copy((int)$id);
-					if(!isset($copy))
-					{
-						echo 'false';
-						Yii::app ()->end ();
-					}
 				}
 				break;
 		}
@@ -243,55 +169,34 @@ class NewsController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$this->initCheckbox('checked-news-list');
-		$model=new News('search');
+		$this->initCheckbox('checked-keyword-list');
+		$model=new Keyword('search');
 		$model->unsetAttributes();  // clear any default values
-		if(isset($_GET['catid'])) $model->catid=$_GET['catid'];
-		$model->lang=Language::DEFAULT_LANGUAGE;
-		if(isset($_GET['News']))
-			$model->attributes=$_GET['News'];	
+		if(isset($_GET['Keyword']))
+			$model->attributes=$_GET['Keyword'];	
 		//Group categories that contains news
 		$group=new Category();		
-		$group->group=Category::GROUP_NEWS;
-		$list=$group->list_categories;
-		$list_category=$list;	
-		//Group keyword
-		$group=new Category();		
 		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
-		
+		$list_categories=$group->list_categories;
+				
 		$this->render('index',array(
 			'model'=>$model,
-			'list_category'=>$list_category,
-			'list_keyword_categories'=>$list_keyword_categories
+			'list_categories'=>$list_categories
 		));
 	}
 	/**
-	 * Reverse status of news
-	 * @param integer $id, the ID of news to be reversed
+	 * Suggests title of keyword.
 	 */
-	public function actionReverseStatus($id)
-	{
-		$src=News::reverseStatus($id);
-			if($src) 
-				echo json_encode(array('success'=>true,'src'=>$src));
-			else 
-				echo json_encode(array('success'=>false));		
-	}
-	
-	/**
-	 * Suggests title of news.
-	 */
-	public function actionSuggestTitle()
+	public function actionSuggestName()
 	{
 		if(isset($_GET['q']) && ($keyword=trim($_GET['q']))!=='')
 		{
-			$titles=News::model()->suggestTitle($keyword);
+			$titles=Keyword::model()->suggestName($keyword);
 			if($titles!==array())
 				echo implode("\n",$titles);
 		}
-	}
-	
+	}	
+
 	/**
 	 * Init checkbox selection
 	 * @param string $name_params, name of section to work	 
@@ -299,10 +204,8 @@ class NewsController extends Controller
 	public function initCheckbox($name_params){
 		if (! isset ( Yii::app ()->session [$name_params] ))
 			Yii::app ()->session [$name_params] = array ();
-		if (! Yii::app ()->getRequest ()->getIsAjaxRequest () && $name_params != 'checked-suggest-list')
-		{
-				Yii::app ()->session [$name_params] = array ();
-		}
+		if (! Yii::app ()->getRequest ()->getIsAjaxRequest ())
+			Yii::app ()->session [$name_params] = array ();
 		else {
 			if (isset ( $_POST ['list-checked'] )) {
 				$list_new = array_diff ( explode ( ',', $_POST ['list-checked'] ), array ('' ) );
@@ -327,15 +230,6 @@ class NewsController extends Controller
 			}
 		}
 	}
-	/*
-	 * List news suggest 
-	 */
-	public function actionUpdateSuggest()
-	{
-		$this->initCheckbox('checked-suggest-list');
-		$list_checked = Yii::app()->session["checked-suggest-list"];
-		echo implode(',',$list_checked);
-	}
 	/**
 	 * Returns the data model based on the primary key given in the GET variable.
 	 * If the data model is not found, an HTTP exception will be raised.
@@ -343,7 +237,7 @@ class NewsController extends Controller
 	 */
 	public function loadModel($id)
 	{
-		$model=News::model()->findByPk($id);
+		$model=Keyword::model()->findByPk($id);
 		if($model===null)
 			throw new CHttpException(404,'The requested page does not exist.');
 		return $model;
@@ -357,10 +251,11 @@ class NewsController extends Controller
 	{
 		if(Yii::app()->getRequest()->getIsAjaxRequest() )
 		{
-		if( !isset($_GET['ajax'] )  || ($_GET['ajax'] != 'news-list-suggest' && $_GET['ajax'] != 'news-list')){
+		if( !isset($_GET['ajax'] )  || $_GET['ajax'] != 'keyword-list'){
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
 		}
 	}
 }
+

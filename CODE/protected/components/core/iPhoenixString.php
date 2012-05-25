@@ -53,7 +53,7 @@ static function convertTitle($str){
 }
 static function createIntrotext($string,$count){
 	$tmp=strip_tags($string);
-	$tmp=html_entity_decode ($tmp, ENT_QUOTES ,'UTF-8');	
+	$tmp=html_entity_decode ($tmp, ENT_NOQUOTES ,'UTF-8');	
 	$tmp=self::replaceWhitespace($tmp);	
 	$list_word=explode(" ",$tmp);
 	$list_intro_word=array();

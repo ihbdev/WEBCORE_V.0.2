@@ -79,7 +79,7 @@
 						<?php echo $form->textArea($model,'description',array('style'=>'width:280px;','rows'=>6))?>
 						<?php echo $form->error($model,'description'); ?>
 					</li>	
-					</div>	
+					</div>
 				<div class="row">
 						<li>
 							<?php echo $form->labelEx($model,'introimage'); ?>

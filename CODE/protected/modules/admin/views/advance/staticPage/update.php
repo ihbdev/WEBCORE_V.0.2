@@ -92,6 +92,33 @@
 								<a title="Chọn" href="#" onclick="showPopUp();" id="btn-add-product" class="button" style="width: 60px;padding:1px;margin-top:-5px;text-decoration:none;">Chọn</a>
 							</li>
 						</div>
+						<div class="row">
+							<li>
+								<?php echo $form->labelEx($model,'metadesc'); ?>
+								<?php echo $form->textArea($model,'metadesc',array('style'=>'width:280px;max-width:280px;','rows'=>6)); ?>			
+							</li>
+						</div>
+						<?php 
+						$list=array();
+						foreach ($list_keyword_categories as $id=>$cat){
+							$view = "";
+							for($i=1;$i<$cat['level'];$i++){
+								$view .="---";
+							}
+							$keywords=Keyword::listKeyword($id);
+							if($keywords != "")
+								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
+							else 	
+								$list[$id]=$view." ".$cat['name']." ".$view;
+						}
+						?>
+						<div class="row">
+						<li>
+							<?php echo $form->labelEx($model,'keyword'); ?>
+							<?php echo $form->dropDownList($model,'keyword',$list,array('style'=>'width:200px')); ?>
+							<?php echo $form->error($model, 'keyword'); ?>
+						</li>
+						</div>	
 					</div>
 					</div>		
                     <div class="row">

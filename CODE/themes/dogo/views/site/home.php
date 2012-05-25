@@ -1,5 +1,6 @@
 <?php 
 $this->pageTitle = 'Trang chủ website '.Setting::s('FRONT_SITE_TITLE','System');
+Yii::app()->clientScript->registerMetaTag(Setting::s('META_DESCRIPTION','System'), 'description');
 $this->bread_crumbs=array(
 	array('url'=>'','title'=>Language::t('Trang chủ','layout')),
 );

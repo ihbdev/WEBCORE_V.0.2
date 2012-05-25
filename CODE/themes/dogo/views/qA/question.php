@@ -1,5 +1,6 @@
 <?php 
 $this->pageTitle = 'Gửi câu hỏi';
+Yii::app()->clientScript->registerMetaTag(Setting::s('META_DESCRIPTION','System'), 'description');
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
 	array('url'=>Yii::app()->createUrl('site/question'),'title'=>Language::t('Đặt câu hỏi','layout')),

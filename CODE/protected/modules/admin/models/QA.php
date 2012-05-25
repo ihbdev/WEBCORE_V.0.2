@@ -43,6 +43,8 @@ class QA extends CActiveRecord
 	
 	const SIZE_INTRO_QUESTION=70;
 	
+	const META_LENGTH=30;
+	
 	public $old_answer;
 	public $old_title;
 	/**
@@ -221,7 +223,7 @@ class QA extends CActiveRecord
 			array('email','email','message'=>'Sai dịnh dạng mail'),
 			array('phone', 'length', 'max'=>13,'message'=>'Tối đa 13 kí tự'),
 			array('list_special','safe','on'=>'create,answer'),
-			array('address,lang,fullname', 'safe'),
+			array('address,lang,fullname,metadesc', 'safe'),
 			array('title,status,lang,status_answer,special','safe','on'=>'search'),
 		);
 	}
@@ -306,7 +308,7 @@ class QA extends CActiveRecord
 					$suffix=rand(1,99);
 					$alias =$alias.'-'.$suffix;
 				}
-				$this->alias=$alias;				
+				$this->alias=$alias;							
 			}	
 			else {
 				$modified=$this->modified;
@@ -321,6 +323,10 @@ class QA extends CActiveRecord
 					$this->alias=$alias;	
 				}
 			}	
+			if($this->metadesc == ''){
+					$question=$this->question;
+					$this->metadesc=iPhoenixString::createIntrotext($question,self::META_LENGTH);
+				}	
 			if($this->answer !="" && !in_array(self::SPECIAL_ANSWER, $this->list_special)){
 					$list=$this->list_special;
 					$list[]=self::SPECIAL_ANSWER;

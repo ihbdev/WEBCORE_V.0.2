@@ -75,6 +75,7 @@ class News extends CActiveRecord
 	public $old_introimage;
 	public $list_special;
 	public $old_title;
+	public $old_keyword;
 	
 	/**
 	 * @var array config list other attributes of the banner
@@ -302,10 +303,10 @@ class News extends CActiveRecord
 			array('catid,order_view', 'numerical', 'integerOnly'=>true,'message'=>'Sai định dạng','on'=>'write,copy'),
 			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write,copy'),
 			array('introimage', 'length', 'max'=>8,'on'=>'write,copy'),
-			array('fulltext,list_special,lang,list_suggest,metadesc', 'safe', 'on'=>'write,copy'),
+			array('fulltext,list_special,lang,list_suggest,metadesc,keyword', 'safe', 'on'=>'write,copy'),
 			array('created_date,created_by', 'safe', 'on'=>'copy'),
 			array('introimage','safe','on'=>'upload_image'),
-			array('title,catid,special,lang','safe','on'=>'search'),
+			array('title,catid,special,lang,keyword','safe','on'=>'search'),
 			array('status','safe','on'=>'reverse_status')
 		);
 	}
@@ -375,7 +376,8 @@ class News extends CActiveRecord
 			'order_view'=>'Mức hiển thị',
 			'list_suggest'=>'Bài viết liên quan',
 			'visits'=>'Người đọc',
-			'metadesc'=>'Meta description'
+			'metadesc'=>'Meta description',
+			'keyword'=>'Nhóm từ khóa'
 		);
 	}
 	/**
@@ -392,6 +394,7 @@ class News extends CActiveRecord
 		$fulltext=$this->fulltext;
 		$this->fulltext=CHtml::decode($fulltext);
 		$this->old_fulltext=$this->fulltext;
+		$this->old_keyword=$this->keyword;
 		
 		//Get list special
 		$this->list_special=iPhoenixStatus::decodeStatus($this->special);	
@@ -431,11 +434,7 @@ class News extends CActiveRecord
 					$suffix=rand(1,99);
 					$alias =$alias.'-'.$suffix;
 				}
-				$this->alias=$alias;
-				if($this->metadesc == ''){
-					$fulltext=$this->fulltext;
-					$this->metadesc=iPhoenixString::createIntrotext($fulltext,self::META_LENGTH);
-				}	
+				$this->alias=$alias;				
 			}
 			else {
 				$modified=$this->modified;
@@ -453,6 +452,24 @@ class News extends CActiveRecord
 				$list_clear=array_diff(explode(',',$this->list_suggest),array(''));
 				$list_filter=array_diff($list_clear,array($this->id));
 				$this->list_suggest=implode(',', $list_filter);
+			}
+			if($this->metadesc == ''){
+					$fulltext=$this->fulltext;
+					$this->metadesc=iPhoenixString::createIntrotext($fulltext,self::META_LENGTH);
+				}	
+			//Handler keyword
+			if($this->old_keyword != $this->keyword || $this->isNewRecord){
+				$old_category=Category::model()->findByPk($this->old_keyword);
+				if(isset($old_category)){
+					$old_category->amount=$old_category->amount-1;
+					if($old_category->amount < 0) $old_category->amount=0;
+					$old_category->save();	
+				}
+				$new_category=Category::model()->findByPk($this->keyword);
+				if(isset($new_category)){
+					$new_category->amount=$new_category->amount+1;
+					$new_category->save();	
+				}
 			}
 			//Encode special
 			$this->special=iPhoenixStatus::encodeStatus($this->list_special);		
@@ -551,6 +568,11 @@ class News extends CActiveRecord
 					$list_child_id [] = $id;
 				}
 			$criteria->addInCondition ( 'catid', $list_child_id );
+		}
+		//Filter keyword category
+		$cat = Category::model ()->findByPk ( $this->keyword );
+		if ($cat != null) {
+			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
 		}
 		if (isset ( $_GET ['pageSize'] ))
 			Yii::app ()->user->setState ( 'pageSize', $_GET ['pageSize'] );

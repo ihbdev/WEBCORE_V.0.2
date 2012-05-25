@@ -52,7 +52,7 @@
 						?>
 						<div class="row">
 						<li>
-							<?php echo $form->labelEx($model,'category'); ?>
+							<?php echo $form->labelEx($model,'catid'); ?>
 							<?php echo $form->dropDownList($model,'catid',$list,array('style'=>'width:200px')); ?>
 							<?php echo $form->error($model, 'catid'); ?>
 						</li>
@@ -63,7 +63,34 @@
 						<?php echo $form->textArea($model,'description',array('style'=>'width:280px !important;max-width:280px !important;','rows'=>6))?>
 						<?php echo $form->error($model,'description'); ?>
 					</li>	
-					</div>				
+					</div>
+					<div class="row">
+							<li>
+								<?php echo $form->labelEx($model,'metadesc'); ?>
+								<?php echo $form->textArea($model,'metadesc',array('style'=>'width:280px;max-width:280px;','rows'=>6)); ?>			
+							</li>
+					</div>	
+					<?php 
+						$list=array();
+						foreach ($list_keyword_categories as $id=>$cat){
+							$view = "";
+							for($i=1;$i<$cat['level'];$i++){
+								$view .="---";
+							}
+							$keywords=Keyword::listKeyword($id);
+							if($keywords != "")
+								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
+							else 	
+								$list[$id]=$view." ".$cat['name']." ".$view;
+						}
+						?>
+						<div class="row">
+						<li>
+							<?php echo $form->labelEx($model,'keyword'); ?>
+							<?php echo $form->dropDownList($model,'keyword',$list,array('style'=>'width:200px')); ?>
+							<?php echo $form->error($model, 'keyword'); ?>
+						</li>
+						</div>			
                     <li>
 						<input type="reset" class="button" value="Hủy thao tác" style="margin-left:153px; width:125px;" />	
 						<input type="submit" class="button" value="Tạo" style="margin-left:20px; width:125px;" />					

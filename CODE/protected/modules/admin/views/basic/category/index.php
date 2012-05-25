@@ -15,6 +15,8 @@ $cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/admin/sprite.cs
 				break;
 				case Category::GROUP_USER_MENU: echo 'Danh mục menu trang frontend';
 				break;
+				case Category::GROUP_KEYWORD: echo "Danh mục từ khóa";
+				break;
 				case Category::GROUP_ROOT: echo "Danh mục gốc";
 				break;
 				case Category::GROUP_NEWS: echo "Danh mục bài viết";
@@ -45,6 +47,8 @@ $cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/admin/sprite.cs
 				case Category::GROUP_ADMIN_MENU: echo "Danh mục menu trang quản trị";
 				break;
 				case Category::GROUP_USER_MENU: echo 'Danh mục menu trang frontend';
+				break;
+				case Category::GROUP_KEYWORD: echo "Danh mục từ khóa";
 				break;
 				case Category::GROUP_ROOT: echo "Danh mục gốc";
 				break;
@@ -79,6 +83,8 @@ $cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/admin/sprite.cs
 				case Category::GROUP_ADMIN_MENU: $form='_form_menu';
 				break;
 				case Category::GROUP_USER_MENU: $form='_form_menu';
+				break;
+				case Category::GROUP_KEYWORD: $form='_form_keyword';
 				break;
 				case Category::GROUP_ROOT: $form="_form_root";
 				break;

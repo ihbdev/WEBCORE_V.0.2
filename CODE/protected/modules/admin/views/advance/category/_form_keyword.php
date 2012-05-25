@@ -3,13 +3,19 @@
 <input type="hidden" name="group" id="group" value="<?php echo $group?>" /> 
 			<div class="fl" style="width:580px;">
 				<ul>
-				 	<?php if($model->id > 0):?>
+					<?php if($model->id > 0):?>
                     <div class="row">
 						<li>
                        		<label>Mã danh mục</label>
                        		<?php echo $model->id;?>
                     	</li>
                     </div>
+                    <div class="row">
+						<li>
+                       		<label>Các từ khóa trong nhóm</label>
+                        	<?php echo Keyword::listKeyword($model->id)?>
+                    	</li>
+                    </div> 
                     <?php endif;?>
 					<div class="row">
 						<li>
@@ -17,19 +23,24 @@
                         	<?php echo $form->textField($model,'name',array('style'=>'width:300px;','maxlength'=>'256')); ?>
                    			<?php echo $form->error($model, 'name'); ?>
                     	</li>
-                    </div>                   
+                    </div>                                   
                     <div class="row">
                     <li>
-                        <?php echo $form->labelEx($model,'max_rank'); ?>
-                        <?php 
-                            for($i=1;$i<=Category::MAX_RANK;$i++){
-                            	$list_rank[$i]=$i;
-                            }
-                        	echo $form->dropDownList($model,'max_rank',$list_rank,array('style'=>'width:50px')); 
+                        <?php echo $form->labelEx($model,'parent_id'); ?>
+                        <?php
+                        	$view_parent_categories=array();
+                        	 foreach ($model->parent_categories as $id=>$cat){
+								$view = "";
+								for($i=1;$i<$cat['level'];$i++){
+									$view .="--";
+								}
+								$view_parent_categories[$id]=$view." ".$cat['name']." ".$view;
+							}
+                        	echo $form->dropDownList($model,'parent_id',$view_parent_categories,array('style'=>'width:200px'));
                         ?>
-                  		<?php echo $form->error($model, 'max_rank'); ?>
+                  		<?php echo $form->error($model, 'parent_id'); ?>
 					</li>
-                    </div>                                                   
+                    </div>                            
                    	<li>
                     	<?php 
                     	if($action=="update") 
@@ -48,4 +59,3 @@
 				</ul>
 			</div>
 			<?php $this->endWidget(); ?>
-

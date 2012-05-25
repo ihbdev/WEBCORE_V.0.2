@@ -2,40 +2,40 @@
 	<div class="folder top">
 		<!--begin title-->
 		<div class="folder-header">
-			<h1>quản trị các tham số cấu hình</h1>
+			<h1>quản trị từ khóa</h1>
 			<div class="header-menu">
 				<ul>
-					<li class="ex-show"><a class="activities-icon" href=""><span>Danh sách các tham số cấu hình</span></a></li>
+					<li class="ex-show"><a class="activities-icon" href=""><span>Danh sách từ khóa</span></a></li>
 				</ul>
 			</div>
 		</div>
 		<!--end title-->
 		<div class="folder-content">
 		<div>
-            	<input type="button" class="button" value="Thêm mới" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/setting/create')?>'"/>
+            	<input type="button" class="button" value="Thêm mới" style="width:180px;" onClick="parent.location='<?php echo Yii::app()->createUrl('admin/keyword/create')?>'"/>
                 <div class="line top bottom"></div>	
             </div>
              <!--begin box search-->
          <?php 
 			Yii::app()->clientScript->registerScript('search', "
-				$('#setting-search').submit(function(){
-				$.fn.yiiGridView.update('setting-list', {
+				$('#keyword-search').submit(function(){
+				$.fn.yiiGridView.update('keyword-list', {
 					data: $(this).serialize()});
 					return false;
 				});");
 		?>
             <div class="box-search">            
                 <h2>Tìm kiếm</h2>
-                <?php $form=$this->beginWidget('CActiveForm', array('method'=>'get','id'=>'setting-search')); ?>
+                <?php $form=$this->beginWidget('CActiveForm', array('method'=>'get','id'=>'keyword-search')); ?>
                 <!--begin left content-->
                 <div class="fl" style="width:480px;">
                     <ul>
                         <li>
-                         	<label>Tên tham số</label>
+                         	<label>Từ khóa</label>
                          	<?php $this->widget('CAutoComplete', array(
                          	'model'=>$model,
-                         	'attribute'=>'name',
-							'url'=>array('setting/suggestName'),
+                         	'attribute'=>'value',
+							'url'=>array('keyword/suggestName'),
 							'htmlOptions'=>array(
 								'style'=>'width:230px;',
 								),
@@ -57,9 +57,19 @@
                 <!--begin right content-->
                 <div class="fl" style="width:480px;">
                     <ul>
+                     <?php 
+					$list=array(''=>'Tất cả các thư mục');
+					foreach ($list_categories as $id=>$cat){
+						$view = "";
+						for($i=1;$i<$cat['level'];$i++){
+							$view .="---";
+						}
+						$list[$id]=$view." ".$cat['name']." ".$view;
+					}
+					?>
                      <li>
 							<label>Nhóm</label>
-							<?php echo $form->dropDownList($model,'category',array(''=>'Tất cả')+$model->list,array('style'=>'width:200px')); ?>
+							<?php echo $form->dropDownList($model,'catid',array(''=>'Tất cả')+$list,array('style'=>'width:200px')); ?>
                     </li>                    
                     </ul>
                 </div>
@@ -71,47 +81,43 @@
             <!--end box search-->		
            <?php 
 			$this->widget('iPhoenixGridView', array(
-  				'id'=>'setting-list',
+  				'id'=>'keyword-list',
   				'dataProvider'=>$model->search(),		
   				'columns'=>array(
 					array(
       					'class'=>'CCheckBoxColumn',
 						'selectableRows'=>2,
 						'headerHtmlOptions'=>array('width'=>'2%','class'=>'table-title'),
-						'checked'=>'in_array($data->id,Yii::app()->session["checked-setting-list"])'
+						'checked'=>'in_array($data->id,Yii::app()->session["checked-keyword-list"])'
     				),			
-    				array(
-						'name'=>'name',
-						'headerHtmlOptions'=>array('width'=>'20%','class'=>'table-title'),		
-					),
 					array(
 						'name'=>'value',
 						'headerHtmlOptions'=>array('width'=>'20%','class'=>'table-title'),		
 					), 	
 					array(
-						'name'=>'category',
+						'name'=>'catid',
+						'value'=>'$data->category->name',
 						'headerHtmlOptions'=>array('width'=>'10%','class'=>'table-title'),		
-					), 																   	   
+					), 		
+					array(
+						'name'=>'amount',
+						'value'=>'$data->amount',
+						'headerHtmlOptions'=>array('width'=>'10%','class'=>'table-title'),		
+					), 															   	   
 					array(
 						'header'=>'Công cụ',
 						'class'=>'CButtonColumn',
-    					'template'=>'{update}',
-						'deleteConfirmation'=>'Bạn muốn xóa bài viết này?',
+    					'template'=>'{update}{delete}',
+						'deleteConfirmation'=>'Bạn muốn xóa từ khóa này?',
 						'afterDelete'=>'function(link,success,data){ if(success) jAlert("Bạn đã xóa thành công"); }',
     					'buttons'=>array
     					(
     						'update' => array(
-    							'label'=>'Chỉnh sửa bài viết',
+    							'label'=>'Chỉnh sửa từ khóa',
     						),
         					'delete' => array(
-    							'label'=>'Xóa bài viết',
+    							'label'=>'Xóa từ khóa',
     						),
-    						'copy' => array
-    						(
-            					'label'=>'Copy bài viết',
-            					'imageUrl'=>Yii::app()->request->getBaseUrl(true).'/images/admin/copy.gif',
-            					'url'=>'Yii::app()->createUrl("admin/setting/copy", array("id"=>$data->id))',
-        					),
         				),
 						'headerHtmlOptions'=>array('width'=>'10%','class'=>'table-title'),
 					),    				
@@ -120,14 +126,12 @@
   				'summaryText'=>'Có tổng cộng {count} tin',
  	 			'pager'=>array('class'=>'CLinkPager','header'=>'','prevPageLabel'=>'< Trước','nextPageLabel'=>'Sau >','htmlOptions'=>array('class'=>'pages fr')),
 				'actions'=>array(
-					/*
  	 				'delete'=>array(
 						'action'=>'delete',
 						'label'=>'Xóa',
 						'imageUrl' => '/images/admin/delete.png',
-						'url'=>'admin/setting/checkbox'
-					),		
-					*/			
+						'url'=>'admin/keyword/checkbox'
+					),			
 				),
  	 			)); ?>
 		</div>

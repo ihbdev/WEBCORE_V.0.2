@@ -37,6 +37,7 @@ class Category extends CActiveRecord
 	const GROUP_ALBUM=7;
 	const GROUP_GALLERYVIDEO=8;
 	const GROUP_ADMIN_MENU=100;
+	const GROUP_KEYWORD=133;
 	/*
 	 * Config default controller and action when create admin menu
 	 */
@@ -52,7 +53,9 @@ class Category extends CActiveRecord
 	 * @var array config list other attributes of the banner
 	 * these attributes is stored in other field of article table	 
 	 */
-	private $config_other_attributes=array('introimage','params','action','controller','description','modified','max_rank');	
+	
+	const META_LENGTH=30;
+	private $config_other_attributes=array('amount','introimage','params','action','controller','description','modified','max_rank','metadesc');	
 	private $list_other_attributes;
 	
 	public $list_special;
@@ -161,7 +164,7 @@ class Category extends CActiveRecord
 		while ($check){
 			$current=Category::model()->findByPk($current_id);
 			$bread_crumb[]=$current_id;
-			if(in_array($current->parent_id,array(Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_ADMIN_MENU,Category::GROUP_ADVANCE_ADMIN_MENU,Category::GROUP_MANUFACTURER,Category::GROUP_USER_MENU))){
+			if(in_array($current->parent_id,array(Category::GROUP_KEYWORD,Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_ADMIN_MENU,Category::GROUP_ADVANCE_ADMIN_MENU,Category::GROUP_MANUFACTURER,Category::GROUP_USER_MENU))){
 				$check=false;
 			}
 			else 
@@ -179,7 +182,7 @@ class Category extends CActiveRecord
 		$current_id=$this->id;
 		while ($check){
 			$current=Category::model()->findByPk($current_id);
-			if(in_array($current->parent_id,array(Category::GROUP_ADMIN_MENU,Category::GROUP_ADVANCE_ADMIN_MENU,Category::GROUP_USER_MENU,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_MANUFACTURER,Category::GROUP_NEWS,Category::GROUP_STATICPAGE,Category::GROUP_PRODUCT)))
+			if(in_array($current->parent_id,array(Category::GROUP_KEYWORD,Category::GROUP_ADMIN_MENU,Category::GROUP_ADVANCE_ADMIN_MENU,Category::GROUP_USER_MENU,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_MANUFACTURER,Category::GROUP_NEWS,Category::GROUP_STATICPAGE,Category::GROUP_PRODUCT)))
 			{
 				$check=false;
 			}
@@ -277,7 +280,7 @@ class Category extends CActiveRecord
 			if($this->group==Category::GROUP_ADVANCE_ADMIN_MENU || $this->group==Category::GROUP_ADMIN_MENU || $this->group==Category::GROUP_USER_MENU){
 				$this->tmp_list[$category->id]=array('level'=>$new_level,'name'=>$category->name,'url'=>$category->url,'root'=>$category->root);
 			}
-			elseif(in_array($this->group,array(Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO))){
+			elseif(in_array($this->group,array(Category::GROUP_KEYWORD,Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO))){
 				$this->tmp_list[$category->id]=array('level'=>$new_level,'name'=>$category->name,'url'=>$category->url,'special'=>$category->special);
 			}
 			else {
@@ -358,7 +361,7 @@ class Category extends CActiveRecord
 			array('name,parent_id', 'required','message'=>'Dữ liệu bắt buộc'),
 			array('parent_id','validatorParent'),
 			array('name', 'length', 'max'=>256,'message'=>'Tối đa 32 kí tự'),
-			array('description, name', 'length', 'max'=>512,'message'=>'Tối đa 32 kí tự'),
+			array('description,metadesc', 'safe'),
 			array('order_view','required','message'=>'Dữ liệu bắt buộc','on'=>'staticPage,menu,news,product'),
 			array('order_view','numerical','on'=>'menu,news,product,staticPage'),
 			array('controller,action','required','on'=>'menu','message'=>'Dữ liệu bắt buộc'),
@@ -417,7 +420,8 @@ class Category extends CActiveRecord
 			'controller'=>'Cấu hình tham số 1 cho URL',
 			'action'=>'Cấu hình tham số 2 cho URL',
 			'list_special' => 'Nhóm hiển thị',
-			'lang'=>'Ngôn ngữ'
+			'lang'=>'Ngôn ngữ',
+			'amount'=>'Số đối tượng chứa các từ khóa trên'
 		);
 	}
 	
@@ -488,7 +492,7 @@ class Category extends CActiveRecord
 					$suffix=rand(1,9);
 					$alias =$alias.'-'.$suffix;
 				}
-				$this->alias=$alias;
+				$this->alias=$alias;				
 			}	
 			else {
 				$modified=$this->modified;
@@ -508,6 +512,10 @@ class Category extends CActiveRecord
 					$this->alias = $alias;
 				}
 			}
+			if($this->metadesc == ''){
+					$description=$this->description;
+					$this->metadesc=iPhoenixString::createIntrotext($description,self::META_LENGTH);
+				}
 			//Encode special
 			if($this->group == self::GROUP_STATICPAGE || $this->group == self::GROUP_NEWS || $this->group == self::GROUP_PRODUCT)
 				$this->special=iPhoenixStatus::encodeStatus($this->list_special);
@@ -629,7 +637,7 @@ class Category extends CActiveRecord
 	public function codeUrl($type,$value=array()){
 		switch ($type) {
 			case 'controller': 
-					return array('product'=>'Sản phẩm','news'=>'Tin tức','staticPage'=>'Trang tĩnh','album'=>'Album','galleryVideo'=>'Video','config'=>'Hệ thống','language'=>'Ngôn ngữ','setting'=>'Cấu hình','order'=>'Đơn hàng','user'=>'User','qa'=>'Hỏi đáp','image'=>'Image','banner'=>'Banner','contact'=>'Liên hệ');				
+					return array('product'=>'Sản phẩm','news'=>'Tin tức','staticPage'=>'Trang tĩnh','album'=>'Album','galleryVideo'=>'Video','config'=>'Hệ thống','language'=>'Ngôn ngữ','setting'=>'Cấu hình','order'=>'Đơn hàng','user'=>'User','qa'=>'Hỏi đáp','image'=>'Image','banner'=>'Banner','keyword'=>'Từ khóa','contact'=>'Liên hệ');				
 				break;
 			case 'action':
 				switch ($value['controller']) {	
@@ -674,7 +682,10 @@ class Category extends CActiveRecord
 						break;
 					case 'banner':								
 						return array('index'=>'Quản lý','create'=>'Tạo mới');
-						break;		
+						break;	
+					case 'keyword':
+						return array('index'=>'Quản lý','create'=>'Tạo mới','manager_category'=>'Quản lý danh mục');
+						break;	
 				}
 				break;			
 		}
@@ -900,6 +911,11 @@ class Category extends CActiveRecord
 				'index'=>'/admin/banner/index',
 				'create'=>'/admin/banner/create',
 			),
+			'keyword'=>array(
+				'index'=>'/admin/keyword/index',
+				'create'=>'/admin/keyword/create',
+				'manager_category'=>'/admin/category',
+			),
 			'setting'=>array(
 				'index'=>'/admin/setting/index',
 			), 
@@ -943,6 +959,9 @@ class Category extends CActiveRecord
 					),	
 					'album' => array (
 						'manager_category' => array ('group' => Category::GROUP_ALBUM),
+					),
+					'keyword' => array (
+						'manager_category' => array ('group' => Category::GROUP_KEYWORD),
 					),
 					'galleryVideo' => array (
 						'manager_category' => array ('group' => Category::GROUP_GALLERYVIDEO),

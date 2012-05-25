@@ -71,9 +71,14 @@ class AlbumController extends Controller
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
-		$this->render('basic/create',array(
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
+		$this->render('create',array(
 			'model'=>$model,
-			'list_category'=>$list_category
+			'list_category'=>$list_category,
+			'list_keyword_categories'=>$list_keyword_categories
 			
 		));
 	}
@@ -108,7 +113,15 @@ class AlbumController extends Controller
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
-			$this->render ( 'basic/update', array ('model' => $model, 'list_category'=>$list_category) );
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
+		$this->render ( 'update', array (
+			'model' => $model, 
+			'list_category'=>$list_category,
+			'list_keyword_categories'=>$list_keyword_categories			
+		));
 		}
 		else 
 			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
@@ -151,9 +164,14 @@ class AlbumController extends Controller
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
 		$this->render('index',array(
 			'model'=>$model,
-			'list_category'=>$list_category
+			'list_category'=>$list_category,
+			'list_keyword_categories'=>$list_keyword_categories
 		));
 	}
 	/**

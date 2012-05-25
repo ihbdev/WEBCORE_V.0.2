@@ -344,11 +344,7 @@ class Product extends CActiveRecord
 					$suffix=rand(1,99);
 					$alias =$alias.'-'.$suffix;
 				}
-				$this->alias=$alias;
-				if($this->metadesc == ''){
-					$description=$this->description;
-					$this->metadesc=iPhoenixString::createIntrotext($description,self::META_LENGTH);					
-				}	
+				$this->alias=$alias;				
 			}	
 			else {
 				$modified=$this->modified;
@@ -367,6 +363,10 @@ class Product extends CActiveRecord
 				$list_filter=array_diff($list_clear,array($this->id));
 				$this->list_suggest=implode(',', $list_filter);
 			}	
+			if($this->metadesc == ''){
+					$description=$this->description;
+					$this->metadesc=iPhoenixString::createIntrotext($description,self::META_LENGTH);					
+				}	
 			//Encode special
 			$this->special=iPhoenixStatus::encodeStatus($this->list_special);
 			$this->other=json_encode($this->list_other_attributes);

@@ -1,8 +1,12 @@
 <?php 
-if(isset($cat))
+if(isset($cat)){
 	$this->pageTitle = 'Các sản phẩm trong nhóm '.$cat->name;
-else 
+	Yii::app()->clientScript->registerMetaTag($cat->metadesc, 'description');	
+}
+else {
 	$this->pageTitle = 'Tất cả sản phẩm';
+	Yii::app()->clientScript->registerMetaTag(Setting::s('META_DESCRIPTION','System'), 'description');	
+}
 	
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),

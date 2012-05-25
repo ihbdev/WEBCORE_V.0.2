@@ -76,12 +76,15 @@ class StaticPageController extends Controller
 		if(isset($_GET['catid'])) $suggest->catid=$model->catid;
 		if(isset($_GET['SuggestStaticPage']))
 			$suggest->attributes=$_GET['SuggestStaticPage'];
-			
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;	
 		$this->render('create',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
-			'suggest'=>$suggest
-			
+			'suggest'=>$suggest,
+			'list_keyword_categories'=>$list_keyword_categories			
 		));
 	}
 	/**
@@ -134,10 +137,15 @@ class StaticPageController extends Controller
 		if(isset($_GET['catid'])) $suggest->catid=$model->catid;
 		if(isset($_GET['SuggestStaticPage']))
 			$suggest->attributes=$_GET['SuggestStaticPage'];
+			//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;	
 		$this->render('update',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
-			'suggest'=>$suggest
+			'suggest'=>$suggest,
+			'list_keyword_categories'=>$list_keyword_categories
 		));		
 		}
 		else 
@@ -221,9 +229,14 @@ class StaticPageController extends Controller
 		$group->group=Category::GROUP_STATICPAGE;
 		$list=$group->list_categories;
 		$list_category=$list;	
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
 		$this->render('index',array(
 			'model'=>$model,
-			'list_category'=>$list_category
+			'list_category'=>$list_category,
+			'list_keyword_categories'=>$list_keyword_categories
 		));
 	}
 	/**
