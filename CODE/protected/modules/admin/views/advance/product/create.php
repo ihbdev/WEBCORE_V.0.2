@@ -85,10 +85,8 @@
 							</li>
 							<li>
 							</li>	
-						</div>									
-					</div><!--end left above content-->	
-					<div id="right_row">
-					<div class="row">
+						</div>	
+						<div class="row">
 							<li>
 								<?php echo $form->labelEx($model,'list_suggest'); ?>
 								<?php echo $form->textField($model,'list_suggest',array('readonly'=>'readonly','style'=>'width:160px')); ?>
@@ -101,6 +99,29 @@
 								<?php echo $form->textArea($model,'metadesc',array('style'=>'width:280px;max-width:280px;','rows'=>6)); ?>			
 							</li>
 						</div>
+					<?php 
+						$list=array();
+						foreach ($list_keyword_categories as $id=>$cat){
+							$view = "";
+							for($i=1;$i<$cat['level'];$i++){
+								$view .="---";
+							}
+							$keywords=Keyword::viewListKeyword($id);
+							if($keywords != "")
+								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
+							else 	
+								$list[$id]=$view." ".$cat['name']." ".$view;
+						}
+						?>
+						<div class="row">
+						<li>
+							<?php echo $form->labelEx($model,'keyword'); ?>
+							<?php echo $form->dropDownList($model,'keyword',$list,array('style'=>'width:200px')); ?>
+							<?php echo $form->error($model, 'keyword'); ?>
+						</li>
+						</div>								
+					</div><!--end left above content-->	
+					<div id="right_row">					
 					<div class="row" style="min-height:100px;">
 							<li>
 								<?php echo $form->labelEx($model,'introimage'); ?>

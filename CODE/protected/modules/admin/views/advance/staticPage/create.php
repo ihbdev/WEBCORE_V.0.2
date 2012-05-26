@@ -103,7 +103,7 @@
 							for($i=1;$i<$cat['level'];$i++){
 								$view .="---";
 							}
-							$keywords=Keyword::listKeyword($id);
+							$keywords=Keyword::viewListKeyword($id);
 							if($keywords != "")
 								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
 							else 	

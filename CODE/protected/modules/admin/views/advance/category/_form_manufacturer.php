@@ -51,7 +51,7 @@
                     </div>
                     <div class="row">
 							<li>
-								<?php echo $form->labelEx($model,'metadesc',array('style'=>'width:200px;')); ?>
+								<?php echo $form->labelEx($model,'metadesc'); ?>
 								<?php echo $form->textArea($model,'metadesc',array('style'=>'width:300px;max-width:300px;','rows'=>6)); ?>			
 							</li>
 						</div>

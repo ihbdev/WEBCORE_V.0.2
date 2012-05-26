@@ -70,7 +70,7 @@
                      <li>
 							<label>Nhóm</label>
 							<?php echo $form->dropDownList($model,'catid',array(''=>'Tất cả')+$list,array('style'=>'width:200px')); ?>
-                    </li>                    
+                    </li>                                      
                     </ul>
                 </div>
                 <!--end right content-->             
@@ -89,16 +89,16 @@
 						'selectableRows'=>2,
 						'headerHtmlOptions'=>array('width'=>'2%','class'=>'table-title'),
 						'checked'=>'in_array($data->id,Yii::app()->session["checked-keyword-list"])'
-    				),			
-					array(
-						'name'=>'value',
-						'headerHtmlOptions'=>array('width'=>'20%','class'=>'table-title'),		
-					), 	
-					array(
+    				),
+    				array(
 						'name'=>'catid',
 						'value'=>'$data->category->name',
 						'headerHtmlOptions'=>array('width'=>'10%','class'=>'table-title'),		
-					), 		
+					), 			
+					array(
+						'name'=>'value',
+						'headerHtmlOptions'=>array('width'=>'20%','class'=>'table-title'),		
+					), 			
 					array(
 						'name'=>'amount',
 						'value'=>'$data->amount',

@@ -1,6 +1,7 @@
 <?php 
 $this->pageTitle = 'Bài viết '.$news->title;
 Yii::app()->clientScript->registerMetaTag($news->metadesc, 'description');
+Yii::app()->clientScript->registerMetaTag(Keyword::viewListKeyword($news->keyword), 'keywords');
 if(isset($cat))
 	$this->bread_crumbs=array(
 		array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
@@ -19,7 +20,14 @@ else
                     	<a class="news-link" href="<?php echo $news->url?>"><?php echo $news->title?></a>
                         <h6><?php echo date("(d/m/Y)",$news->created_date);?></h6>        
                         <div class="news-content">
-                        	<?php echo $news->fulltext?>
+                        	<?php
+								$fulltext=$news->fulltext;
+								$list_keyword=Keyword::listKeyword($news->keyword);
+								foreach ($list_keyword as $keyword){
+									$fulltext=Keyword::autoCreate($news->id,$keyword, $fulltext);
+								}
+								echo $fulltext;
+                        	?>
                         </div><!--news-content-->
                     </div><!--news-detail-->
                     <?php 

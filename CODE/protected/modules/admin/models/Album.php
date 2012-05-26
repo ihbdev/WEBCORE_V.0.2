@@ -301,6 +301,7 @@ class Album extends CActiveRecord
 		$this->list_special=iPhoenixStatus::decodeStatus($this->special);	
 		//Store old title
 		$this->old_title=$this->title;
+		//Store old keyword
 		$this->old_keyword=$this->keyword;
 		if(isset($this->list_other_attributes['modified']))
 			$this->list_other_attributes['modified']=(array)json_decode($this->list_other_attributes['modified']);

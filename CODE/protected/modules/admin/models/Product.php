@@ -50,6 +50,7 @@ class Product extends CActiveRecord
 	public $old_video;
 	public $old_introimage;
 	public $old_name;
+	public $old_keyword;
 	public $list_special;
 	private $config_other_attributes=array('list_suggest','modified','unit','year','warranty','parameter','description','unit_price','introimage','otherimage','metakey','metadesc');	
 	private $list_other_attributes;
@@ -248,9 +249,9 @@ class Product extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('name,catid,code,introimage,manufacturer_id','required','message'=>'Dữ liệu bắt buộc','on'=>'write'),
-			array('description,parameter,list_special,lang,unit_price,otherimage,list_suggest,metadesc', 'safe','on'=>'write'),
+			array('description,parameter,list_special,lang,unit_price,otherimage,list_suggest,metadesc,keyword', 'safe','on'=>'write'),
 			array('num_price', 'numerical', 'integerOnly'=>true,'message'=>'Sai định dạng','on'=>'write'),
-			array('name,lang, manufacturer_id, catid,special, amount_status','safe','on'=>'search'),	
+			array('name,lang, manufacturer_id, catid,special, amount_status, keyword','safe','on'=>'search'),	
 		);
 	}
 
@@ -293,7 +294,7 @@ class Product extends CActiveRecord
 			'amount_status'=>'Trạng thái',
 			'list_suggest'=>'Sản phẩm liên quan',
 			'sold_products'=>'Đã bán',
-			'visits'=>'Đã xem'
+			'visits'=>'Đã xem',
 		);
 	}
 	/**
@@ -312,6 +313,7 @@ class Product extends CActiveRecord
 		$this->list_special=iPhoenixStatus::decodeStatus($this->special);
 		//Store old name
 		$this->old_name=$this->name;
+		$this->old_keyword=$this->keyword;
 		
 		if(isset($this->list_other_attributes['modified']))
 			$this->list_other_attributes['modified']=(array)json_decode($this->list_other_attributes['modified']);
@@ -366,7 +368,21 @@ class Product extends CActiveRecord
 			if($this->metadesc == ''){
 					$description=$this->description;
 					$this->metadesc=iPhoenixString::createIntrotext($description,self::META_LENGTH);					
-				}	
+				}
+			//Handler keyword
+			if($this->old_keyword != $this->keyword || $this->isNewRecord){
+				$old_category=Category::model()->findByPk($this->old_keyword);
+				if(isset($old_category)){
+					$old_category->amount=$old_category->amount-1;
+					if($old_category->amount < 0) $old_category->amount=0;
+					$old_category->save();	
+				}
+				$new_category=Category::model()->findByPk($this->keyword);
+				if(isset($new_category)){
+					$new_category->amount=$new_category->amount+1;
+					$new_category->save();	
+				}
+			}	
 			//Encode special
 			$this->special=iPhoenixStatus::encodeStatus($this->list_special);
 			$this->other=json_encode($this->list_other_attributes);
@@ -459,6 +475,11 @@ class Product extends CActiveRecord
 					$list_child_id [] = $id;
 				}
 			$criteria->addInCondition ( 'manufacturer_id', $list_child_id );
+		}
+		//Filter keyword category
+		$cat = Category::model ()->findByPk ( $this->keyword );
+		if ($cat != null) {
+			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
 		}
 		if (isset ( $_GET ['pageSize'] ))
 			Yii::app ()->user->setState ( 'pageSize', $_GET ['pageSize'] );

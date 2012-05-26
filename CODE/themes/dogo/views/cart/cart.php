@@ -1,6 +1,7 @@
 ﻿<?php 
 $this->pageTitle = 'Giỏ hàng';
 Yii::app()->clientScript->registerMetaTag(Setting::s('META_DESCRIPTION','System'), 'description');
+Yii::app()->clientScript->registerMetaTag(Setting::s('META_KEYWORD','System'), 'keywords');
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
 	array('url'=>'','title'=>Language::t('Giỏ hàng','layout')),

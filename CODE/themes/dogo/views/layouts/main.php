@@ -4,7 +4,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name='AUTHOR' content='<?php echo Language::t(Setting::s('META_AUTHOR','System'),'layout');?>'>
 <meta name='COPYRIGHT' content='<?php echo Language::t(Setting::s('META_COPYRIGHT','System'),'layout');?>'>
-<meta name="keywords" content= "<?php echo Language::t(Setting::s('META_KEYWORD','System'),'layout');?>">
 <link rel="shortcut icon" href="<?php Yii::app()->theme->baseUrl?>/images/fav.png" type="image/x-icon" />
 <title><?php echo $this->pageTitle;?></title>
 <!--css default-->

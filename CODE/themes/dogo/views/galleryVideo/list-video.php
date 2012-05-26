@@ -2,10 +2,12 @@
 if(isset($cat)){
 	$this->pageTitle = 'Các video trong nhóm '.$cat->name;
 	Yii::app()->clientScript->registerMetaTag($cat->metadesc, 'description');
+	Yii::app()->clientScript->registerMetaTag(Keyword::viewListKeyword($cat->keyword), 'keywords');
 }
 else {
 	$this->pageTitle = 'Tất cả video';
 	Yii::app()->clientScript->registerMetaTag(Setting::s('META_DESCRIPTION','System'), 'description');
+	Yii::app()->clientScript->registerMetaTag(Setting::s('META_KEYWORD','System'), 'keywords');
 }
 	
 $this->bread_crumbs=array(

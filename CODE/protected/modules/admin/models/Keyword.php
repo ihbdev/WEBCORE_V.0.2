@@ -13,6 +13,8 @@
  */
 class Keyword extends CActiveRecord
 {
+	const TYPE_BOLD=0;
+	const TYPE_LINK=1;
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);
@@ -34,6 +36,15 @@ class Keyword extends CActiveRecord
 			array('amount','safe')
 		);
 	}
+	/**
+	 * Get url of keyword
+	 * @return keyword's url
+	 */
+	public function getUrl()
+ 	{
+ 		$url=Yii::app()->createUrl("keyword/list",array('keyword'=>$this->value));
+		return $url;
+ 	}
 	/**
 	 * @return array customized attribute labels (name=>label)
 	 */	
@@ -121,8 +132,31 @@ class Keyword extends CActiveRecord
 	 */
 	static function listKeyword($catid)
 	{
+		$list=array();
 		$criteria = new CDbCriteria ();
 		$cat=Category::model()->findByPk($catid);
+		if(isset($cat)){
+		$child_categories=$cat->child_categories;
+ 		$list_child_id=array();
+ 		//Set itself
+ 		$list_child_id[]=$cat->id;
+ 		foreach ($child_categories as $id=>$child_cat){
+ 			$list_child_id[]=$id;
+ 		}
+		$criteria->addInCondition('catid',$list_child_id);
+		$criteria->order = 'value desc';
+		$list=Keyword::model()->findAll($criteria);
+		}
+		return $list;
+	}
+	/**
+	 * Get list keywords
+	 */
+	static function viewListKeyword($catid)
+	{
+		$criteria = new CDbCriteria ();
+		$cat=Category::model()->findByPk($catid);
+		if(isset($cat)){
 		$child_categories=$cat->child_categories;
  		$list_child_id=array();
  		//Set itself
@@ -137,6 +171,86 @@ class Keyword extends CActiveRecord
 		foreach ($list as $keyword){
 			$list_keywords[]=$keyword->value;
 		}		
-		return implode(', ', array_unique($list_keywords));
+			return implode(', ', array_unique( $list_keywords ) );
+		} else {
+			return Setting::s ( 'META_KEYWORD', 'System' );
+		}
+	}
+	/**
+	 * Get list keywords
+	 */
+	static function viewListKeywordLink($catid)
+	{
+		$criteria = new CDbCriteria ();
+		$cat=Category::model()->findByPk($catid);
+		if(isset($cat)){
+		$child_categories=$cat->child_categories;
+ 		$list_child_id=array();
+ 		//Set itself
+ 		$list_child_id[]=$cat->id;
+ 		foreach ($child_categories as $id=>$child_cat){
+ 			$list_child_id[]=$id;
+ 		}
+		$criteria->addInCondition('catid',$list_child_id);
+		$criteria->order = 'value desc';
+		$list=Keyword::model()->findAll($criteria);
+		$list_keywords=array();
+		foreach ($list as $keyword){
+			$list_keywords[]='<a href='.$keyword->url.'>'.$keyword->value.'</a>';
+		}		
+			return implode(', ', array_unique( $list_keywords ) );
+		} else {
+			return Setting::s ( 'META_KEYWORD', 'System' );
+		}
+	}
+	/**
+	 * Get list keywords
+	 */
+	static function listCategory($keyword) {
+		//Find keyword
+		$criteria = new CDbCriteria ();
+		$criteria->compare ( 'value', $keyword );
+		$list_keyword = Keyword::model ()->findAll ( $criteria );
+		$list_categories=array();
+		foreach ( $list_keyword as $keyword ) {
+			$criteria = new CDbCriteria ();
+			$cat = Category::model ()->findByPk ( $keyword->catid );
+			if (isset ( $cat )) {
+				$child_categories = $cat->bread_crumb;
+ 				foreach ($child_categories as $id){
+	 				$list_categories[]=$id;
+	 			}
+			}
+		}
+		return array_unique($list_categories);
+	}	
+	/**
+	 * Auto create link
+	 */
+	static function autoCreate($object_id,$keyword,$origin) {
+		$list_categories=array();
+		$cat = Category::model ()->findByPk ( $keyword->catid );
+			if (isset ( $cat )) {
+				$child_categories = $cat->bread_crumb;
+ 				foreach ($child_categories as $id){
+	 				$list_categories[]=$id;
+	 			}
+			}
+		$criteria = new CDbCriteria ();
+		$criteria->addInCondition('keyword',$list_categories);
+		$criteria->addCondition('id <> '.$object_id);
+		$criteria->order='Rand()';
+		$product=News::model()->find($criteria);
+		switch(array_rand(array(self::TYPE_BOLD,self::TYPE_LINK))){
+			case self::TYPE_BOLD :
+				$change='<b>'.$keyword->value.'</b>';
+				break;
+			case self::TYPE_LINK :
+				$change='<a href="'.$product->url.'">'.$keyword->value.'</a>';
+				break;
+		}
+		$origin=html_entity_decode ($origin, ENT_NOQUOTES ,'UTF-8');	
+		$result=preg_replace('/'.$keyword->value.'/',$change,$origin,1);
+		return $result;
 	}	
 }

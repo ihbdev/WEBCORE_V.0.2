@@ -76,7 +76,26 @@
                      <li>
 							<?php echo $form->labelEx($model,'lang'); ?>
 							<?php echo $form->dropDownList($model,'lang',array(''=>'Tất cả')+LanguageForm::getList_languages_exist(),array('style'=>'width:200px')); ?>
-                    	</li> 
+                    </li> 
+                    <?php 
+						$list=array(''=>'Tất cả các nhóm');
+						foreach ($list_keyword_categories as $id=>$cat){
+							$view = "";
+							for($i=1;$i<$cat['level'];$i++){
+								$view .="---";
+							}
+							$keywords=Keyword::viewListKeyword($id);
+							if($keywords != "")
+								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
+							else 	
+								$list[$id]=$view." ".$cat['name']." ".$view;
+						}
+						?>
+						<li>
+							<?php echo $form->labelEx($model,'keyword'); ?>
+							<?php echo $form->dropDownList($model,'keyword',$list,array('style'=>'width:200px')); ?>
+							<?php echo $form->error($model, 'keyword'); ?>
+						</li>
                     </ul>
                 </div>
                 <!--end right content-->            

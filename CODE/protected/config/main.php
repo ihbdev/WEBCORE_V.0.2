@@ -72,6 +72,8 @@ return array(
 		
 				'tim-kiem'=>'search/product',
 		
+				'loc-theo-tu-khoa/<keyword>'=>'keyword/list',
+		
 				'gio-hang'=>'cart/cart',
 				
 				'dat-cau-hoi'=>'qA/question',

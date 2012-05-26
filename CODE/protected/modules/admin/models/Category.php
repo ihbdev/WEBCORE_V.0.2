@@ -68,6 +68,8 @@ class Category extends CActiveRecord
 	public $old_parent_id;
 	//Store name
 	public $old_name;
+	//Store keyword
+	public $old_keyword;
 	
 	/**
 	 * Get all specials of class Category
@@ -361,7 +363,7 @@ class Category extends CActiveRecord
 			array('name,parent_id', 'required','message'=>'Dữ liệu bắt buộc'),
 			array('parent_id','validatorParent'),
 			array('name', 'length', 'max'=>256,'message'=>'Tối đa 32 kí tự'),
-			array('description,metadesc', 'safe'),
+			array('description,metadesc,keyword', 'safe'),
 			array('order_view','required','message'=>'Dữ liệu bắt buộc','on'=>'staticPage,menu,news,product'),
 			array('order_view','numerical','on'=>'menu,news,product,staticPage'),
 			array('controller,action','required','on'=>'menu','message'=>'Dữ liệu bắt buộc'),
@@ -439,7 +441,10 @@ class Category extends CActiveRecord
 		if($this->parent_id != ""){
 			$this->old_parent_id=$this->parent_id;
 		}
+		//Store old name
 		$this->old_name=$this->name;
+		//Store old keyword
+		$this->old_keyword=$this->keyword;
 		//Get list special
 		if($this->special != ""){
 			$this->list_special=iPhoenixStatus::decodeStatus($this->special);	
@@ -515,7 +520,21 @@ class Category extends CActiveRecord
 			if($this->metadesc == ''){
 					$description=$this->description;
 					$this->metadesc=iPhoenixString::createIntrotext($description,self::META_LENGTH);
+			}
+			//Handler keyword
+			if($this->old_keyword != $this->keyword || $this->isNewRecord){
+				$old_category=Category::model()->findByPk($this->old_keyword);
+				if(isset($old_category)){
+					$old_category->amount=$old_category->amount-1;
+					if($old_category->amount < 0) $old_category->amount=0;
+					$old_category->save();	
 				}
+				$new_category=Category::model()->findByPk($this->keyword);
+				if(isset($new_category)){
+					$new_category->amount=$new_category->amount+1;
+					$new_category->save();	
+				}
+			}
 			//Encode special
 			if($this->group == self::GROUP_STATICPAGE || $this->group == self::GROUP_NEWS || $this->group == self::GROUP_PRODUCT)
 				$this->special=iPhoenixStatus::encodeStatus($this->list_special);

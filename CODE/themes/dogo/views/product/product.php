@@ -1,6 +1,7 @@
 <?php 
 $this->pageTitle = 'Sản phẩm '.$product->name;
 Yii::app()->clientScript->registerMetaTag($product->metadesc, 'description');
+Yii::app()->clientScript->registerMetaTag(Keyword::viewListKeyword($product->keyword), 'keywords');
 if(isset($cat))
 	$this->bread_crumbs=array(
 		array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),

@@ -1,6 +1,7 @@
 <?php 
 $this->pageTitle = 'Album '.$album->title;
 Yii::app()->clientScript->registerMetaTag($album->metadesc, 'description');
+Yii::app()->clientScript->registerMetaTag(Keyword::viewListKeyword($album->keyword), 'keywords');
 if(isset($cat))
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
@@ -23,7 +24,7 @@ $this->bread_crumbs=array(
                     </div><!--news-detail-->
                     <?php 
             			$list_similar=$album->list_similar;
-            		?>
+            		?>            		
                     <div class="other-list">
                         <h2><?php echo Language::t('Các tin khác');?>:</h2>
                         <ul>

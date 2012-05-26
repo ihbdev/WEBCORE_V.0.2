@@ -13,7 +13,7 @@
                     <div class="row">
 						<li>
                        		<label>Các từ khóa trong nhóm</label>
-                        	<?php echo Keyword::listKeyword($model->id)?>
+                        	<?php echo Keyword::viewListKeyword($model->id)?>
                     	</li>
                     </div> 
                     <?php endif;?>

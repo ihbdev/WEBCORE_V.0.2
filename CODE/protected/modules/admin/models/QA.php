@@ -47,6 +47,7 @@ class QA extends CActiveRecord
 	
 	public $old_answer;
 	public $old_title;
+	public $old_keyword;
 	/**
 	 * @var array config list other attributes of the banner
 	 * this attribute no need to search	 
@@ -223,8 +224,8 @@ class QA extends CActiveRecord
 			array('email','email','message'=>'Sai dịnh dạng mail'),
 			array('phone', 'length', 'max'=>13,'message'=>'Tối đa 13 kí tự'),
 			array('list_special','safe','on'=>'create,answer'),
-			array('address,lang,fullname,metadesc', 'safe'),
-			array('title,status,lang,status_answer,special','safe','on'=>'search'),
+			array('address,lang,fullname,metadesc,keyword', 'safe'),
+			array('title,status,lang,status_answer,special,keyword','safe','on'=>'search'),
 		);
 	}
 
@@ -270,6 +271,8 @@ class QA extends CActiveRecord
 		$this->list_other_attributes=(array)json_decode($this->other);	
 		//Store old title
 		$this->old_title=$this->title;
+		//Store old keyword
+		$this->old_keyword=$this->keyword;
 		//Decode answer
 		if($this->answer != ""){
 			$answer=$this->answer;
@@ -327,6 +330,20 @@ class QA extends CActiveRecord
 					$question=$this->question;
 					$this->metadesc=iPhoenixString::createIntrotext($question,self::META_LENGTH);
 				}	
+			//Handler keyword
+			if($this->old_keyword != $this->keyword || $this->isNewRecord){
+				$old_category=Category::model()->findByPk($this->old_keyword);
+				if(isset($old_category)){
+					$old_category->amount=$old_category->amount-1;
+					if($old_category->amount < 0) $old_category->amount=0;
+					$old_category->save();	
+				}
+				$new_category=Category::model()->findByPk($this->keyword);
+				if(isset($new_category)){
+					$new_category->amount=$new_category->amount+1;
+					$new_category->save();	
+				}
+			}
 			if($this->answer !="" && !in_array(self::SPECIAL_ANSWER, $this->list_special)){
 					$list=$this->list_special;
 					$list[]=self::SPECIAL_ANSWER;
@@ -369,6 +386,11 @@ class QA extends CActiveRecord
 				$criteria->addInCondition ( 'special', self::getCode_special ( self::SPECIAL_ANSWER ) );
 			if ($this->status_answer == self::STATUS_NOT_ANSWER)
 				$criteria->addNotInCondition('special', self::getCode_special ( self::SPECIAL_ANSWER ) );
+		}
+		//Filter keyword category
+		$cat = Category::model ()->findByPk ( $this->keyword );
+		if ($cat != null) {
+			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
 		}
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);

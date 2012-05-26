@@ -82,9 +82,14 @@ class QAController extends Controller
 			if(!isset($_POST['QA']['list_special'])) $model->list_special=array();
 			if($model->save())
 				$this->redirect(array('update','id'=>$model->id));
-		}		
+		}	
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;	
 		$this->render('create',array(
-			'model'=>$model
+			'model'=>$model,
+			'list_keyword_categories'=>$list_keyword_categories
 		));	
 		}		
 		else 
@@ -111,9 +116,14 @@ class QAController extends Controller
 			if(!isset($_POST['QA']['list_special'])) $model->list_special=array();
 			if($model->save())
 				$this->redirect(array('update','id'=>$model->id));
-		}		
+		}	
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;	
 		$this->render('update',array(
-			'model'=>$model
+			'model'=>$model,
+			'list_keyword_categories'=>$list_keyword_categories	
 		));	
 		}		
 			else 
@@ -151,8 +161,13 @@ class QAController extends Controller
 		$model->status_answer=0;
 		if(isset($_GET['QA']))
 			$model->attributes=$_GET['QA'];
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
 		$this->render('index',array(
-			'model'=>$model
+			'model'=>$model,
+			'list_keyword_categories'=>$list_keyword_categories
 		));
 	}
 	/**

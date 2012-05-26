@@ -1,6 +1,7 @@
 <?php 
 $this->pageTitle = 'Trả lời câu hỏi '.$qa->question;
 Yii::app()->clientScript->registerMetaTag($qa->metadesc, 'description');
+Yii::app()->clientScript->registerMetaTag(Keyword::viewListKeyword($qa->keyword), 'keywords');
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ','layout')),
 	array('url'=>Yii::app()->createUrl('qA/index'),'title'=>Language::t('Danh sách câu hỏi','layout')),

@@ -111,11 +111,16 @@ class ProductController extends Controller
 		if(isset($_GET['catid'])) $suggest->catid=$model->catid;
 		if(isset($_GET['SuggestProduct']))
 		$suggest->attributes=$_GET['SuggestProduct'];
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
 		$this->render('create',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
 			'list_manufacturer'=>$list_manufacturer,
-			'suggest'=>$suggest
+			'suggest'=>$suggest,
+			'list_keyword_categories'=>$list_keyword_categories
 		));
 	}
 
@@ -161,14 +166,20 @@ class ProductController extends Controller
 		$this->initCheckbox('checked-suggest-list');
 		$suggest=new Product('search');
 		$suggest->unsetAttributes();  // clear any default values
-		if(isset($_GET['catid'])) $suggest->catid=$model->catid;
+		if(isset($_GET['catid'])) $suggest->catid=$model->catid;		
 		if(isset($_GET['SuggestProduct']))
 			$suggest->attributes=$_GET['SuggestProduct'];
-			
-			$this->render ( 'update', array ('model' => $model,
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
+		
+		$this->render ( 'update', array ('model' => $model,
 			'list_category'=>$list_category,
 			'list_manufacturer'=>$list_manufacturer,
-			'suggest'=>$suggest ) );
+			'suggest'=>$suggest,
+			'list_keyword_categories'=>$list_keyword_categories
+			) );
 		}		
 	}
 
@@ -212,10 +223,15 @@ class ProductController extends Controller
 		$group->group=Category::GROUP_MANUFACTURER;
 		$list=$group->list_categories;
 		$list_manufacturer=$list;
+		//Group keyword
+		$group=new Category();		
+		$group->group=Category::GROUP_KEYWORD;
+		$list_keyword_categories=$group->list_categories;
 		$this->render('index',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
-			'list_manufacturer'=>$list_manufacturer
+			'list_manufacturer'=>$list_manufacturer,
+			'list_keyword_categories'=>$list_keyword_categories
 		));
 	}
 	/**

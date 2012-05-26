@@ -2,11 +2,13 @@
 if(isset($cat)){
 	$this->pageTitle = 'Các album trong nhóm '.$cat->name;
 	Yii::app()->clientScript->registerMetaTag($cat->metadesc, 'description');
+	Yii::app()->clientScript->registerMetaTag(Keyword::viewListKeyword($cat->keyword), 'keywords');
 }
 else 
 {
 	$this->pageTitle = 'Tất cả album';
 	Yii::app()->clientScript->registerMetaTag(Setting::s('META_DESCRIPTION','System'), 'description');
+	Yii::app()->clientScript->registerMetaTag(Setting::s('META_KEYWORD','System'), 'keywords');
 }
 $this->bread_crumbs=array(
 	array('url'=>Yii::app()->createUrl('site/home'),'title'=>Language::t('Trang chủ')),
