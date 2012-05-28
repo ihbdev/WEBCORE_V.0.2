@@ -8,8 +8,10 @@
   				<?php 
   				$index++;
   				$image = Image::model ()->findByPk ( $id );
-  				?>				
+  				?>	
+  				<?php if(isset($image)):?>			
              	<img src="<?php echo $image->getThumb('Banner','headline')?>" alt="slider<?php echo $index?>"/>           
-           <?php endforeach;?>
+           		<?php endif;?>
+  			<?php endforeach;?>
             </div>
 <?php $this->endCache();}?>

@@ -119,14 +119,21 @@ class News extends CActiveRecord
 	 * Get thumb of video
 	 */
 	public function getThumb_url($type){
+		$alt=$this->title;
 		if($this->introimage>0){
 			$image=Image::model()->findByPk($this->introimage);
-			$src=$image->getThumb('News',$type);
-			return '<img class="img" src="'.$src.'" alt="'.$image->title.'">';
+			if(isset($image)){
+				$src=$image->getThumb('News',$type);
+				if( $image->title != '')	$alt=$image->title;
+			}
+			else {
+				$src=Image::getDefaultThumb('News', $type);
+			}
+			return '<img class="img" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {
 			
-			return '<img class="img" src="'.Image::getDefaultThumb('News', $type).'" alt="">';
+			return '<img class="img" src="'.Image::getDefaultThumb('News', $type).'" alt="'.$alt.'">';
 		}
 	}
 	/**

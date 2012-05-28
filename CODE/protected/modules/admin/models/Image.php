@@ -112,7 +112,10 @@ class Image extends CActiveRecord
 	 * @return string the absoluted url of this image
 	 */
 	public function getUrlOrigin(){
-		return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/origin/'.$this->filename.'.'.$this->extension;
+		if(file_exists(Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/origin/'.$this->filename.'.'.$this->extension))
+			return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/origin/'.$this->filename.'.'.$this->extension;
+		else
+			return Yii::app()->request->getBaseUrl(true).'/images/default/default.jpg';
 	}
 	
 	/**
@@ -169,7 +172,11 @@ class Image extends CActiveRecord
 				$thumb->save($url);
 			}
 		}
-		return '<img class="img" src="'.Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$type.'/'.$this->filename.'.'.$this->extension.'" alt="">';
+		if(file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension))
+			$src=Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
+		else 
+			$src=self::getDefaultThumb($category,$type);
+		return '<img class="img" src="'.$src.'" alt="'.$this->title.'">';
 	}
 	/**
 	 * Get thumb of image
@@ -192,7 +199,10 @@ class Image extends CActiveRecord
 				$thumb->save($url);
 			}
 		}
-		return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
+		if(file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension))
+			return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
+		else 
+			return self::getDefaultThumb($category,$type);
 		}
 		else {
 			$type="auto_thumb";
@@ -211,7 +221,10 @@ class Image extends CActiveRecord
 				$thumb->save($url);
 			}
 		}
-		return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
+		if(file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension))
+			return Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
+		else 
+			return self::getDefaultThumb($category,$type);
 		}
 	}
 	/**

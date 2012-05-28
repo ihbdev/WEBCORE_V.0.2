@@ -196,13 +196,20 @@ class Album extends CActiveRecord
 	 * @return url of the first image in this album
 	 */
 	public function getThumb_url($type){
+		$alt=$this->title;
 		if($this->thumb_id>0){
 			$image=Image::model()->findByPk($this->thumb_id);
-			$src=$image->getThumb('Album',$type);
-			return '<img align="middle" class="img" src="'.$src.'" alt="'.$image->title.'">';
+			if(isset($image)){
+				$src=$image->getThumb('Album',$type);
+				if( $image->title != '')	$alt=$image->title;
+			}
+			else {
+				$src=Image::getDefaultThumb('Album', $type);
+			}
+			return '<img align="middle" class="img" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {
-			return '<img align="middle" class="img" src="'.Image::getDefaultThumb('Album',$type).'" alt="">';
+			return '<img align="middle" class="img" src="'.Image::getDefaultThumb('Album',$type).'" alt="'.$alt.'">';
 		}
 	}
 	/**

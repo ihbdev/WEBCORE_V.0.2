@@ -84,14 +84,21 @@ class StaticPage extends CActiveRecord
 	 * Get thumb of video
 	 */
 	public function getThumb_url($type){
+		$alt=$this->title;
 		if($this->introimage>0){
 			$image=Image::model()->findByPk($this->introimage);
-			$src=$image->getThumb('StaticPage',$type);
-			return '<img class="img" src="'.$src.'" alt="'.$image->title.'">';
+			if(isset($image)){
+				$src=$image->getThumb('StaticPage',$type);
+				if( $image->title != '')	$alt=$image->title;
+			}
+			else {
+				$src=Image::getDefaultThumb('StaticPage', $type);
+			}
+			return '<img class="img" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {
 			
-			return '<img class="img" src="'.Image::getDefaultThumb('StaticPage', $type).'" alt="">';
+			return '<img class="img" src="'.Image::getDefaultThumb('StaticPage', $type).'" alt="'.$alt.'">';
 		}
 	}
 	/*

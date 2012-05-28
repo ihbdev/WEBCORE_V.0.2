@@ -111,14 +111,21 @@ class Product extends CActiveRecord
 	 * @return string, absoluted path of thumb image
 	 */
 	public function getThumb_url($type){
+		$alt=$this->name;
 		if($this->introimage>0){
 			$image=Image::model()->findByPk($this->introimage);
-			$src=$image->getThumb('Product',$type);
-			return '<img class="img" src="'.$src.'" alt="'.$image->title.'">';
+			if(isset($image)){
+				$src=$image->getThumb('Product',$type);
+				if( $image->title != '')	$alt=$image->title;
+			}
+			else {
+				$src=Image::getDefaultThumb('Product', $type);
+			}
+			return '<img class="img" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {
 			
-			return '<img class="img" src="'.Image::getDefaultThumb('Product', $type).'" alt="">';
+			return '<img class="img" src="'.Image::getDefaultThumb('Product', $type).'" alt="'.$alt.'">';
 		}
 	}
 

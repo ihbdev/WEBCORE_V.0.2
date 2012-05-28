@@ -106,14 +106,21 @@ class Banner extends CActiveRecord
 	 * @return string url path of thumb image if success, otherwise ""
 	 */
 	public function getThumb_url($type){
+		$alt=$this->title;
 		if($this->thumb_id>0){
 			$image=Image::model()->findByPk($this->thumb_id);
-			$src=$image->getThumb('Banner',$type);
+			if(isset($image)){
+				$src=$image->getThumb('Banner',$type);
+				if( $image->title != '')	$alt=$image->title;
+			}
+			else {
+				$src=Image::getDefaultThumb('Banner', $type);
+			}
 		}
 		else {
-			$src="";
+			$src=Image::getDefaultThumb('Banner',$type);
 		}
-		return '<img src="'.$src.'">';
+		return '<img align="middle" class="img" src="'.$src.'" alt="'.$alt.'">';
 	}
 /**
 	 * Get update url of banner

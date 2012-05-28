@@ -4,8 +4,10 @@
 ?>
 <?php foreach ($list_images as $image_id):?>
 <?php $image = Image::model ()->findByPk ( $image_id );?>
+<?php if(isset($image)):?>
 <a href="<?php echo $image->url?>">
 <img src="<?php echo $image->getThumb('Banner','left')?>" />
 </a>
+<?php endif;?>
 <?php endforeach;?>
 <?php $this->endCache();}?>
