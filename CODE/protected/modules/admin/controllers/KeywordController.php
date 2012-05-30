@@ -22,12 +22,6 @@
 class KeywordController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -45,13 +39,37 @@ class KeywordController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('update','create','index','delete','checkbox','suggestName'),
-				'roles'=>array('admin'),
+		array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('keyword_index'),
 			),
-			array('deny',  // deny all users
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('keyword_create'),
+			),
+			array('allow',  
+				'actions'=>array('suggestName'),
+				'roles'=>array('keyword_suggestName'),
+			),
+			array('allow', 
+				'actions'=>array('update'),
+				'roles'=>array('keyword_update'),
+			),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('keyword_reverseStatus'),
+			),
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('keyword_delete'),
+			),
+				array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('keyword_checkbox'),
+			),
+			array('deny', 
 				'users'=>array('*'),
-			),
+			),			
 		);
 	}
 	

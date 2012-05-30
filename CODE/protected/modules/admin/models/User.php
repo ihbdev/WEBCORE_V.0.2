@@ -54,31 +54,42 @@ class User extends CActiveRecord
 	 * @return array, status of user
 	 */	
  	public function getList_label_status(){
- 		return array(
- 				self::STATUS_PENDING=>'Disable',
- 				self::STATUS_ACTIVE=>'Enable',
- 		);
- 	}
- 	
- 	/**
- 	 * 
- 	 * config role of users
- 	 * @var array $list_roles
- 	 */
-	private $list_roles=array('admin','author','editor','manager_account');
+		return array (self::STATUS_PENDING => 'Disable', self::STATUS_ACTIVE => 'Enable' );
+	}
 	
+	/**
+	 * 
+	 * get all roles
+	 */
+	public function getList_roles() {
+		$model = new Role ();
+		$model->type = Role::TYPE_ROLE;
+		$list_roles = array ();
+		$list = $model->list_nodes;
+		foreach ( $list as $id => $level ) {
+			$role = Role::model()->findByPk($id);
+			$list_roles[$role->name]=$view." ".$role->name." ".$view;
+		}
+		return $list_roles;
+ 	}
 	/**
 	 * 
 	 * get label for user roles, used in dropDownList
 	 */
-	public function getList_label_roles()
- 	{
-	return array(
-			'admin'=>'Administrator',
-			'editor'=>'Editor',
-			'author'=>'Author',
-			'manager_account'=>'Manager Account'
-		);
+	public function getList_label_roles() {
+		$model = new Role ();
+		$model->type = Role::TYPE_ROLE;
+		$list_roles = array ();
+		$list = $model->list_nodes;
+		foreach ( $list as $id => $level ) {
+			$role = Role::model()->findByPk($id);
+			$view = "";
+			for($i=1;$i<$level;$i++){
+				$view .="---";
+			}
+			$list_roles[$role->name]=$view." ".$role->name." ".$view;
+		}
+		return $list_roles;
  	}
 	/**
 	 * 
@@ -88,7 +99,7 @@ class User extends CActiveRecord
  	{
 		$label_role=array();
 		foreach ($this->role as $role) {
-			$label_role []= $this->list_label_roles[$role];
+			$label_role []= $this->list_roles[$role];
 		}
 		return $label_role;
  	}
@@ -208,8 +219,10 @@ class User extends CActiveRecord
 	 * @param unknown_type $params
 	 */
 	public function validatorRole($attributes,$params){
-		if(sizeof(array_diff($this->role,$this->list_roles))>0){
-			$this->addError('role', 'Không tồn tại quyền này');
+		foreach ($this->role as $role) {
+			if(in_array($role, $this->list_roles)){
+				$this->addError('role', 'Không tồn tại quyền này');
+			}
 		}
 	}
 	/**

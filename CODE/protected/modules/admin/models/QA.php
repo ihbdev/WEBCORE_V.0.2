@@ -217,12 +217,12 @@ class QA extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title,question','required','message'=>'Dữ liệu bắt buộc'),
-			array('answer','required','message'=>'Dữ liệu bắt buộc','on'=>'create,answer',),
-			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự'),
-			array('question', 'length', 'max'=>1024,'message'=>'Tối đa 1024 kí tự'),
-			array('email','email','message'=>'Sai dịnh dạng mail'),
-			array('phone', 'length', 'max'=>13,'message'=>'Tối đa 13 kí tự'),
+			array('title,question','required'),
+			array('answer','required','on'=>'create,answer',),
+			array('title', 'length', 'max'=>256),
+			array('question', 'length', 'max'=>1024),
+			array('email','email'),
+			array('phone', 'length', 'max'=>13),
 			array('list_special','safe','on'=>'create,answer'),
 			array('address,lang,fullname,metadesc,keyword', 'safe'),
 			array('title,status,lang,status_answer,special,keyword','safe','on'=>'search'),

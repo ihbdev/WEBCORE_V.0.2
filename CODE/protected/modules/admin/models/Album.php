@@ -255,9 +255,9 @@ class Album extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('title,images,catid','required','message'=>'Dữ liệu bắt buộc','on'=>'write',),
-			array('title', 'unique','message'=>'Album đã tồn tại','on'=>'write'),
-			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write'),
+			array('title,images,catid','required','on'=>'write',),
+			array('title', 'unique','on'=>'write'),
+			array('title', 'length', 'max'=>256,'on'=>'write'),
 			array('lang,list_special,metadesc,description,keyword','safe','on'=>'write'),
 			array('title,special,lang,catid,keyword','safe','on'=>'search'),
 			array('images','safe','on'=>'upload_image'),

@@ -24,12 +24,6 @@
 class NewsController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -47,21 +41,49 @@ class NewsController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','create','copy','suggestTitle','dynamicCat','checkbox','updateSuggest'),
-				'roles'=>array('create'),
+			array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('news_index'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('news_create'),
+			),
+			array('allow',  
+				'actions'=>array('suggestTitle'),
+				'roles'=>array('news_suggestTitle'),
+			),
+			array('allow', 
 				'actions'=>array('update'),
-				'users'=>array('@'),
+				'roles'=>array('news_update'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('reverseStatus','delete'),
-				'roles'=>array('update'),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('news_reverseStatus'),
 			),
-			array('deny',  // deny all users
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('news_delete'),
+			),
+			array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('news_checkbox'),
+			),
+			array('allow',  
+				'actions'=>array('copy'),
+				'roles'=>array('news_copy'),
+			),
+			array('allow',  
+				'actions'=>array('dynamicCat'),
+				'roles'=>array('news_dynamicCat'),
+			),
+			array('allow',  
+				'actions'=>array('updateSuggest'),
+				'roles'=>array('news_updateSuggest'),
+			),
+			array('deny', 
 				'users'=>array('*'),
-			),
+			),			
 		);
 	}
 	
@@ -129,9 +151,7 @@ class NewsController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-		if(Yii::app()->user->checkAccess('update', array('post' => $model)))	
-		{	
+		$model=$this->loadModel($id);	
 		$model->scenario = 'write';
 		// Ajax validate
 		$this->performAjaxValidation($model);	
@@ -173,9 +193,6 @@ class NewsController extends Controller
 			'suggest'=>$suggest,
 			'list_keyword_categories'=>$list_keyword_categories
 		));		
-		}
-		else 
-			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
 	}
 
 	/**

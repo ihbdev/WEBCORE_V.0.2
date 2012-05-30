@@ -3,12 +3,6 @@
 class StaticPageController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -26,21 +20,49 @@ class StaticPageController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','create','copy','suggestTitle','dynamicCat','checkbox','updateSuggest'),
-				'roles'=>array('create'),
+			array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('static_page_index'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('static_page_create'),
+			),
+			array('allow',  
+				'actions'=>array('suggestTitle'),
+				'roles'=>array('static_page_suggestTitle'),
+			),
+			array('allow', 
 				'actions'=>array('update'),
-				'users'=>array('@'),
+				'roles'=>array('static_page_update'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
 				'actions'=>array('reverseStatus'),
-				'roles'=>array('update'),
+				'roles'=>array('static_page_reverseStatus'),
 			),
-			array('deny',  // deny all users
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('static_page_delete'),
+			),
+			array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('static_page_checkbox'),
+			),
+			array('allow',  
+				'actions'=>array('copy'),
+				'roles'=>array('static_page_copy'),
+			),
+			array('allow',  
+				'actions'=>array('dynamicCat'),
+				'roles'=>array('static_page_dynamicCat'),
+			),
+			array('allow',  
+				'actions'=>array('updateSuggest'),
+				'roles'=>array('static_page_updateSuggest'),
+			),
+			array('deny', 
 				'users'=>array('*'),
-			),
+			),		
 		);
 	}
 	

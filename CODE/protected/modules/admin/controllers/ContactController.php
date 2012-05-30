@@ -21,12 +21,6 @@
 class ContactController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/column2', meaning
-	 * using two-column layout. See 'protected/views/layouts/column2.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -44,19 +38,39 @@ class ContactController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','create','suggestTitle'),
-				'roles'=>array('create'),
-			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
 				'actions'=>array('view'),
-				'users'=>array('@'),
+				'roles'=>array('contact_view'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('reverseStatus','delete','checkbox'),
-				'roles'=>array('update'),
+			array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('contact_index'),
 			),
-			array('deny',  // deny all users
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('contact_create'),
+			),
+			array('allow',  
+				'actions'=>array('suggestTitle'),
+				'roles'=>array('contact_suggestTitle'),
+			),
+			array('allow', 
+				'actions'=>array('update'),
+				'roles'=>array('contact_update'),
+			),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('contact_reverseStatus'),
+			),
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('contact_delete'),
+			),
+			array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('contact_checkbox'),
+			),
+			array('deny', 
 				'users'=>array('*'),
 			),
 		);

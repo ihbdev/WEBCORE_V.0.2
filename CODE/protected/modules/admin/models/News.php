@@ -306,9 +306,9 @@ class News extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title,catid,fulltext', 'required','message'=>'Dữ liệu bắt buộc','on'=>'write,copy'),
-			array('catid,order_view', 'numerical', 'integerOnly'=>true,'message'=>'Sai định dạng','on'=>'write,copy'),
-			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write,copy'),
+			array('title,catid,fulltext', 'required','on'=>'write,copy'),
+			array('catid,order_view', 'numerical', 'integerOnly'=>true,'on'=>'write,copy'),
+			array('title', 'length', 'max'=>256,'on'=>'write,copy'),
 			array('introimage', 'length', 'max'=>8,'on'=>'write,copy'),
 			array('fulltext,list_special,lang,list_suggest,metadesc,keyword', 'safe', 'on'=>'write,copy'),
 			array('created_date,created_by', 'safe', 'on'=>'copy'),

@@ -22,6 +22,13 @@ class DefaultController extends Controller
 	 */
 	public $layout='board';
 	
+	public function filters()
+    {
+        return array(
+            'https +login,logout',
+        );
+    }
+	
 	public function actionIndex()
 	{
 		$this->redirect(array('news/index'));
@@ -43,7 +50,8 @@ class DefaultController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login()) {
-				$this->redirect(array('news/index'));
+				$url = 'http://'.Yii::app()->getRequest()->serverName .Yii::app()->createUrl('admin/news/index');			
+				$this->redirect($url);
 			}
 			else {
 				$login_incorrect=Yii::app()->session['login_incorrect'];

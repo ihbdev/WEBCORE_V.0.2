@@ -231,10 +231,10 @@ class GalleryVideo extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title,link,catid','required','message'=>'Dữ liệu bắt buộc','on'=>'write',),
-			array('title', 'unique','message'=>'Video này đã tồn tại','on'=>'write'),
-			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write'),
-			array('introimage', 'length', 'max'=>8,'message'=>'Tối đa 512 kí tự','on'=>'write'),
+			array('title,link,catid','required','on'=>'write',),
+			array('title', 'unique','on'=>'write'),
+			array('title', 'length', 'max'=>256,'on'=>'write'),
+			array('introimage', 'length', 'max'=>8,'on'=>'write'),
 			array('list_special,lang,metadesc,description,keyword', 'safe','on'=>'write'),
 			array('title,lang,catid,special,keyword','safe','on'=>'search'),
 			array('link','safe','on'=>'upload_video'),

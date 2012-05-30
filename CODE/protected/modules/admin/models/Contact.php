@@ -119,10 +119,10 @@ class Contact extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('fullname,content,email','required','message'=>'Dữ liệu bắt buộc','on'=>'create',),
-			array('content', 'length', 'max'=>1024,'message'=>'Tối đa 1024 kí tự','on'=>'create'),
-			array('email','email','message'=>'Sai dịnh dạng mail','on'=>'create'),
-			array('phone', 'length', 'max'=>13,'message'=>'Tối đa 13 kí tự','on'=>'create'),
+			array('fullname,content,email','required','on'=>'create',),
+			array('content', 'length', 'max'=>1024,'on'=>'create'),
+			array('email','email','on'=>'create'),
+			array('phone', 'length', 'max'=>13,'on'=>'create'),
 			array('status','safe','on'=>'search'),
 		);
 	}

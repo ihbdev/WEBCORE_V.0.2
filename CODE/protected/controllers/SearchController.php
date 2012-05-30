@@ -3,12 +3,6 @@
 class SearchController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. 
-	 */
-	public $layout='main';
-	public $bread_crumbs=array();
-
-	/**
 	 * This is the action to handle view search page
 	 */
 	public function actionProduct()

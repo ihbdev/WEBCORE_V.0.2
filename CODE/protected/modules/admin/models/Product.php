@@ -255,9 +255,9 @@ class Product extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('name,catid,code,introimage,manufacturer_id','required','message'=>'Dữ liệu bắt buộc','on'=>'write'),
+			array('name,catid,code,introimage,manufacturer_id','required','on'=>'write'),
 			array('description,parameter,list_special,lang,unit_price,otherimage,list_suggest,metadesc,keyword', 'safe','on'=>'write'),
-			array('num_price', 'numerical', 'integerOnly'=>true,'message'=>'Sai định dạng','on'=>'write'),
+			array('num_price', 'numerical', 'integerOnly'=>true,'on'=>'write'),
 			array('name,lang, manufacturer_id, catid,special, amount_status, keyword','safe','on'=>'search'),	
 		);
 	}

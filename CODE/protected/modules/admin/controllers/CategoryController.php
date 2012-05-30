@@ -24,12 +24,6 @@
 class CategoryController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'. 
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -47,15 +41,43 @@ class CategoryController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','write','update','create','delete','validateCategory','updateListOrderView','configUrl'),
-				'roles'=>array('admin'),
-			),	
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('category_index'),
+			),
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('category_create'),
+			),
+			array('allow',  
+				'actions'=>array('write'),
+				'roles'=>array('category_write'),
+			),
+			array('allow',  
+				'actions'=>array('validateCategory'),
+				'roles'=>array('category_validateCategory'),
+			),
+			array('allow', 
+				'actions'=>array('update'),
+				'roles'=>array('category_update'),
+			),
+			array('allow',  
+				'actions'=>array('updateListOrderView'),
+				'roles'=>array('category_updateListOrderView'),
+			),
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('category_delete'),
+			),
+			array('allow',  
+				'actions'=>array('configUrl'),
+				'roles'=>array('category_configUrl'),
+			),
+			array('allow',  
 				'actions'=>array('setActiveAdminMenu'),
-				'users'=>array('@'),
-			),		
-			array('deny',  // deny all users
+				'roles'=>array('category_setActiveAdminMenu'),
+			),
+			array('deny', 
 				'users'=>array('*'),
 			),
 		);

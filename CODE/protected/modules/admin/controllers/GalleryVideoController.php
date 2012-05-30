@@ -23,12 +23,6 @@
 class GalleryVideoController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -46,19 +40,35 @@ class GalleryVideoController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','create','suggestTitle'),
-				'roles'=>array('create'),
+			array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('video_index'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('video_create'),
+			),
+			array('allow',  
+				'actions'=>array('suggestTitle'),
+				'roles'=>array('video_suggestTitle'),
+			),
+			array('allow', 
 				'actions'=>array('update'),
-				'users'=>array('@'),
+				'roles'=>array('video_update'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('reverseStatus','delete','checkbox'),
-				'roles'=>array('update'),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('video_reverseStatus'),
 			),
-			array('deny',  // deny all users
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('video_delete'),
+			),
+				array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('video_checkbox'),
+			),
+			array('deny', 
 				'users'=>array('*'),
 			),
 		);

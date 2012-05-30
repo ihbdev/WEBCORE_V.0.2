@@ -25,12 +25,6 @@
 class ProductController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -47,21 +41,53 @@ class ProductController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','create','suggestName','updateSuggest'),
-				'roles'=>array('create'),
+		array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('product_index'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('product_create'),
+			),
+			array('allow',  
+				'actions'=>array('suggestName'),
+				'roles'=>array('product_suggestName'),
+			),
+			array('allow', 
 				'actions'=>array('update'),
-				'users'=>array('@'),
+				'roles'=>array('product_update'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('reverseStatus','reverseAmountStatus','delete','checkbox'),
-				'roles'=>array('update'),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('product_reverseStatus'),
 			),
-			array('deny',  // deny all users
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('product_delete'),
+			),
+			array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('product_checkbox'),
+			),
+			array('allow',  
+				'actions'=>array('copy'),
+				'roles'=>array('product_copy'),
+			),
+			array('allow',  
+				'actions'=>array('dynamicCat'),
+				'roles'=>array('product_dynamicCat'),
+			),
+			array('allow',  
+				'actions'=>array('updateSuggest'),
+				'roles'=>array('product_updateSuggest'),
+			),
+			array('allow',  
+				'actions'=>array('reverseAmountStatus'),
+				'roles'=>array('product_reverseAmountStatus'),
+			),
+			array('deny', 
 				'users'=>array('*'),
-			),
+			),		
 		);
 	}
 

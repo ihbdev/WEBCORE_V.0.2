@@ -1,11 +1,7 @@
 <?php
 
-class CartController extends Controller {
-	/**
-	 * @var string the default layout for the views. 
-	 */
-	public $layout = 'main';
-	public $bread_crumbs = array ();	
+class CartController extends Controller 
+{	
 	/**
 	* Add Product to Cart
 	*/

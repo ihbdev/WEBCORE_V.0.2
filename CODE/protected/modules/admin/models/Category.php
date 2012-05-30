@@ -360,13 +360,13 @@ class Category extends CActiveRecord
 			array('max_rank','required','on'=>'root'),
 			array('max_rank','numerical','on'=>'root'),
 			array('max_rank','validatorMaxRank','on'=>'root'),
-			array('name,parent_id', 'required','message'=>'Dữ liệu bắt buộc'),
+			array('name,parent_id', 'required'),
 			array('parent_id','validatorParent'),
-			array('name', 'length', 'max'=>256,'message'=>'Tối đa 32 kí tự'),
+			array('name', 'length', 'max'=>256),
 			array('description,metadesc,keyword', 'safe'),
-			array('order_view','required','message'=>'Dữ liệu bắt buộc','on'=>'staticPage,menu,news,product'),
+			array('order_view','required','on'=>'staticPage,menu,news,product'),
 			array('order_view','numerical','on'=>'menu,news,product,staticPage'),
-			array('controller,action','required','on'=>'menu','message'=>'Dữ liệu bắt buộc'),
+			array('controller,action','required','on'=>'menu'),
 			array('params','safe','on'=>'menu'),
 			array('list_special,lang','safe','on'=>'staticPage,news,product')
 		);

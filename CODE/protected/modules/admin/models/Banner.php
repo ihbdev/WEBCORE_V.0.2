@@ -174,9 +174,9 @@ class Banner extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('title,images','required','message'=>'Dữ liệu bắt buộc','on'=>'write',),
-			array('title', 'length', 'max'=>256,'message'=>'Tối đa 256 kí tự','on'=>'write'),
-			array('description', 'length', 'max'=>512,'message'=>'Tối đa 512 kí tự','on'=>'write'),
+			array('title,images','required','on'=>'write',),
+			array('title', 'length', 'max'=>256,'on'=>'write'),
+			array('description', 'length', 'max'=>512,'on'=>'write'),
 			array('title','safe','on'=>'search'),
 			array('images','safe','on'=>'upload_image'),
 		);

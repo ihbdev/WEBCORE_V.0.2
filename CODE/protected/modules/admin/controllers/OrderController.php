@@ -22,12 +22,6 @@
 class OrderController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -45,19 +39,39 @@ class OrderController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','create','suggestTitle'),
-				'roles'=>array('create'),
+		array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('order_index'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('view','create'),
-				'users'=>array('@'),
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('order_create'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('reverseStatus','delete','reverseProcessStatus','checkbox'),
-				'roles'=>array('update'),
+			array('allow',  
+				'actions'=>array('suggestTitle'),
+				'roles'=>array('order_suggestTitle'),
 			),
-			array('deny',  // deny all users
+			array('allow', 
+				'actions'=>array('update'),
+				'roles'=>array('order_update'),
+			),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('order_reverseStatus'),
+			),
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('order_delete'),
+			),
+			array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('order_checkbox'),
+			),
+			array('allow',  
+				'actions'=>array('reverseProcessStatus'),
+				'roles'=>array('order_reverseProcessStatus'),
+			),
+			array('deny', 
 				'users'=>array('*'),
 			),
 		);

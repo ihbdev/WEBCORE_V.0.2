@@ -23,12 +23,6 @@
 class ImageController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -46,17 +40,37 @@ class ImageController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('update','delete','upload','list','reverseStatus','suggestTitle'),
-				'roles'=>array('create'),
-			),		
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('clear'),
-				'roles'=>array('admin'),
-			),	
-			array('deny',  // deny all users
-				'users'=>array('*'),
+			array('allow',  
+				'actions'=>array('upload'),
+				'roles'=>array('image_upload'),
 			),
+			array('allow',  
+				'actions'=>array('list'),
+				'roles'=>array('image_list'),
+			),
+			array('allow',  
+				'actions'=>array('suggestTitle'),
+				'roles'=>array('image_suggestTitle'),
+			),
+			array('allow', 
+				'actions'=>array('update'),
+				'roles'=>array('image_update'),
+			),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('image_reverseStatus'),
+			),
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('image_delete'),
+			),
+				array('allow',  
+				'actions'=>array('clear'),
+				'roles'=>array('image_clear'),
+			),
+			array('deny', 
+				'users'=>array('*'),
+			),			
 		);
 	}
 

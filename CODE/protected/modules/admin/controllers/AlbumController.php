@@ -3,12 +3,6 @@
 class AlbumController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '//layouts/main', meaning
-	 * using main layout. See 'protected/modules/admin/views/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -26,19 +20,35 @@ class AlbumController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('index','create','suggestTitle'),
-				'roles'=>array('create'),
+			array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('album_index'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('album_create'),
+			),
+			array('allow',  
+				'actions'=>array('suggestTitle'),
+				'roles'=>array('album_suggestTitle'),
+			),
+			array('allow', 
 				'actions'=>array('update'),
-				'users'=>array('@'),
+				'roles'=>array('album_update'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('reverseStatus','delete','checkbox'),
-				'roles'=>array('update'),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('album_reverseStatus'),
 			),
-			array('deny',  // deny all users
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('album_delete'),
+			),
+				array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('album_checkbox'),
+			),
+			array('deny', 
 				'users'=>array('*'),
 			),
 		);
@@ -90,16 +100,12 @@ class AlbumController extends Controller
 	 */
 	public function actionUpdate($id) {
 		$model = $this->loadModel ( $id );	
-		if(Yii::app()->user->checkAccess('update', array('post' => $model)))	
-		{
-			$model->scenario = 'write';
-			// Ajax validate
-			$this->performAjaxValidation ( $model );
-			// Uncomment the following line if AJAX validation is needed
-			// $this->performAjaxValidation($model);
-			
-
-			if (isset ( $_POST ['Album'] )) {
+		$model->scenario = 'write';
+		// Ajax validate
+		$this->performAjaxValidation ( $model );
+		// Uncomment the following line if AJAX validation is needed
+		// $this->performAjaxValidation($model);
+		if (isset ( $_POST ['Album'] )) {
 				$model->attributes = $_POST ['Album'];
 				if(!isset($_POST['Album']['list_special'])) $model->list_special=array();
 				if ($model->save ())
@@ -122,9 +128,6 @@ class AlbumController extends Controller
 			'list_category'=>$list_category,
 			'list_keyword_categories'=>$list_keyword_categories			
 		));
-		}
-		else 
-			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
 	}
 	/**
 	 * Deletes a particular model.

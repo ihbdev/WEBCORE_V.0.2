@@ -2,11 +2,6 @@
 
 class ProductController extends Controller {
 	/**
-	 * @var string the default layout for the views. 
-	 */
-	public $layout = 'main';
-	public $bread_crumbs = array ();
-	/**
 	 * Displays all product
 	 */
 	public function actionIndex() {

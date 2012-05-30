@@ -2,13 +2,7 @@
 
 class QAController extends Controller
 {
-	/**
-	 * @var string the default layout for the views. 
-	 */
-	public $layout='main';
-	public $bread_crumbs=array();
-
-	/**
+		/**
 	 * Displays qa
 	 */
 	public function actionIndex()
@@ -20,7 +14,7 @@ class QAController extends Controller
 			$list_qa = new CActiveDataProvider ( 'QA', array ('pagination' => array ('pageSize' => Setting::s ( 'QA_PAGE_SIZE','QA' ) ), 'criteria' => $criteria ) );
 			$this->render ( 'list-qa', array ('list_qa' => $list_qa ) );
 	}
-/**
+	/**
 	 * Displays qa
 	 */
 	public function actionView($qa_alias)

@@ -26,12 +26,6 @@
 class UserController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -48,16 +42,48 @@ class UserController extends Controller
 	 */
 	public function accessRules()
 	{
-		return array(
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
+		return array(	
+		 array('allow',  
+				'actions'=>array('index'),
+				'roles'=>array('user_index'),
+			),
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('user_create'),
+			),
+			array('allow',  
+				'actions'=>array('suggestUsername'),
+				'roles'=>array('user_suggestUsername'),
+			),
+			array('allow',  
+				'actions'=>array('suggestEmail'),
+				'roles'=>array('user_suggestEmail'),
+			),
+			array('allow', 
+				'actions'=>array('update'),
+				'roles'=>array('user_update'),
+			),
+			array('allow',  
+				'actions'=>array('reverseStatus'),
+				'roles'=>array('user_reverseStatus'),
+			),
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('user_delete'),
+			),
+			array('allow',  
+				'actions'=>array('checkbox'),
+				'roles'=>array('user_checkbox'),
+			),
+			array('allow',  
 				'actions'=>array('changePassword'),
-				'users'=>array('@'),
+				'roles'=>array('user_changePassword'),
 			),
-			array('allow', // allow authenticated user to perform 'create' and 'update' actions
-				'actions'=>array('index','view','create','update','delete','suggestUsername','suggestEmail','resetPassword','reverseStatus','checkbox'),
-				'roles'=>array('admin'),
+			array('allow',  
+				'actions'=>array('resetPassword'),
+				'roles'=>array('user_resetPassword'),
 			),
-			array('deny',  // deny all users
+			array('deny', 
 				'users'=>array('*'),
 			),
 		);

@@ -3,12 +3,6 @@
 class AlbumController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. 
-	 */
-	public $layout='main';
-	public $bread_crumbs=array();
-
-	/**
 	 * Displays all album
 	 */
 	public function actionIndex()

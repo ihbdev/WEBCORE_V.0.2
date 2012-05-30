@@ -21,12 +21,6 @@
 class LanguageController extends Controller
 {
 	/**
-	 * @var string the default layout for the views. Defaults to '/protected/modules/admin/view/layouts/main'.
-	 * See '/protected/modules/admin/view/layouts/main.php'.
-	 */
-	public $layout='main';
-
-	/**
 	 * @return array action filters
 	 */
 	public function filters()
@@ -44,15 +38,27 @@ class LanguageController extends Controller
 	public function accessRules()
 	{
 		return array(
-			array('allow',  // allow all users to perform 'index' and 'view' actions
+		array('allow',  
 				'actions'=>array('edit'),
-				'roles'=>array('update'),
+				'roles'=>array('language_edit'),
 			),
-			array('allow',  // allow all users to perform 'index' and 'view' actions
-				'actions'=>array('create','delete','import','export'),
-				'roles'=>array('admin'),
+			array('allow',  
+				'actions'=>array('create'),
+				'roles'=>array('language_create'),
 			),
-			array('deny',  // deny all users
+			array('allow',  
+				'actions'=>array('delete'),
+				'roles'=>array('language_delete'),
+			),
+			array('allow',  
+				'actions'=>array('import'),
+				'roles'=>array('language_import'),
+			),
+			array('allow',  
+				'actions'=>array('export'),
+				'roles'=>array('language_export'),
+			),
+			array('deny', 
 				'users'=>array('*'),
 			),
 		);
