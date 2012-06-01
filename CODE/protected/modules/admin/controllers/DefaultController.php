@@ -50,8 +50,31 @@ class DefaultController extends Controller
 			$model->attributes=$_POST['LoginForm'];
 			// validate user input and redirect to the previous page if valid
 			if($model->validate() && $model->login()) {
-				$url = 'http://'.Yii::app()->getRequest()->serverName .Yii::app()->createUrl('admin/news/index');			
-				$this->redirect($url);
+				if (Yii::app ()->user->checkAccess ( 'news_index'))
+				{
+					$url = 'http://'.Yii::app()->getRequest()->serverName .Yii::app()->createUrl('admin/news/index');			
+					$this->redirect($url);
+				}
+				if (Yii::app ()->user->checkAccess ( 'product_index'))
+				{
+					$url = 'http://'.Yii::app()->getRequest()->serverName .Yii::app()->createUrl('admin/product/index');			
+					$this->redirect($url);
+				}
+				if (Yii::app ()->user->checkAccess ( 'video_index'))
+				{
+					$url = 'http://'.Yii::app()->getRequest()->serverName .Yii::app()->createUrl('admin/galleryVideo/index');			
+					$this->redirect($url);
+				}
+				if (Yii::app ()->user->checkAccess ( 'album_index'))
+				{
+					$url = 'http://'.Yii::app()->getRequest()->serverName .Yii::app()->createUrl('admin/album/index');			
+					$this->redirect($url);
+				}
+				if (Yii::app ()->user->checkAccess ( 'static_page_index'))
+				{
+					$url = 'http://'.Yii::app()->getRequest()->serverName .Yii::app()->createUrl('admin/staticPage/index');			
+					$this->redirect($url);
+				}
 			}
 			else {
 				$login_incorrect=Yii::app()->session['login_incorrect'];
@@ -83,6 +106,6 @@ class DefaultController extends Controller
 	public function actionView($view)
 	{
 		Yii::app()->session['view']=$view;
-		Yii::app()->request->redirect('/admin/product/index');
+		$this->redirect(array('product/index'));
 	}	
 }

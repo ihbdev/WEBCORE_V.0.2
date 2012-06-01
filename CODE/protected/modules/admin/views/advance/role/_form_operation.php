@@ -36,6 +36,13 @@
                   		<?php echo $form->error($model, 'parent_id'); ?>
 					</li>
                     </div>
+                    <div class="row">
+						<li>
+                       		<?php echo $form->labelEx($model,'bizRule'); ?>
+                        	<?php echo $form->textField($model,'bizRule',array('style'=>'width:300px;','maxlength'=>'256')); ?>
+                   			<?php echo $form->error($model, 'bizRule'); ?>
+                    	</li>
+                    </div> 
                      <div class="row">
 						<li>
                        		<?php echo $form->labelEx($model,'description'); ?>

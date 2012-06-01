@@ -456,7 +456,10 @@ class Product extends CActiveRecord
 		$criteria = new CDbCriteria ();
 		$criteria->compare ( 'lang', $this->lang );
 		$criteria->compare ( 'name', $this->name, true );
-		$criteria->compare ('amount_status',$this->amount_status);		
+		$criteria->compare ('amount_status',$this->amount_status);	
+		if (!Yii::app ()->user->checkAccess ( 'product_update') && Yii::app()->controller->id == 'product' && Yii::app()->controller->action->id == 'index') {
+			$criteria->compare ( 'created_by', Yii::app()->user->id);
+		}	
 		//Filter catid
 		$cat = Category::model ()->findByPk ( $this->catid );
 		if ($cat != null) {

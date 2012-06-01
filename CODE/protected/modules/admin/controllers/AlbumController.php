@@ -34,7 +34,7 @@ class AlbumController extends Controller
 			),
 			array('allow', 
 				'actions'=>array('update'),
-				'roles'=>array('album_update'),
+				'users'=>array('@'),
 			),
 			array('allow',  
 				'actions'=>array('reverseStatus'),
@@ -99,7 +99,8 @@ class AlbumController extends Controller
 	 * @param integer $id the ID of the model to be updated
 	 */
 	public function actionUpdate($id) {
-		$model = $this->loadModel ( $id );	
+		$model = $this->loadModel ( $id );
+		if (Yii::app ()->user->checkAccess ( 'album_update', array ('album' => $model ) )) {	
 		$model->scenario = 'write';
 		// Ajax validate
 		$this->performAjaxValidation ( $model );
@@ -128,6 +129,9 @@ class AlbumController extends Controller
 			'list_category'=>$list_category,
 			'list_keyword_categories'=>$list_keyword_categories			
 		));
+		}
+		else
+			throw new CHttpException(400,'Bạn không có quyền chỉnh sửa bài viết này.');	
 	}
 	/**
 	 * Deletes a particular model.

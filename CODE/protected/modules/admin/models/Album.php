@@ -447,6 +447,9 @@ class Album extends CActiveRecord
 		$criteria=new CDbCriteria;
 		$criteria->compare('lang',$this->lang);
 		$criteria->compare('title',$this->title,true);
+		if (!Yii::app ()->user->checkAccess ( 'album_update') && Yii::app()->controller->id == 'album' && Yii::app()->controller->action->id == 'index') {
+			$criteria->compare ( 'created_by', Yii::app()->user->id);
+		}	
 		if($this->special !='')
 			$criteria->addInCondition('special',self::getCode_special($this->special));
 		//Filter catid

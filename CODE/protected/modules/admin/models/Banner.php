@@ -310,6 +310,9 @@ class Banner extends CActiveRecord
 	{
 		$criteria=new CDbCriteria;
 		$criteria->compare('title',$this->title,true);
+		if (!Yii::app ()->user->checkAccess ( 'banner_update')) {
+			$criteria->compare ( 'created_by', Yii::app()->user->id);
+		}
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);
 		return new CActiveDataProvider($this, array(

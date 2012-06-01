@@ -36,7 +36,7 @@ class Role extends CActiveRecord
 	 * these attributes is stored in other field of article table	 
 	 */
 	
-	private $config_other_attributes=array('description','value','modified');	
+	private $config_other_attributes=array('description','value','modified','bizRule');	
 	private $list_other_attributes;
 	
 	// Template var that store data when tree traversal
@@ -47,9 +47,11 @@ class Role extends CActiveRecord
 	public $old_value;
 	//Store old name
 	public $old_name;
+	//Store old biz rule
+	public $old_bizRule;
 	
 	public $list_max_rank=array(
-		self::TYPE_OPERATION=>1,
+		self::TYPE_OPERATION=>2,
 		self::TYPE_ROLE=>3,
 		self::TYPE_TASK=>3,
 	);
@@ -248,7 +250,7 @@ class Role extends CActiveRecord
 			array('value','safe'),
 			array('parent_id','validatorParent'),
 			array('name', 'length', 'max'=>64),
-			array('description','safe')
+			array('description,bizRule','safe')
 			
 		);
 	}
@@ -314,6 +316,7 @@ class Role extends CActiveRecord
 		$this->list_other_attributes=(array)json_decode($this->other);
 		$this->old_value=$this->value;
 		$this->old_name=$this->name;	
+		$this->old_bizRule=$this->bizRule;
 		if(isset($this->list_other_attributes['modified']))
 			$this->list_other_attributes['modified']=(array)json_decode($this->list_other_attributes['modified']);
 		else 
@@ -357,8 +360,12 @@ class Role extends CActiveRecord
 					$command=Yii::app()->db->createCommand('UPDATE authitemchild SET child = "'.$this->name.'" WHERE child = "'.$this->old_name.'"');		
 					$command->execute();
 					$command=Yii::app()->db->createCommand('UPDATE authassignment SET itemname = "'.$this->name.'" WHERE itemname = "'.$this->old_name.'"');	
-					$command->execute();
-								
+					$command->execute();								
+				}
+				if($this->old_bizRule != $this->bizRule){
+					$auth = Yii::app ()->authManager;
+					$auth->removeAuthItem($this->name);
+					$operation=$auth->createOperation ( $this->name, $this->description, $this->bizRule );				
 				}
 				if($this->old_parent_id != $this->parent_id){
 					$auth = Yii::app ()->authManager;					

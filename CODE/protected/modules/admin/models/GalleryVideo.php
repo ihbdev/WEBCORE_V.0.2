@@ -439,6 +439,9 @@ class GalleryVideo extends CActiveRecord
 		$criteria=new CDbCriteria;
 		$criteria->compare('lang',$this->lang);
 		$criteria->compare('title',$this->title,true);
+		if (!Yii::app ()->user->checkAccess ( 'video_update') && Yii::app()->controller->id == 'galleryVideo' && Yii::app()->controller->action->id == 'index') {
+			$criteria->compare ( 'created_by', Yii::app()->user->id);
+		}	
 		if($this->special !='')
 			$criteria->addInCondition('special',self::getCode_special($this->special));
 		//Filter catid

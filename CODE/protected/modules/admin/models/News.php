@@ -563,6 +563,9 @@ class News extends CActiveRecord
 		$criteria = new CDbCriteria ();
 		$criteria->compare ( 'lang', $this->lang );
 		$criteria->compare ( 'title', $this->title, true );
+		if (!Yii::app ()->user->checkAccess ( 'news_update') && Yii::app()->controller->id == 'news' && Yii::app()->controller->action->id == 'index') {
+			$criteria->compare ( 'created_by', Yii::app()->user->id);
+		}	
 		//Filter catid
 		$cat = Category::model ()->findByPk ( $this->catid );
 		if ($cat != null) {
@@ -652,7 +655,7 @@ class News extends CActiveRecord
 	 * @param integer $id, the ID of news to be copied
 	 */
 	static function copy($id) {
-		$sql = 'insert into ' . self::model ()->tableName () . ' (catid,type,lang,status,special,order_view,title,alias,keywords,other,created_date,created_by) select catid,type,lang,status,special,order_view,title,alias,keywords,other,created_date,created_by from ' . self::model ()->tableName () . ' where id=' . $id;
+		$sql = 'insert into ' . self::model ()->tableName () . ' (catid,type,lang,status,special,order_view,title,alias,keyword,other,created_date,created_by) select catid,type,lang,status,special,order_view,title,alias,keyword,other,created_date,created_by from ' . self::model ()->tableName () . ' where id=' . $id;
 		$command = Yii::app ()->db->createCommand ( $sql );
 		if ($command->execute ()) {
 			$copy_id = Yii::app ()->db->getLastInsertID ();

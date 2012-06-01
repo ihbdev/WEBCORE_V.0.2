@@ -164,6 +164,9 @@
 												$(th).find("img").attr("src",data.src);
 												}
 										},
+										error: function (request, status, error) {
+        										jAlert(request.responseText);
+    									}
 										});
 								return false;}',
         					),

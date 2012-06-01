@@ -54,7 +54,7 @@ class GalleryVideoController extends Controller
 			),
 			array('allow', 
 				'actions'=>array('update'),
-				'roles'=>array('video_update'),
+				'users'=>array('@'),
 			),
 			array('allow',  
 				'actions'=>array('reverseStatus'),
@@ -120,7 +120,7 @@ class GalleryVideoController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel ( $id );
-		if (Yii::app ()->user->checkAccess ( 'update', array ('post' => $model ) )) {
+		if (Yii::app ()->user->checkAccess ( 'video_update', array ('video' => $model ) )) {
 			$model->scenario = 'write';
 			// Ajax validate
 			$this->performAjaxValidation ( $model );
@@ -148,7 +148,9 @@ class GalleryVideoController extends Controller
 				'list_category'=>$list_category,
 				'list_keyword_categories'=>$list_keyword_categories	
 			) );
-		}		
+		}	
+		else
+			throw new CHttpException(400,'Bạn không có quyền chỉnh sửa video này.');		
 	}
 
 	/**

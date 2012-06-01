@@ -55,7 +55,7 @@ class ProductController extends Controller
 			),
 			array('allow', 
 				'actions'=>array('update'),
-				'roles'=>array('product_update'),
+				'users'=>array('@'),
 			),
 			array('allow',  
 				'actions'=>array('reverseStatus'),
@@ -158,7 +158,7 @@ class ProductController extends Controller
 	public function actionUpdate($id)
 	{
 		$model = $this->loadModel ( $id );
-		if (Yii::app ()->user->checkAccess ( 'update', array ('post' => $model ) )) {
+		if (Yii::app ()->user->checkAccess ( 'product_update', array ('product' => $model ) )) {
 			$model->scenario = 'write';
 			// Ajax validate
 			$this->performAjaxValidation ( $model );
@@ -206,7 +206,9 @@ class ProductController extends Controller
 			'suggest'=>$suggest,
 			'list_keyword_categories'=>$list_keyword_categories
 			) );
-		}		
+		}
+		else
+			throw new CHttpException(400,'Bạn không có quyền chỉnh sửa sản phẩm này.');	
 	}
 
 	/**

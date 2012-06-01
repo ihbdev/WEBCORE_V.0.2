@@ -19,6 +19,11 @@ class AdminMenu extends CPortlet
 		}
 		//Create list menu which are used when view menu
 		$list=$model->list_Categories;
+		foreach ($list as $id=>$menu){
+			if($menu['url'] == '') {
+				unset($list[$id]);	
+			}		
+		}
 		$previous_id=0;
 		$finish=0;
 		if(sizeof($list)>0){

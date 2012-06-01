@@ -656,10 +656,13 @@ class Category extends CActiveRecord
 	public function codeUrl($type,$value=array()){
 		switch ($type) {
 			case 'controller': 
-					return array('product'=>'Sản phẩm','news'=>'Tin tức','staticPage'=>'Trang tĩnh','album'=>'Album','galleryVideo'=>'Video','config'=>'Hệ thống','language'=>'Ngôn ngữ','setting'=>'Cấu hình','order'=>'Đơn hàng','user'=>'User','qa'=>'Hỏi đáp','image'=>'Image','banner'=>'Banner','keyword'=>'Từ khóa','contact'=>'Liên hệ');				
+					return array('role'=>'Quản lý quyền','product'=>'Sản phẩm','news'=>'Tin tức','staticPage'=>'Trang tĩnh','album'=>'Album','galleryVideo'=>'Video','config'=>'Hệ thống','language'=>'Ngôn ngữ','setting'=>'Cấu hình','order'=>'Đơn hàng','user'=>'User','qa'=>'Hỏi đáp','image'=>'Image','banner'=>'Banner','keyword'=>'Từ khóa','contact'=>'Liên hệ');				
 				break;
 			case 'action':
 				switch ($value['controller']) {	
+					case 'role':													
+							return array('manager_operation'=>'Quản lý chức năng','manager_task'=>'Quản lý tác vụ','manager_role'=>'Quản lý quyền');
+						break;	
 					case 'product':													
 							return array('view_all'=>'Hiển thị tất cả sản phẩm','view_category'=>'Hiển thị theo danh mục','index'=>'Quản lý danh sách','create'=>'Tạo mới','manager_category'=>'Quản lý danh mục','manufacturer'=>'Nhà sản xuất');
 						break;			
@@ -872,86 +875,91 @@ class Category extends CActiveRecord
 	 */	
 	public function getRoute(){
 		$config=array(
+			'role'=>array(
+				'manager_operation'=>Yii::app ()->user->checkAccess ('role_index')?'/admin/role/index':'',
+				'manager_task'=>Yii::app ()->user->checkAccess ('role_index')?'/admin/role/index':'',
+				'manager_role'=>Yii::app ()->user->checkAccess ('role_index')?'/admin/role/index':'',
+			),
 			'product'=>array(
 				'view_all'=>'/product/index',
-				'index'=>'/admin/product/index',
-				'create'=>'/admin/product/create',
-				'manager_category'=>'/admin/category',
+				'index'=>Yii::app ()->user->checkAccess ('product_index')?'/admin/product/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('product_create')?'/admin/product/create':'',
+				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
 				'view_category'=>'/product/list',
-				'manufacturer'=>'/admin/category'
+				'manufacturer'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
 			),
 			'news'=>array(
-				'index'=>'/admin/news/index',
-				'create'=>'/admin/news/create',
-				'manager_category'=>'/admin/category',
+				'index'=>Yii::app ()->user->checkAccess ('news_index')?'/admin/news/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('news_create')?'/admin/news/create':'',
+				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
 				'view_category'=>'/news/list',
 				'view_all'=>'/news/index',
 			),
 			'staticPage'=>array(
-				'index'=>'/admin/staticPage/index',
-				'create'=>'/admin/staticPage/create',
-				'manager_category'=>'/admin/category',
+				'index'=>Yii::app ()->user->checkAccess ('static_page_index')?'/admin/staticPage/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('static_page_create')?'/admin/staticPage/create':'',
+				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
 				'view_category'=>'staticPage/list',
 				'view_all'=>'/staticPage/index',
 				'view_page'=>'/staticPage/view',
 				'home'=>'site/home'
 			),
 			'album'=>array(
-				'index'=>'/admin/album/index',
-				'create'=>'/admin/album/create',
-				'manager_category'=>'/admin/category',
+				'index'=>Yii::app ()->user->checkAccess ('album_index')?'/admin/album/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('album_create')?'/admin/album/index':'',
+				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
 				'view_category'=>'/album/list',
 				'view_all'=>'/album/index',
 			),
 			'galleryVideo'=>array(
-				'index'=>'/admin/galleryVideo/index',
-				'create'=>'/admin/galleryVideo/create',
-				'manager_category'=>'/admin/category',
+				'index'=>Yii::app ()->user->checkAccess ('video_index')?'/admin/galleryVideo/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('video_create')?'/admin/galleryVideo/create':'',
+				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
 				'view_category'=>'/galleryVideo/list',
 				'view_all'=>'/galleryVideo/index',
 			),
 			'order'=>array(
-				'index'=>'/admin/order/index',
+				'index'=>Yii::app ()->user->checkAccess ('order_index')?'/admin/order/index':'',
 			),	
 			'qa'=>array(
-				'index'=>'/admin/qA/index',
-				'create'=>'/admin/qA/create',
+				'index'=>Yii::app ()->user->checkAccess ('qa_index')?'/admin/qA/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('qa_create')?'/admin/qA/create':'',
 				'view_qa'=>'qA/index'
 			),
 			'contact'=>array(
-				'index'=>'/admin/contact/index',
+				'index'=>Yii::app ()->user->checkAccess ('contact_index')?'/admin/contact/index':'',
 				'view_contact'=>'site/contact'
 			),
 			'user'=>array(
-				'index'=>'/admin/user/index',
-				'create'=>'/admin/user/create',
+				'index'=>Yii::app ()->user->checkAccess ('user_index')?'/admin/user/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('user_create')?'/admin/user/create':'',
 			),
 			'banner'=>array(
-				'index'=>'/admin/banner/index',
-				'create'=>'/admin/banner/create',
+				'index'=>Yii::app ()->user->checkAccess ('banner_index')?'/admin/banner/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('banner_create')?'/admin/banner/create':'',
 			),
 			'keyword'=>array(
-				'index'=>'/admin/keyword/index',
-				'create'=>'/admin/keyword/create',
-				'manager_category'=>'/admin/category',
+				'index'=>Yii::app ()->user->checkAccess ('keyword_index')?'/admin/keyword/index':'',
+				'create'=>Yii::app ()->user->checkAccess ('keyword_create')?'/admin/keyword/create':'',
+				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
 			),
 			'setting'=>array(
-				'index'=>'/admin/setting/index',
+				'index'=>Yii::app ()->user->checkAccess ('setting_index')?'/admin/setting/index':'',
 			), 
 			'language'=>array(
-				'edit'=>'/admin/language/edit',
-				'create'=>'/admin/language/create',
-				'delete'=>'/admin/language/delete',
-				'export'=>'/admin/language/export',
-				'import'=>'/admin/language/import',
+				'edit'=>Yii::app ()->user->checkAccess ('language_edit')?'/admin/language/edit':'',
+				'create'=>Yii::app ()->user->checkAccess ('language_create')?'/admin/language/create':'',
+				'delete'=>Yii::app ()->user->checkAccess ('language_delete')?'/admin/language/delete':'',
+				'export'=>Yii::app ()->user->checkAccess ('language_export')?'/admin/language/export':'',
+				'import'=>Yii::app ()->user->checkAccess ('language_import')?'/admin/language/import':'',
 			),
 			'image'=>array(
-				'list'=>'/admin/image/list',
+				'list'=>Yii::app ()->user->checkAccess ('image_list')?'/admin/image/list':'',
 			),
 			'config' => array (
-				'menu' => '/admin/category', 
-				'clear_image' => '/admin/image/clear',
-				'root'=>'/admin/category',
+				'menu' => Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'', 
+				'clear_image' => Yii::app ()->user->checkAccess ('image_clear')?'/admin/image/clear':'',
+				'root'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'', 
 			) 
 		);
 		if(isset($config [$this->controller] [$this->action]))
@@ -964,8 +972,15 @@ class Category extends CActiveRecord
 	 * @return string, the url of menu
 	 */
 	public function getUrl() {
+		if($this->route == '') 
+			return '';			
 		if ($this->group==Category::GROUP_ADVANCE_ADMIN_MENU || $this->group == Category::GROUP_ADMIN_MENU || $this->group == Category::GROUP_USER_MENU) {
 			$config = array (
+					'role'=>array(
+						'manager_operation' => array ('type' => Role::TYPE_OPERATION),
+						'manager_task' => array ('type' => Role::TYPE_TASK),
+						'manager_role' => array ('type' => Role::TYPE_ROLE),
+					),
 					'news' => array (
 						'manager_category' => array ('group' => Category::GROUP_NEWS),
 					),
@@ -996,43 +1011,38 @@ class Category extends CActiveRecord
 			if (isset ( $params ))
 				$url = Yii::app ()->createUrl ( $this->route, $params );
 			else
-				$url = Yii::app ()->createUrl ( $this->route );
-			return $url;
+				$url = Yii::app ()->createUrl ( $this->route );				
 		}
 		elseif($this->findGroup() == Category::GROUP_NEWS){
 			
  			$cat_alias=$this->alias;
  			$url=Yii::app()->createUrl("/news/list",array('cat_alias'=>$cat_alias));
-			return $url;
 		}
 		elseif($this->findGroup() == Category::GROUP_STATICPAGE){
 			
  			$cat_alias=$this->alias;
  			$url=Yii::app()->createUrl("/staticPage/index",array('cat_alias'=>$cat_alias));
-			return $url;
 		}
 		elseif($this->findGroup() == Category::GROUP_ALBUM){
 			
  			$cat_alias=$this->alias;
  			$url=Yii::app()->createUrl("/album/index",array('album_alias'=>$cat_alias));
-			return $url;
 		}
 		elseif($this->findGroup() == Category::GROUP_GALLERYVIDEO){
 			
  			$cat_alias=$this->alias;
  			$url=Yii::app()->createUrl("/galleryVideo/index",array('galleryVideo_alias'=>$cat_alias));
-			return $url;
 		}
 		elseif($this->findGroup() == Category::GROUP_PRODUCT){
 
  			$cat_alias=$this->alias;
  			$url=Yii::app()->createUrl("/product/list",array('cat_alias'=>$cat_alias));
-			return $url;
 		}
 		else 
 		{
-			return "#";
+			$url='';
 		}
+		return $url;
 	}
 	/**
 	 * Get url update f album
