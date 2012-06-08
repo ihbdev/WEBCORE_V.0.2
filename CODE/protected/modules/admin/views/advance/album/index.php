@@ -43,12 +43,13 @@
                         </li> 
                          <?php 
 					$list=array(''=>'Tất cả các thư mục');
-					foreach ($list_category as $id=>$cat){
+					foreach ($list_category as $id=>$level){
+						$cat=Category::model()->findByPk($id);
 						$view = "";
-						for($i=1;$i<$cat['level'];$i++){
+						for($i=1;$i<$level;$i++){
 							$view .="---";
 						}
-						$list[$id]=$view." ".$cat['name']." ".$view;
+						$list[$id]=$view." ".$cat->name." ".$view;
 					}
 					?>
 					<li>
@@ -85,16 +86,17 @@
                     </li>  
                     <?php 
 						$list=array(''=>'Tất cả các nhóm');
-						foreach ($list_keyword_categories as $id=>$cat){
+						foreach ($list_keyword_categories as $id=>$level){
+							$cat=Category::model()->findByPk($id);
 							$view = "";
-							for($i=1;$i<$cat['level'];$i++){
+							for($i=1;$i<$level;$i++){
 								$view .="---";
 							}
 							$keywords=Keyword::viewListKeyword($id);
 							if($keywords != "")
-								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
+								$list[$id]=$view." ".$cat->name." (".$keywords.") ".$view;
 							else 	
-								$list[$id]=$view." ".$cat['name']." ".$view;
+								$list[$id]=$view." ".$cat->name." ".$view;
 						}
 						?>
 						<li>
@@ -127,7 +129,7 @@
 					), 	
 					array(
 						'name'=>'thumb_album',
-						'value'=>'$data->getThumb_url("thumb")',
+						'value'=>'$data->getThumb_url("thumb","img")',
 						'type'=>'html',
 						'headerHtmlOptions'=>array('width'=>'10%','class'=>'table-title'),	
 						'htmlOptions'=>array('style'=>'text-align:center'),		

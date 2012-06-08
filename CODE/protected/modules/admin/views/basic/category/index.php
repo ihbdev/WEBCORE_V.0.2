@@ -6,110 +6,24 @@ $cs->registerCssFile(Yii::app()->request->getBaseUrl(true).'/css/admin/sprite.cs
 	<div class="folder top">
 		<!--begin title-->
 		<div class="folder-header">
-			<h1>
-			<?php 
-			switch ($group){
-				case Category::GROUP_ADVANCE_ADMIN_MENU: echo "Danh mục menu trang quản trị nâng cao";
-				break;
-				case Category::GROUP_ADMIN_MENU: echo "Danh mục menu trang quản trị";
-				break;
-				case Category::GROUP_USER_MENU: echo 'Danh mục menu trang frontend';
-				break;
-				case Category::GROUP_KEYWORD: echo "Danh mục từ khóa";
-				break;
-				case Category::GROUP_ROOT: echo "Danh mục gốc";
-				break;
-				case Category::GROUP_NEWS: echo "Danh mục bài viết";
-				break;
-				case Category::GROUP_ALBUM: echo "Danh mục album";
-				break;
-				case Category::GROUP_GALLERYVIDEO: echo "Danh mục video";
-				break;
-				case Category::GROUP_STATICPAGE: echo "Danh mục các trang tĩnh";
-				break;
-				case Category::GROUP_PRODUCT: echo "Danh mục sản phẩm";
-				break;
-				case Category::GROUP_MANUFACTURER:  echo "Danh mục nhà sản xuất";
-				break;
-				default: echo 'Danh mục';
-				break;
-				
-			}
-			?>
-			</h1>
+			<h1><?php echo $model->config_type[$type]['label']?></h1>
 			<div class="header-menu">
 				<ul>
-					<li><a class="header-menu-active new-icon" href=""><span>
-			<?php 
-			switch ($group){
-				case Category::GROUP_ADVANCE_ADMIN_MENU: echo "Danh mục menu trang quản trị nâng cao";
-				break;
-				case Category::GROUP_ADMIN_MENU: echo "Danh mục menu trang quản trị";
-				break;
-				case Category::GROUP_USER_MENU: echo 'Danh mục menu trang frontend';
-				break;
-				case Category::GROUP_KEYWORD: echo "Danh mục từ khóa";
-				break;
-				case Category::GROUP_ROOT: echo "Danh mục gốc";
-				break;
-				case Category::GROUP_NEWS: echo "Danh mục bài viết";
-				break;
-				case Category::GROUP_ALBUM: echo "Danh mục album";
-				break;
-				case Category::GROUP_GALLERYVIDEO: echo "Danh mục video";
-				break;
-				case Category::GROUP_STATICPAGE: echo "Danh mục các trang tĩnh";
-				break;
-				case Category::GROUP_PRODUCT: echo "Danh mục sản phẩm";
-				break;
-				case Category::GROUP_MANUFACTURER:  echo "Danh mục nhà sản xuất";
-				break;
-				default: echo 'Danh mục';
-				break;
-				
-			}
-			?>
-					</span></a></li>					
+					<li><a class="header-menu-active new-icon" href=""><span><?php echo $model->config_type[$type]['label']?></span></a></li>					
 				</ul>
 			</div>
 		</div>
 		<!--end title-->
 		<div class="folder-content form">
 			<!--begin left content-->
-			<?php 	
-			switch ($group){
-				case Category::GROUP_ADVANCE_ADMIN_MENU: $form='_form_menu';
-				break;
-				case Category::GROUP_ADMIN_MENU: $form='_form_menu';
-				break;
-				case Category::GROUP_USER_MENU: $form='_form_menu';
-				break;
-				case Category::GROUP_KEYWORD: $form='_form_keyword';
-				break;
-				case Category::GROUP_ROOT: $form="_form_root";
-				break;
-				case Category::GROUP_NEWS: $form="_form_news";
-				break;
-				case Category::GROUP_GALLERYVIDEO: $form="_form_video";
-				break;
-				case Category::GROUP_ALBUM: $form="_form_album";
-				break;
-				case Category::GROUP_STATICPAGE: $form="_form_static_page";
-				break;
-				case Category::GROUP_PRODUCT: $form="_form_product";
-				break;
-				case Category::GROUP_MANUFACTURER: $form="_form_manufacturer";
-				break;
-				default: $form='_form';
-				break;
-				
-			}
-			echo $this->renderPartial($form, array('model'=>$model,'group'=>$group,'action'=>$action)); 
+			<?php 
+			$form=$model->config_type[$type]['form'];
+			echo $this->renderPartial($form, array('model'=>$model,'action'=>$action)); 
 			?>
 			<!--end left content-->
 			<!--begin right content-->
 			<?php			
-			echo $this->renderPartial('_tree', array('list'=>$model->list_categories)); 			
+			echo $this->renderPartial('_tree', array('list_nodes'=>$model->list_nodes)); 			
 			?>
 			<!--end right content-->
 			<div class="clear"></div>
@@ -135,7 +49,7 @@ $cs->registerScript(
   				function(r){
   					if(r){
   					jQuery.ajax({
-  						'data':{id : $(\"#popup_value\").val(), group: $(\"#group\").val(), current_id: $(\"#current_id\").val()},
+  						'data':{id : $(\"#popup_value\").val(), current_id: $(\"#current_id\").val()},
   						'dataType':'json',
   						'success':function(data){
   							if(data.status == true){
@@ -169,7 +83,7 @@ $cs->registerScript(
   			'.i16-statustext',	
   			function(){
   				jQuery.ajax({
-  					'data':{id : this.id, group: $(\"#group\").val()},
+  					'data':{id : this.id},
   					'success':function(data){
 						$(\".folder-content\").html(data);
 						$(\".folder-content\").append('<div class=\"clear\"></div>');
@@ -203,7 +117,7 @@ $cs->registerScript(
         			'type':'GET',
         			'url':'".$this->createUrl('category/create')."',
         			'cache':false,
-        			'data':{group:$(\"#group\").val(),lang: '".$lang."'}
+        			'data':{type:".$model->type."}
         		});
         		return false;
         	}
@@ -227,7 +141,7 @@ $cs->registerScript(
 						$(\".folder-content\").append('<div class=\"clear\"></div>');
         			},
         			'type':'POST',
-        			'url':'".$this->createUrl('category/write',array('group'=>$group,'lang'=>$lang))."',
+        			'url':'".$this->createUrl('category/write',array('type'=>$model->type))."',
         			'cache':false,
         			'data':jQuery(this).parents(\"form\").serialize()
         		});

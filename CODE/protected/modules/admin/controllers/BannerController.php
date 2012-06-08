@@ -217,7 +217,7 @@ class BannerController extends Controller
 		$list_checked = Yii::app()->session["checked-banner-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'banner_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = Banner::model ()->findByPk ( $id );
 						if (isset ( $item ))

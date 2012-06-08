@@ -27,22 +27,18 @@ class Category extends CActiveRecord
 	/**
 	 * Config code (id) of the main category groups which have parent_id=0
 	 */
-	const GROUP_ROOT=0;
-	const GROUP_ADVANCE_ADMIN_MENU=1;
-	const GROUP_USER_MENU=2;
-	const GROUP_STATICPAGE=3;
-	const GROUP_NEWS=4;
-	const GROUP_PRODUCT=5;
-	const GROUP_MANUFACTURER=6;
-	const GROUP_ALBUM=7;
-	const GROUP_GALLERYVIDEO=8;
-	const GROUP_ADMIN_MENU=100;
-	const GROUP_KEYWORD=133;
-	/*
-	 * Config default controller and action when create admin menu
-	 */
-	const ADMIN_MENU_CONTROLLER_DEFAULT='news';
-	const ADMIN_MENU_ACTION_DEFAULT='index';
+	const TYPE_STATICPAGE=1;
+	const TYPE_NEWS=2;
+	const TYPE_PRODUCT=3;
+	const TYPE_MANUFACTURER=4;
+	const TYPE_ALBUM=5;
+	const TYPE_GALLERYVIDEO=6;
+	const TYPE_KEYWORD=7;
+	const TYPE_QA=8;
+	const TYPE_SUPPORT=9;
+	const TYPE_RECRUITMENT=10;
+	const TYPE_APP=11;
+
 	/**
 	 * Config special
 	 * SPECIAL_REMARK when group is news, category news is viewed at homepage
@@ -54,12 +50,11 @@ class Category extends CActiveRecord
 	 * these attributes is stored in other field of article table	 
 	 */
 	
-	const META_LENGTH=30;
-	private $config_other_attributes=array('amount','introimage','params','action','controller','description','modified','max_rank','metadesc');	
+	const META_LENGTH=30;	
+	private $config_other_attributes=array('amount','introimage','description','modified','metadesc');	
 	private $list_other_attributes;
 	
 	public $list_special;
-	public $group;
 	// Template var that store data when tree traversal
 	public $tmp_list;
 	// Store old order view
@@ -71,6 +66,19 @@ class Category extends CActiveRecord
 	//Store keyword
 	public $old_keyword;
 	
+	public $config_type;
+	public function init(){
+			parent::init();
+			//Get list all language
+			$configFile = dirname ( __FILE__ ).'/../config/'.DIRECTORY_SEPARATOR.'config_categories.php';
+    		$this->config_type=require($configFile); 
+	}
+	/**
+  	 * Get max rank
+  	 */
+	public function getMax_rank(){
+		return $this->config_type[$this->type]['max_rank'];
+	}
 	/**
 	 * Get all specials of class Category
 	 * Use in drop select when create, update banner
@@ -117,56 +125,48 @@ class Category extends CActiveRecord
  	}
  	
 	/**
-	 * Returns all categories in the group
-	 * @return array $result, array all category in a group
+	 * Returns all nodes in the type
+	 * @return array $result all nodes in the type
 	 */
-	public function getList_Categories(){
-		$result=array();	
-		if($this->group==0){
-			$max_rank=1;
+	public function getList_nodes(){
+		$result=array();
+		$criteria=new CDbCriteria;
+		$criteria->compare('type', $this->type);
+		$criteria->compare('parent_id', 0);
+		$criteria->order='order_view';
+		$list_nodes=self::model()->findAll($criteria);	
+		foreach ($list_nodes as $node){
+			$result += array($node->id => 1);
+			$this->tmp_list=array();
+			$this->treeTraversal($node->id, 1, $this->max_rank);
+			$result += $this->tmp_list;
 		}
-		else {
-			if(Category::model()->findByPk($this->group)!=null){
-				$root=Category::model()->findByPk($this->group);
-				$max_rank=$root->max_rank;
-			}
-			else {
-				return $result;
-			}
-		}
+		return $result;
+	}
+	/**
+	 * Returns all child of the node.
+	 * @return array $result array of sub-nodes of this node
+	 */
+	public function getChild_nodes(){
+		$result=array();
 		$this->tmp_list=array();
-		$this->treeTraversal($this->group, 0, $max_rank);
+		$this->treeTraversal($this->id, 0, PHP_INT_MAX);
 		$result=$this->tmp_list;
 		return $result;
 	}
 	/**
-	 * Returns all child of the category.
-	 * @return array $result array of sub-categories of this category
-	 */
-	public function getChild_categories(){
-		if(!isset($this->id)){	
-			return array();
-		}
-		else {
-			$this->tmp_list=array();
-			$this->treeTraversal($this->id, 0, PHP_INT_MAX);
-			$result=$this->tmp_list;
-			return $result;
-		}
-	}
-	/**
-	 * Return ancestor categories of the category 
+	 * Return ancestor nodes of the node 
 	 * Used in bread crumb
-	 * @return array $bread_crumb ancestor array of this category
+	 * @return array $bread_crumb ancestor array of this node
 	 */
-	public function getBread_crumb(){
+	public function getAncestor_nodes(){
 		$bread_crumb=array();
 		$check=true;
 		$current_id=$this->id;
 		while ($check){
-			$current=Category::model()->findByPk($current_id);
+			$current=self::model()->findByPk($current_id);
 			$bread_crumb[]=$current_id;
-			if(in_array($current->parent_id,array(Category::GROUP_KEYWORD,Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_ADMIN_MENU,Category::GROUP_ADVANCE_ADMIN_MENU,Category::GROUP_MANUFACTURER,Category::GROUP_USER_MENU))){
+			if($current->parent_id==0){
 				$check=false;
 			}
 			else 
@@ -176,15 +176,15 @@ class Category extends CActiveRecord
 	}
 	
 	/**
-	 * Return ancestor of the category which has level 1 in the category group.
-	 * @return integer $current_id, the ID of root category
+	 * Return ancestor of the node which has level 1 in the type.
+	 * @return integer $current_id, the ID of root
 	 */
 	public function getRoot(){
 		$check=true;
 		$current_id=$this->id;
 		while ($check){
-			$current=Category::model()->findByPk($current_id);
-			if(in_array($current->parent_id,array(Category::GROUP_KEYWORD,Category::GROUP_ADMIN_MENU,Category::GROUP_ADVANCE_ADMIN_MENU,Category::GROUP_USER_MENU,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO,Category::GROUP_MANUFACTURER,Category::GROUP_NEWS,Category::GROUP_STATICPAGE,Category::GROUP_PRODUCT)))
+			$current=self::model()->findByPk($current_id);
+			if($current->parent_id==0)
 			{
 				$check=false;
 			}
@@ -195,42 +195,28 @@ class Category extends CActiveRecord
 	}
 	
 	/**
-	 * find category group
-	 * @return integer $current_id, the id of category group 
-	 */
-	public function findGroup(){
-		$check=true;
-		$current_id=$this->id;
-		while ($check){
-			$current=Category::model()->findByPk($current_id);
-			if($current->parent_id == 0){
-				$check=false;
-			}
-			else 
-				$current_id=$current->parent_id;
-		}
-		return $current_id;
-	}
-	
-	/**
-	 * Returns the rank of category 
-	 * @return integer $result, the rank of this category
+	 * Returns the rank of menu 
+	 * @return integer $result, the rank of this menu
 	 */
 	public function getRank(){
 		$result=0;
-		foreach ($this->child_categories as $cat){
-			if($cat['level'] > $result) $result=$cat['level'];
+		foreach ($this->child_nodes as $level){
+			if($level > $result) $result=$level;
 		}
 		return $result;
 	}
 	
-	/**
-	 * Returns order view of brother categories
-	 * @return array $result, the array sibling of this category
+/**
+	 * Returns order view of brother nodes
+	 * @return array $result, the array sibling of this node
 	 */
 	public function getList_order_view(){
 		$result=array();	
-		$list=Category::model()->findAll('parent_id='.$this->parent_id);
+		$criteria=new CDbCriteria;
+		$criteria->compare('parent_id', $this->parent_id);
+		$criteria->compare('type',$this->type);
+		$list=self::model()->findAll($criteria);
+		
 		foreach ($list as $cat){
 			$result[$cat->id]=$cat->order_view;
 		}
@@ -238,67 +224,51 @@ class Category extends CActiveRecord
 	}
 	
 	/**
-	 * Returns all categories that can be parent of this category.
+	 * Returns all nodes that can be parent of this node.
 	 */
-	public function getParent_categories(){
-		
-		$this->tmp_list=array($this->group=>array('level'=>0,'name'=>'Thư mục gốc'));	
-		if($this->group==0){
-			return $this->tmp_list;
+	public function getParent_nodes(){
+		$result=$this->list_nodes;
+		foreach ($result as $node_id=>$level){
+			if($level >= $this->max_rank) unset($result[$node_id]);
 		}
-		else {
-			$root=Category::model()->findByPk($this->group);
-			$max_rank=$root->max_rank-1;
-		}
-		if($max_rank > 0){
-			$this->treeTraversal($this->group, 0, $max_rank);
-		}
-		$result=$this->tmp_list;
-		
 		$black_list=array();
-		//Remove the category
-		$black_list[]=$this->id;
-		//Remove all child of category
-		foreach ($this->child_categories as $cat_id=>$cat){
-			$black_list[]=$cat_id;
+		//Remove the menu
+		if($this->id > 0)
+			$black_list[]=$this->id;
+		//Remove all child of menu
+		foreach ($this->child_nodes as $node_id=>$level){
+			$black_list[]=$node_id;
 		}
-		foreach ($black_list as $cat_id) {
-			unset($result[$cat_id]);
-		}		
+		foreach ($black_list as $node_id) {
+			unset($result[$node_id]);
+		}	
 		return $result;
 	}
 	/**
 	 * Recursive algorithms for tree traversals
 	 */
-	public function treeTraversal($group,$level,$rank){
-		$new_level=$level+1;
-		$criteria=new CDbCriteria;
-		$criteria->compare('parent_id', $group);
-		$criteria->order='order_view';
-		$list_category=Category::model()->findAll($criteria);
-		foreach ($list_category as $category){
-			$category->group=$this->group;
-			//Get route and params if group is menu
-			if($this->group==Category::GROUP_ADVANCE_ADMIN_MENU || $this->group==Category::GROUP_ADMIN_MENU || $this->group==Category::GROUP_USER_MENU){
-				$this->tmp_list[$category->id]=array('level'=>$new_level,'name'=>$category->name,'url'=>$category->url,'root'=>$category->root);
-			}
-			elseif(in_array($this->group,array(Category::GROUP_KEYWORD,Category::GROUP_NEWS,Category::GROUP_PRODUCT,Category::GROUP_STATICPAGE,Category::GROUP_ALBUM,Category::GROUP_GALLERYVIDEO))){
-				$this->tmp_list[$category->id]=array('level'=>$new_level,'name'=>$category->name,'url'=>$category->url,'special'=>$category->special);
-			}
-			else {
-				$this->tmp_list[$category->id]=array('level'=>$new_level,'name'=>$category->name);
-			}
-			if($new_level<$rank){
-			$this->treeTraversal($category->id, $new_level, $rank);
+	public function treeTraversal($node_id,$level,$rank){
+		if($node_id > 0){
+			$new_level=$level+1;
+			$criteria=new CDbCriteria;
+			$criteria->compare('parent_id', $node_id);
+			$criteria->order='order_view';
+			$list_menu=self::model()->findAll($criteria);
+			foreach ($list_menu as $menu){
+				//Get route and params if type is menu
+				$this->tmp_list[$menu->id]=$new_level;
+				if($new_level<$rank){
+					$this->treeTraversal($menu->id, $new_level, $rank);
+				}
 			}
 		}
 	}
 	/*
-	 * Returns the level of the category in group
+	 * Returns the level of the node in group
 	 */
 	public function getLevel(){
-		foreach ($this->list_categories as $id=>$category) {
-			if($this->id==$id) return $category['level'];
+		foreach ($this->list_nodes as $id=>$node) {
+			if($this->id==$id) return $node['level'];
 		}
 	}
 	
@@ -357,22 +327,16 @@ class Category extends CActiveRecord
 	public function rules()
 	{
 		return array(
-			array('max_rank','required','on'=>'root'),
-			array('max_rank','numerical','on'=>'root'),
-			array('max_rank','validatorMaxRank','on'=>'root'),
 			array('name,parent_id', 'required'),
 			array('parent_id','validatorParent'),
 			array('name', 'length', 'max'=>256),
-			array('description,metadesc,keyword', 'safe'),
-			array('order_view','required','on'=>'staticPage,menu,news,product'),
-			array('order_view','numerical','on'=>'menu,news,product,staticPage'),
-			array('controller,action','required','on'=>'menu'),
-			array('params','safe','on'=>'menu'),
-			array('list_special,lang','safe','on'=>'staticPage,news,product')
+			array('description,metadesc,keyword,introimage', 'safe'),
+			array('order_view','numerical'),
+			array('list_special,lang','safe')
 		);
 	}
 	
-	/**
+/**
 	 * Function validator role
 	 */
 	public function validatorMaxRank($attributes,$params){
@@ -386,12 +350,10 @@ class Category extends CActiveRecord
 	 * Function validator role
 	 */
 	public function validatorParent($attributes,$params){
-		if($this->group>0 && $this->id>0){
-			$root=Category::model()->findByPk($this->group);
-			$max_rank=$root->max_rank;
-			$parent=Category::model()->findByPk($this->parent_id);
-			$parent->group=$this->group;
-			if(($parent->level+$this->rank)>=$root->max_rank){
+		if($this->type>0 && $this->id>0){
+			$max_rank=$this->max_rank;
+			$parent=self::model()->findByPk($this->parent_id);
+			if(($parent->level+$this->rank)>=$max_rank){
 				$this->addError('parent_id', 'Vượt quá cấp quy định. Bạn không thể chuyển tới thư mục này.');
 			}
 		}
@@ -418,12 +380,10 @@ class Category extends CActiveRecord
 			'parent_id'	=> 'Thuộc',
 			'max_rank'=>'Mức cấp con',
 			'order_view'=>'Thứ tự hiển thị',
-			'params'=>'Cấu hình tham số 3 cho URL',
-			'controller'=>'Cấu hình tham số 1 cho URL',
-			'action'=>'Cấu hình tham số 2 cho URL',
 			'list_special' => 'Nhóm hiển thị',
 			'lang'=>'Ngôn ngữ',
-			'amount'=>'Số đối tượng chứa các từ khóa trên'
+			'amount'=>'Số đối tượng chứa các từ khóa trên',
+			'introimage'=>'Ảnh đại diện'
 		);
 	}
 	
@@ -476,17 +436,8 @@ class Category extends CActiveRecord
 				$this->created_date=time();
 				$this->created_by=Yii::app()->user->id;
 				//Set order view
-				$this->order_view=sizeof($this->list_order_view)+1;
-				if($this->parent_id == Category::GROUP_STATICPAGE || $this->parent_id == Category::GROUP_NEWS || $this->parent_id == Category::GROUP_PRODUCT) 
-					$this->list_special=array(Category::SPECIAL_REMARK);
-				//Set alias
-				/*
-				if($this->group==self::GROUP_ADMIN_MENU)
-					$this->alias='admin-menu-'.iPhoenixString::createAlias($this->name);
-				elseif($this->group==self::GROUP_USER_MENU)
-					$this->alias='user-menu-'.iPhoenixString::createAlias($this->name);	
-				else
-				*/ 
+				$this->order_view=sizeof($this->list_order_view)+1; 
+				$this->list_special=array(Category::SPECIAL_REMARK); 
 				$alias=iPhoenixString::createAlias($this->name);
 				if(sizeof(Category::model()->findAll('alias ="'.$alias.'"'))>0)
 				{
@@ -536,8 +487,7 @@ class Category extends CActiveRecord
 				}
 			}
 			//Encode special
-			if($this->group == self::GROUP_STATICPAGE || $this->group == self::GROUP_NEWS || $this->group == self::GROUP_PRODUCT)
-				$this->special=iPhoenixStatus::encodeStatus($this->list_special);
+			$this->special=iPhoenixStatus::encodeStatus($this->list_special);
 			//Encode other attributes  		
 			$this->other = json_encode ( $this->list_other_attributes );
 			return true;
@@ -562,8 +512,9 @@ class Category extends CActiveRecord
 						$category = Category::model ()->findByPk ( $id );
 						if ($category->order_view < $this->old_order_view )
 							$category->order_view = $order + 1;
-						if (! $category->save ())
+						if (! $category->save ()){
 							return false;
+						}
 					}
 				}
 			}
@@ -631,419 +582,44 @@ class Category extends CActiveRecord
 		if(sizeof($list_category)>0){
 			return self::DELETE_HAS_CHILD;
 		}
-		switch($this->group){
-			case self::GROUP_NEWS:
+		switch($this->type){
+			case self::TYPE_NEWS:
 				$list_news=News::model()->findAll('catid = '. $id);
 				if(sizeof($list_news)>0) return self::DELETE_HAS_ITEMS;
 				break;
-			case self::GROUP_PRODUCT:
+			case self::TYPE_PRODUCT:
 				$list_product=Product::model()->findAll('catid = '. $id);
 				if(sizeof($list_product)>0) return self::DELETE_HAS_ITEMS;
 				break;
-			case self::GROUP_STATICPAGE:
+			case self::TYPE_STATICPAGE:
 				$list_page=StaticPage::model()->findAll('catid = '. $id);
 				if(sizeof($list_page)>0) return self::DELETE_HAS_ITEMS;
 				break;
+			case self::TYPE_ALBUM:
+				$list_album=Album::model()->findAll('catid = '. $id);
+				if(sizeof($list_album)>0) return self::DELETE_HAS_ITEMS;
+				break;
+			case self::TYPE_GALLERYVIDEO:
+				$list_video=GalleryVideo::model()->findAll('catid = '. $id);
+				if(sizeof($list_video)>0) return self::DELETE_HAS_ITEMS;
+				break;
+			case self::TYPE_QA:
+				$list_qa=QA::model()->findAll('catid = '. $id);
+				if(sizeof($list_qa)>0) return self::DELETE_HAS_ITEMS;
+				break;
+			case self::TYPE_SUPPORT:
+				$list_support=Support::model()->findAll('catid = '. $id);
+				if(sizeof($list_support)>0) return self::DELETE_HAS_ITEMS;
+				break;
+			case self::TYPE_RECRUITMENT:
+				$list_recuitment=Recruitment::model()->findAll('catid = '. $id);
+				if(sizeof($list_recruitment)>0) return self::DELETE_HAS_ITEMS;
+				break;
+			
 		}
 		return self::DELETE_OK;
 	}
-	/**
-	 * Config menu of category, each menu have corresponding controller/action
-	 * @param string $type, controller or action
-	 * @param array $value, the information of corresponding url
-	 * @return array
-	 */
-	public function codeUrl($type,$value=array()){
-		switch ($type) {
-			case 'controller': 
-					return array('role'=>'Quản lý quyền','product'=>'Sản phẩm','news'=>'Tin tức','staticPage'=>'Trang tĩnh','album'=>'Album','galleryVideo'=>'Video','config'=>'Hệ thống','language'=>'Ngôn ngữ','setting'=>'Cấu hình','order'=>'Đơn hàng','user'=>'User','qa'=>'Hỏi đáp','image'=>'Image','banner'=>'Banner','keyword'=>'Từ khóa','contact'=>'Liên hệ');				
-				break;
-			case 'action':
-				switch ($value['controller']) {	
-					case 'role':													
-							return array('manager_operation'=>'Quản lý chức năng','manager_task'=>'Quản lý tác vụ','manager_role'=>'Quản lý quyền');
-						break;	
-					case 'product':													
-							return array('view_all'=>'Hiển thị tất cả sản phẩm','view_category'=>'Hiển thị theo danh mục','index'=>'Quản lý danh sách','create'=>'Tạo mới','manager_category'=>'Quản lý danh mục','manufacturer'=>'Nhà sản xuất');
-						break;			
-					case 'news':						
-							return array('view_all'=>'Hiển thị tất cả tin tức','view_category'=>'Hiển thị theo danh mục','index'=>'Quản lý danh sách','create'=>'Tạo mới','manager_category'=>'Quản lý danh mục');					
-						break;
-					case 'staticPage':						
-							return array('view_all'=>'Hiển thị tất cả các trang tĩnh','view_category'=>'Hiển thị danh mục','view_page'=>'Hiển thị trang','home'=>'Trang chủ','index'=>'Quản lý danh sách','create'=>'Tạo mới','manager_category'=>'Quản lý danh mục');					
-						break;
-					case 'album':							
-						return array('view_all'=>'Hiển thị tất cả album','view_category'=>'Hiển thị theo danh mục','index'=>'Quản lý danh sách','create'=>'Tạo mới','manager_category'=>'Quản lý danh mục');
-						break;
-					case 'galleryVideo':							
-						return array('view_all'=>'Hiển thị tất cả video','view_category'=>'Hiển thị theo danh mục','index'=>'Quản lý danh sách','create'=>'Tạo mới','manager_category'=>'Quản lý danh mục');
-						break;
-					case 'config':								
-						return array('root'=>'Danh mục gốc','menu'=>'Menu','clear_image'=>'Dọn dẹp ảnh rác');
-						break;
-					case 'language':
-						return array('create'=>'Tạo mới','edit'=>'Cập nhật','delete'=>'Xóa','import'=>'Nhập dữ liệu từ file excel','export'=>'Xuất dữ liệu ra file excel');
-						break;
-					case 'setting':	
-						return array('index'=>'Quản lý');
-						break;
-					case 'order':							
-						return array('index'=>'Quản lý');
-						break;						
-					case 'qa':						
-						return array('index'=>'Quản lý','view_qa'=>'Hiển thị');
-						break;
-					case 'contact':							
-						return array('index'=>'Quản lý','view_contact'=>'Hiển thị');
-						break;
-					case 'image':							
-						return array('list'=>'Danh sách');
-						break;
-					case 'user':								
-						return array('index'=>'Quản lý danh sách','create'=>'Thêm mới');
-						break;
-					case 'banner':								
-						return array('index'=>'Quản lý','create'=>'Tạo mới');
-						break;	
-					case 'keyword':
-						return array('index'=>'Quản lý','create'=>'Tạo mới','manager_category'=>'Quản lý danh mục');
-						break;	
-				}
-				break;			
-		}
-	}
-	/**
-	 * Get list params for menu
-	 * @param string $controller, the controller of menu
-	 * @param string $action, the action of menu
-	 */
-	static function getListParams($controller,$action){
-		$result=array();
-		switch ($controller){
-			case 'news':
-				switch ($action) {
-					case 'view_category': 
-						$group=new Category();		
-						$group->group=Category::GROUP_NEWS;
-						$list_category=$group->list_categories;
-						foreach ($list_category as $id=>$info_cat){
-							$cat=Category::model()->findByPk($id);
-							$index=json_encode(array('cat_alias'=>$cat->alias));
-							$view = "";
-							for($i=1;$i<$info_cat['level'];$i++){
-								$view .="---";
-							}
-							$label=$view." ".$info_cat['name']." ".$view;
-							$result[$index]=$label;
-						}
-						return $result;					
-					default:
-						return $result;
-				}
-				break;
-			case 'galleryVideo':
-				switch ($action) {
-					case 'view_category': 
-						$group=new Category();		
-						$group->group=Category::GROUP_GALLERYVIDEO;
-						$list_category=$group->list_categories;
-						foreach ($list_category as $id=>$info_cat){
-							$cat=Category::model()->findByPk($id);
-							$index=json_encode(array('cat_alias'=>$cat->alias));
-							$view = "";
-							for($i=1;$i<$info_cat['level'];$i++){
-								$view .="---";
-							}
-							$label=$view." ".$info_cat['name']." ".$view;
-							$result[$index]=$label;
-						}
-						return $result;					
-					default:
-						return $result;
-				}
-				break;
-			case 'album':
-				switch ($action) {
-					case 'view_category': 
-						$group=new Category();		
-						$group->group=Category::GROUP_ALBUM;
-						$list_category=$group->list_categories;
-						foreach ($list_category as $id=>$info_cat){
-							$cat=Category::model()->findByPk($id);
-							$index=json_encode(array('cat_alias'=>$cat->alias));
-							$view = "";
-							for($i=1;$i<$info_cat['level'];$i++){
-								$view .="---";
-							}
-							$label=$view." ".$info_cat['name']." ".$view;
-							$result[$index]=$label;
-						}
-						return $result;					
-					default:
-						return $result;
-				}
-				break;
-			case 'staticPage':
-				switch ($action) {
-					case 'view_category': 
-						$group=new Category();		
-						$group->group=Category::GROUP_STATICPAGE;
-						$list_category=$group->list_categories;
-						foreach ($list_category as $id=>$info_cat){
-							$cat=Category::model()->findByPk($id);
-							$index=json_encode(array('cat_alias'=>$cat->alias));
-							$view = "";
-							for($i=1;$i<$info_cat['level'];$i++){
-								$view .="---";
-							}
-							$label=$view." ".$info_cat['name']." ".$view;
-							$result[$index]=$label;
-						}
-						return $result;	
-						break;
-					case 'view_page':
-						$criteria=new CDbCriteria;
-						$group=new Category();		
-						$group->group=Category::GROUP_STATICPAGE;
-						$list_category = array ();
-						//Set itself
-						$list_child_id [] = $cat->id;
-						if ($group->list_categories != null)
-							foreach ( $group->list_categories as $id => $child_cat ) {
-								$list_category [] = $id;
-						}
-						$criteria->addInCondition('catid',$list_category);
-						$criteria->compare('status',StaticPage::STATUS_ACTIVE);
-						$list_page=StaticPage::model()->findAll($criteria);
-						foreach ($list_page as $page){
-							$index=json_encode(array('cat_alias'=>$page->category->alias,'staticPage_alias'=>$page->alias));
-							$result[$index]=$page->title;
-						}
-						return $result;	
-						break;			
-					default:
-						return $result;
-				}
-				break;
-		case 'product':
-				switch ($action) {
-					case 'view_category': 
-						$group=new Category();		
-						$group->group=Category::GROUP_PRODUCT;
-						$list_category=$group->list_categories;
-						foreach ($list_category as $id=>$info_cat){
-							$cat=Category::model()->findByPk($id);
-							$index=json_encode(array('cat_alias'=>$cat->alias));
-							$view = "";
-							for($i=1;$i<$info_cat['level'];$i++){
-								$view .="---";
-							}
-							$label=$view." ".$info_cat['name']." ".$view;
-							$result[$index]=$label;
-						}
-						return $result;					
-					default:
-						return $result;
-				}
-				break;
-			case 'config':
-				switch ($action) {
-					case 'menu': 
-						$result=array();
-						//Config admin menu
-						$value=json_encode(array('group'=>Category::GROUP_ADMIN_MENU));
-						$result[$value]='Quản lý menu trang quản trị';
-						//Config admin menu advance
-						$value=json_encode(array('group'=>Category::GROUP_ADVANCE_ADMIN_MENU));
-						$result[$value]='Quản lý menu trang quản trị nâng cao';
-						//Config user menu
-						$value=json_encode(array('group'=>Category::GROUP_USER_MENU));
-						$result[$value]='Quản lý menu trang front end';
-						return $result;
-					default:
-						return $result;
-				}
-				break;
-			default:
-				return $result;
-		}
-	}
-	
-	/**
-	 * Create route for url of menu
-	 * @return string the corresponding url of this controller/action
-	 */	
-	public function getRoute(){
-		$config=array(
-			'role'=>array(
-				'manager_operation'=>Yii::app ()->user->checkAccess ('role_index')?'/admin/role/index':'',
-				'manager_task'=>Yii::app ()->user->checkAccess ('role_index')?'/admin/role/index':'',
-				'manager_role'=>Yii::app ()->user->checkAccess ('role_index')?'/admin/role/index':'',
-			),
-			'product'=>array(
-				'view_all'=>'/product/index',
-				'index'=>Yii::app ()->user->checkAccess ('product_index')?'/admin/product/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('product_create')?'/admin/product/create':'',
-				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
-				'view_category'=>'/product/list',
-				'manufacturer'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
-			),
-			'news'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('news_index')?'/admin/news/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('news_create')?'/admin/news/create':'',
-				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
-				'view_category'=>'/news/list',
-				'view_all'=>'/news/index',
-			),
-			'staticPage'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('static_page_index')?'/admin/staticPage/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('static_page_create')?'/admin/staticPage/create':'',
-				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
-				'view_category'=>'staticPage/list',
-				'view_all'=>'/staticPage/index',
-				'view_page'=>'/staticPage/view',
-				'home'=>'site/home'
-			),
-			'album'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('album_index')?'/admin/album/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('album_create')?'/admin/album/index':'',
-				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
-				'view_category'=>'/album/list',
-				'view_all'=>'/album/index',
-			),
-			'galleryVideo'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('video_index')?'/admin/galleryVideo/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('video_create')?'/admin/galleryVideo/create':'',
-				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
-				'view_category'=>'/galleryVideo/list',
-				'view_all'=>'/galleryVideo/index',
-			),
-			'order'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('order_index')?'/admin/order/index':'',
-			),	
-			'qa'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('qa_index')?'/admin/qA/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('qa_create')?'/admin/qA/create':'',
-				'view_qa'=>'qA/index'
-			),
-			'contact'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('contact_index')?'/admin/contact/index':'',
-				'view_contact'=>'site/contact'
-			),
-			'user'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('user_index')?'/admin/user/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('user_create')?'/admin/user/create':'',
-			),
-			'banner'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('banner_index')?'/admin/banner/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('banner_create')?'/admin/banner/create':'',
-			),
-			'keyword'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('keyword_index')?'/admin/keyword/index':'',
-				'create'=>Yii::app ()->user->checkAccess ('keyword_create')?'/admin/keyword/create':'',
-				'manager_category'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'',
-			),
-			'setting'=>array(
-				'index'=>Yii::app ()->user->checkAccess ('setting_index')?'/admin/setting/index':'',
-			), 
-			'language'=>array(
-				'edit'=>Yii::app ()->user->checkAccess ('language_edit')?'/admin/language/edit':'',
-				'create'=>Yii::app ()->user->checkAccess ('language_create')?'/admin/language/create':'',
-				'delete'=>Yii::app ()->user->checkAccess ('language_delete')?'/admin/language/delete':'',
-				'export'=>Yii::app ()->user->checkAccess ('language_export')?'/admin/language/export':'',
-				'import'=>Yii::app ()->user->checkAccess ('language_import')?'/admin/language/import':'',
-			),
-			'image'=>array(
-				'list'=>Yii::app ()->user->checkAccess ('image_list')?'/admin/image/list':'',
-			),
-			'config' => array (
-				'menu' => Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'', 
-				'clear_image' => Yii::app ()->user->checkAccess ('image_clear')?'/admin/image/clear':'',
-				'root'=>Yii::app ()->user->checkAccess ('category_index')?'/admin/category':'', 
-			) 
-		);
-		if(isset($config [$this->controller] [$this->action]))
-			return $config [$this->controller] [$this->action];
-		else
-			return '/site/home';
-	}
-	/**
-	 * Create params for url of menu
-	 * @return string, the url of menu
-	 */
-	public function getUrl() {
-		if($this->route == '') 
-			return '';			
-		if ($this->group==Category::GROUP_ADVANCE_ADMIN_MENU || $this->group == Category::GROUP_ADMIN_MENU || $this->group == Category::GROUP_USER_MENU) {
-			$config = array (
-					'role'=>array(
-						'manager_operation' => array ('type' => Role::TYPE_OPERATION),
-						'manager_task' => array ('type' => Role::TYPE_TASK),
-						'manager_role' => array ('type' => Role::TYPE_ROLE),
-					),
-					'news' => array (
-						'manager_category' => array ('group' => Category::GROUP_NEWS),
-					),
-					'staticPage' => array (
-						'manager_category' => array ('group' => Category::GROUP_STATICPAGE),
-					),
-					'product' => array (
-						'manager_category' => array ('group' => Category::GROUP_PRODUCT ),
-						'manufacturer'=>array('group'=>Category::GROUP_MANUFACTURER)
-					),	
-					'album' => array (
-						'manager_category' => array ('group' => Category::GROUP_ALBUM),
-					),
-					'keyword' => array (
-						'manager_category' => array ('group' => Category::GROUP_KEYWORD),
-					),
-					'galleryVideo' => array (
-						'manager_category' => array ('group' => Category::GROUP_GALLERYVIDEO),
-					),		
-					'config'=>array(
-						'root'=>array ('group' => Category::GROUP_ROOT),
-					)
-			);
-			if ($this->params != "") {
-				$params = ( array ) json_decode ( $this->params );
-			} elseif (isset ( $config [$this->controller] [$this->action] ))
-				$params = $config [$this->controller] [$this->action];
-			if (isset ( $params ))
-				$url = Yii::app ()->createUrl ( $this->route, $params );
-			else
-				$url = Yii::app ()->createUrl ( $this->route );				
-		}
-		elseif($this->findGroup() == Category::GROUP_NEWS){
-			
- 			$cat_alias=$this->alias;
- 			$url=Yii::app()->createUrl("/news/list",array('cat_alias'=>$cat_alias));
-		}
-		elseif($this->findGroup() == Category::GROUP_STATICPAGE){
-			
- 			$cat_alias=$this->alias;
- 			$url=Yii::app()->createUrl("/staticPage/index",array('cat_alias'=>$cat_alias));
-		}
-		elseif($this->findGroup() == Category::GROUP_ALBUM){
-			
- 			$cat_alias=$this->alias;
- 			$url=Yii::app()->createUrl("/album/index",array('album_alias'=>$cat_alias));
-		}
-		elseif($this->findGroup() == Category::GROUP_GALLERYVIDEO){
-			
- 			$cat_alias=$this->alias;
- 			$url=Yii::app()->createUrl("/galleryVideo/index",array('galleryVideo_alias'=>$cat_alias));
-		}
-		elseif($this->findGroup() == Category::GROUP_PRODUCT){
 
- 			$cat_alias=$this->alias;
- 			$url=Yii::app()->createUrl("/product/list",array('cat_alias'=>$cat_alias));
-		}
-		else 
-		{
-			$url='';
-		}
-		return $url;
-	}
 	/**
 	 * Get url update f album
 	 * @return album's url
@@ -1053,20 +629,54 @@ class Category extends CActiveRecord
  		$url=Yii::app()->createUrl("admin/category/index");
 		return $url;
  	}
+/**
+	 * Create params for url of menu
+	 * @return string, the url of menu
+	 */
+	public function getUrl() {
+		switch ($this->type){
+			case Category::TYPE_NEWS:		
+ 			$cat_alias=$this->alias;
+ 			$url=Yii::app()->createUrl("/news/list",array('cat_alias'=>$cat_alias));
+ 			break;
+			case Category::TYPE_STATICPAGE:			
+ 			$cat_alias=$this->alias;
+ 			$url=Yii::app()->createUrl("/staticPage/index",array('cat_alias'=>$cat_alias));
+			break;
+			case Category::TYPE_ALBUM:			
+ 			$cat_alias=$this->alias;
+ 			$url=Yii::app()->createUrl("/album/index",array('album_alias'=>$cat_alias));
+			break;
+			case Category::TYPE_GALLERYVIDEO:			
+ 			$cat_alias=$this->alias;
+ 			$url=Yii::app()->createUrl("/galleryVideo/index",array('galleryVideo_alias'=>$cat_alias));
+			break;
+			case Category::TYPE_PRODUCT:
+ 			$cat_alias=$this->alias;
+ 			$url=Yii::app()->createUrl("/product/list",array('cat_alias'=>$cat_alias));
+			break;
+			case Category::TYPE_APP:
+ 			$cat_alias=$this->alias;
+ 			$url=Yii::app()->createUrl("/app/list",array('cat_alias'=>$cat_alias));
+			break;
+			case Category::TYPE_QA:
+ 			$cat_alias=$this->alias;
+ 			$url=Yii::app()->createUrl("/qA/list",array('cat_alias'=>$cat_alias));
+			break;
+		}
+		return $url;
+	}
 	/**
 	 * Get active menu
 	 * @return array $result, the active menu in admin board
 	 */
-	public function findActiveMenu(){
-		$list=$this->list_Categories;	
-		$result=array();
-		foreach ($list as $id=>$menu){
-			if($menu['url']== Yii::app()->request->requestUri)
-			{
-				$current=Category::model()->findByPk($id);
-				$result=$current->bread_crumb;
-			}
-		}
+	public function findActiveMenu($current_catid) {
+		$result = array ();
+		$cat = Category::model ()->findByPk ( $current_catid );
+		if(isset($cat))
+			$result = $cat->ancestor_nodes;
+		else
+			$result=array();
 		return $result;
 	}
 }

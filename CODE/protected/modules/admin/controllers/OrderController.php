@@ -195,7 +195,7 @@ class OrderController extends Controller
 		$list_checked = Yii::app()->session["checked-order-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'order_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = Order::model ()->findByPk ( $id );
 						if (isset ( $item ))

@@ -77,7 +77,7 @@ class QA extends CActiveRecord
 	public $status_answer;
 	public function getUrl()
  	{		
- 		$url=Yii::app()->createUrl("qA/view",array('qa_alias'=>$this->alias));
+ 		$url=Yii::app()->createUrl("qA/view",array('cat_alias'=>$this->category->alias,'qa_alias'=>$this->alias));
 		return $url;
  	}
 	/**
@@ -217,7 +217,7 @@ class QA extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('title,question','required'),
+			array('catid,title,question','required'),
 			array('answer','required','on'=>'create,answer',),
 			array('title', 'length', 'max'=>256),
 			array('question', 'length', 'max'=>1024),
@@ -225,7 +225,7 @@ class QA extends CActiveRecord
 			array('phone', 'length', 'max'=>13),
 			array('list_special','safe','on'=>'create,answer'),
 			array('address,lang,fullname,metadesc,keyword', 'safe'),
-			array('title,status,lang,status_answer,special,keyword','safe','on'=>'search'),
+			array('catid,title,status,lang,status_answer,special,keyword','safe','on'=>'search'),
 		);
 	}
 
@@ -258,7 +258,8 @@ class QA extends CActiveRecord
 			'lang'=>'Ngôn ngữ',
 			'list_special' => 'Hiển thị',
 			'special'=>'Hiển thị',
-			'visits'=>'Người đọc'
+			'visits'=>'Người đọc',
+			'category'=>'Nhóm'
 		);
 	}
 /**
@@ -380,6 +381,19 @@ class QA extends CActiveRecord
 		if ($this->special != ''){
 			$criteria->addInCondition ( 'special', self::getCode_special ( $this->special ) );
 		}
+		//Filter catid
+		$cat = Category::model ()->findByPk ( $this->catid );
+		if ($cat != null) {
+			$child_categories = $cat->child_nodes;
+			$list_child_id = array ();
+			//Set itself
+			$list_child_id [] = $cat->id;
+			if ($child_categories != null)
+				foreach ( $child_categories as $id => $child_cat ) {
+					$list_child_id [] = $id;
+				}
+			$criteria->addInCondition ( 'catid', $list_child_id );
+		}
 		//Filter answer
 		if($this->status_answer !== ''){
 			if ($this->status_answer == self::STATUS_ANSWER)
@@ -390,7 +404,7 @@ class QA extends CActiveRecord
 		//Filter keyword category
 		$cat = Category::model ()->findByPk ( $this->keyword );
 		if ($cat != null) {
-			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
+			$criteria->addInCondition ( 'keyword', $cat->ancestor_nodes );
 		}
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);

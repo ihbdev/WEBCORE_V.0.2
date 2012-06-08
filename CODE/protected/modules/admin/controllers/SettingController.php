@@ -150,7 +150,7 @@ class SettingController extends Controller
 		$list_checked = Yii::app()->session["checked-setting-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'setting_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = Setting::model ()->findByPk ( $id );
 						if (isset ( $item ))

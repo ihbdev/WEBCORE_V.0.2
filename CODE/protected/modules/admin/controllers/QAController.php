@@ -63,7 +63,7 @@ class QAController extends Controller
 				'actions'=>array('delete'),
 				'roles'=>array('qa_delete'),
 			),
-				array('allow',  
+			array('allow',  
 				'actions'=>array('checkbox'),
 				'roles'=>array('qa_checkbox'),
 			),
@@ -79,8 +79,6 @@ class QAController extends Controller
 	public function actionCreate()
 	{
 		$model=new QA('create');	
-		if(Yii::app()->user->checkAccess('update', array('post' => $model)))	
-		{
 		$model->scenario = 'create';
 		// Ajax validate
 		$this->performAjaxValidation($model);	
@@ -93,17 +91,23 @@ class QAController extends Controller
 			if($model->save())
 				$this->redirect(array('update','id'=>$model->id));
 		}	
+		//List category product
+		$group=new Category();		
+		$group->type=Category::TYPE_QA;
+		$list=$group->list_nodes;
+		$list_category=array();
+		foreach ($list as $id=>$cat){
+			$list_category[$id]=$cat;
+		}
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;	
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;	
 		$this->render('create',array(
 			'model'=>$model,
+			'list_category'=>$list_category,
 			'list_keyword_categories'=>$list_keyword_categories
-		));	
-		}		
-		else 
-			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
+		));
 	}
 	/**
 	 * Updates a particular model.
@@ -113,8 +117,6 @@ class QAController extends Controller
 	public function actionUpdate($id)
 	{
 		$model=$this->loadModel($id);	
-		if(Yii::app()->user->checkAccess('update', array('post' => $model)))	
-		{
 		$model->scenario = 'answer';
 		// Ajax validate
 		$this->performAjaxValidation($model);	
@@ -124,20 +126,27 @@ class QAController extends Controller
 		{
 			$model->attributes=$_POST['QA'];
 			if(!isset($_POST['QA']['list_special'])) $model->list_special=array();
-			if($model->save())
+			if($model->save()){
 				$this->redirect(array('update','id'=>$model->id));
+			}
 		}	
+		//List category product
+		$group=new Category();		
+		$group->type=Category::TYPE_QA;
+		$list=$group->list_nodes;
+		$list_category=array();
+		foreach ($list as $id=>$cat){
+			$list_category[$id]=$cat;
+		}
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;	
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;	
 		$this->render('update',array(
 			'model'=>$model,
+			'list_category'=>$list_category,
 			'list_keyword_categories'=>$list_keyword_categories	
 		));	
-		}		
-			else 
-			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
 	}
 
 	/**
@@ -171,12 +180,21 @@ class QAController extends Controller
 		$model->status_answer=0;
 		if(isset($_GET['QA']))
 			$model->attributes=$_GET['QA'];
+		//List category product
+		$group=new Category();		
+		$group->type=Category::TYPE_QA;
+		$list=$group->list_nodes;
+		$list_category=array();
+		foreach ($list as $id=>$cat){
+			$list_category[$id]=$cat;
+		}
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('index',array(
 			'model'=>$model,
+			'list_category'=>$list_category,
 			'list_keyword_categories'=>$list_keyword_categories
 		));
 	}
@@ -241,7 +259,7 @@ class QAController extends Controller
 		$list_checked = Yii::app()->session["checked-qa-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'qa_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = QA::model ()->findByPk ( $id );
 						if (isset ( $item ))

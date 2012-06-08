@@ -34,7 +34,7 @@
 	        </div><!--header-inner-->
 	    </div><!--header-->
 	    <div class="menu">
-         	<?php $this->widget('wMenu',array('group'=>Category::GROUP_USER_MENU,'view'=>'front-end-menu'))?>
+         	<?php $this->widget('wMenu',array('type'=>Menu::TYPE_USER_MENU,'view'=>'front-end-menu'))?>
 	    </div><!--menu-->
 	    <div class="after-menu">
 	    	<div class="tree-view">
@@ -45,7 +45,7 @@
 	    <div class="bground">
 	        <div class="sidebar-left">
 	       		<div class="winget">
-	                <?php $this->widget('wMenu',array('group'=>Category::GROUP_PRODUCT,'view'=>'menu-left'));?>
+	                <?php $this->widget('wCategory',array('type'=>Category::TYPE_PRODUCT,'view'=>'menu-left'));?>
 	            </div><!--winget-->
 	            <div class="winget">
 	                <div class="winget-title"><label>Tin tức mới</label></div>
@@ -166,7 +166,7 @@
 	        </div><!--ad-scroll-->
 	    </div><!--ad-outer-->
 		<div class="menu-bottom">
-			<?php $this->widget('wMenu',array('group'=>Category::GROUP_USER_MENU,'view'=>'front-end-menu'))?>
+			<?php $this->widget('wCategory',array('type'=>Category::TYPE_USER_MENU,'view'=>'front-end-menu'))?>
 	    </div><!--menu-bottom-->
 	    <div class="footer">
 	        <p><?php echo Setting::s('CONTACT_NAME','Contact')?></p>

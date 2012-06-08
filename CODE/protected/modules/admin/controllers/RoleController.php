@@ -86,19 +86,16 @@ class RoleController extends Controller
 			switch ($type){
 				case 
 				Role::TYPE_OPERATION: 
-				$model->scenario='operation';	
 				$form='_form_operation';
 				$tree='_tree_operation';
 				break;
 				case 
 				Role::TYPE_TASK: 
-				$model->scenario='task';	
 				$form='_form_task';
 				$tree='_tree_task';
 				break;
 				case 
-				Role::TYPE_ROLE: 
-				$model->scenario='role';	
+				Role::TYPE_ROLE: 	
 				$form='_form_role';
 				$tree='_tree_role';
 				break;			
@@ -129,19 +126,16 @@ class RoleController extends Controller
 			switch ($type){
 				case 
 				Role::TYPE_OPERATION: 
-				$model->scenario='operation';	
 				$form='_form_operation';
 				$tree='_tree_operation';
 				break;
 				case 
 				Role::TYPE_TASK: 
-				$model->scenario='task';	
 				$form='_form_task';
 				$tree='_tree_task';
 				break;
 				case 
-				Role::TYPE_ROLE: 
-				$model->scenario='role';	
+				Role::TYPE_ROLE: 	
 				$form='_form_role';
 				$tree='_tree_role';
 				break;	
@@ -171,19 +165,16 @@ class RoleController extends Controller
 			switch ($type){
 				case 
 				Role::TYPE_OPERATION: 
-				$model->scenario='operation';	
 				$form='_form_operation';
 				$tree='_tree_operation';
 				break;
 				case 
 				Role::TYPE_TASK: 
-				$model->scenario='task';	
 				$form='_form_task';
 				$tree='_tree_task';
 				break;
 				case 
 				Role::TYPE_ROLE: 
-				$model->scenario='role';	
 				$form='_form_role';
 				$tree='_tree_role';
 				break;	
@@ -247,20 +238,6 @@ class RoleController extends Controller
 				$model=new Role();
 			}
 			$model->type=$type;
-			switch ($type){
-				case 
-				Role::TYPE_OPERATION: 
-				$model->scenario='operation';	
-				break;
-				case 
-				Role::TYPE_TASK: 
-				$model->scenario='task';	
-				break;
-				case 
-				Role::TYPE_ROLE: 
-				$model->scenario='role';	
-				break;	
-			}
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
 		}
@@ -277,19 +254,16 @@ class RoleController extends Controller
 		switch ($type){
 				case 
 				Role::TYPE_OPERATION: 
-				$model->scenario='operation';	
 				$form='_form_operation';
 				$tree='_tree_operation';
 				break;
 				case 
 				Role::TYPE_TASK: 
-				$model->scenario='task';	
 				$form='_form_task';
 				$tree='_tree_task';
 				break;
 				case 
 				Role::TYPE_ROLE: 
-				$model->scenario='role';	
 				$form='_form_role';
 				$tree='_tree_role';
 				break;	
@@ -322,19 +296,16 @@ class RoleController extends Controller
 			switch ($type){
 				case 
 				Role::TYPE_OPERATION: 
-				$model->scenario='operation';	
 				$form='_form_operation';
 				$tree='_tree_operation';
 				break;
 				case 
 				Role::TYPE_TASK: 
-				$model->scenario='task';	
 				$form='_form_task';
 				$tree='_tree_task';
 				break;
 				case 
 				Role::TYPE_ROLE: 
-				$model->scenario='role';	
 				$form='_form_role';
 				$tree='_tree_role';
 				break;					

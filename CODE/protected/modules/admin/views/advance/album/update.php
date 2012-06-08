@@ -43,12 +43,13 @@
                     </div>	
                     <?php 
 						$list=array();
-						foreach ($list_category as $id=>$cat){
+						foreach ($list_category as $id=>$level){
+							$cat=Category::model()->findByPk($id);
 							$view = "";
-							for($i=1;$i<$cat['level'];$i++){
+							for($i=1;$i<$level;$i++){
 								$view .="---";
 							}
-							$list[$id]=$view." ".$cat['name']." ".$view;
+							$list[$id]=$view." ".$cat->name." ".$view;
 						}
 						?>
 						<div class="row">
@@ -73,16 +74,17 @@
 					</div>	
 					<?php 
 						$list=array();
-						foreach ($list_keyword_categories as $id=>$cat){
+						foreach ($list_keyword_categories as $id=>$level){
+							$cat=Category::model()->findByPk($id);
 							$view = "";
-							for($i=1;$i<$cat['level'];$i++){
+							for($i=1;$i<$level;$i++){
 								$view .="---";
 							}
 							$keywords=Keyword::viewListKeyword($id);
 							if($keywords != "")
-								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
+								$list[$id]=$view." ".$cat->name." (".$keywords.") ".$view;
 							else 	
-								$list[$id]=$view." ".$cat['name']." ".$view;
+								$list[$id]=$view." ".$cat->name." ".$view;
 						}
 						?>
 						<div class="row">

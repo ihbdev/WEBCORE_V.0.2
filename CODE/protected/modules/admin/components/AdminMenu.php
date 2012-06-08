@@ -10,67 +10,53 @@ class AdminMenu extends CPortlet
 	{
 		switch(Yii::app ()->session ['view']){
 			case 'advance':
-				$model=Category::model()->findByPk(Category::GROUP_ADVANCE_ADMIN_MENU);
-				$model->group=Category::GROUP_ADVANCE_ADMIN_MENU;
+				$model=new Menu();				
+				$model->type=Menu::TYPE_ADVANCE_ADMIN_MENU;		
 				break;
 			default: 
-				$model=Category::model()->findByPk(Category::GROUP_ADMIN_MENU);
-				$model->group=Category::GROUP_ADMIN_MENU;				
+				$model=new Menu();				
+				$model->type=Menu::TYPE_ADMIN_MENU;				
 		}
 		//Create list menu which are used when view menu
-		$list=$model->list_Categories;
-		if(isset($list)){
-		foreach ($list as $id=>$menu){
-			if($menu['url'] == '') {
-				unset($list[$id]);	
-			}		
+		$list_nodes=$model->list_nodes;
+		foreach ($list_nodes as $id=>$level) {
+			$menu=Menu::model()->findByPk($id);	
+			if($menu->url == '')
+				unset($list_nodes[$id]);			
 		}
+		$list=array();
+		$list_active_menu_id=$model->findActiveMenu();		
 		$previous_id=0;
 		$finish=0;
-		if(sizeof($list)>0){
+		if(sizeof($list_nodes)>0){
 			$first=true;
-			foreach ($list as $id=>$menu) {
+			foreach ($list_nodes as $id=>$level) {
+				$list[$id]['level']=$level;
 				if($first==true) {
-					$list[$id]['class']='first';
+					$list[$id]['first']=true;
 					$first=false;
 				}
-				if($menu['level']==1)$last=$id;
-				if($previous_id>0 && $list[$previous_id]['level']<$menu['level']){
-					if($list[$previous_id]['level']==1){
-						$list[$previous_id]['havechild']=true;		
-					}
-					else {
-						$list[$previous_id]['class']='x';
-					}
-					$list[$id]['class']='first-item';			
+				if($level==1)$last=$id;
+				if($previous_id>0 && $list[$previous_id]['level']<$level){
+					$list[$previous_id]['havechild']=true;		
+					$list[$id]['first-item']=true;			
 				}
-				if($previous_id>0 && $list[$previous_id]['level']>$menu['level']){
-					$list[$previous_id]['class']='last-item';	
-					$list[$previous_id]['close']=$list[$previous_id]['level']-$menu['level'];			
+				if($previous_id>0 && $list[$previous_id]['level']>$level){
+					$list[$id]['last-item']=true;		
+					$list[$previous_id]['level_close']=$list[$previous_id]['level']-$level;			
+				}
+				if(in_array($id,$list_active_menu_id)){
+					$list[$id]['active'] =true;
 				}
 				$previous_id=$id;
 			}
-			$list[$previous_id]['class']='last-item';
-			$list[$last]['class']='last';
-			$list[$previous_id]['close']=$list[$previous_id]['level']-1;
-		}
-		$list_menus=array();
-		$list_active_menu_id=$model->findActiveMenu();				
-		foreach ($list as $id=>$menu) {
-			$list_menus[$id]['name']=$menu['name'];
-			$list_menus[$id]['url']=$menu['url'];
-			$list_menus[$id]['root']=$menu['root'];
-			$list_menus[$id]['class']=isset($menu['class'])?$menu['class']:'';
-			if(in_array($id,$list_active_menu_id)){
-				$list_menus[$id]['class'] .=" active";
-			}
-			$list_menus[$id]['havechild']=isset($menu['havechild'])?$menu['havechild']:false;
-			$list_menus[$id]['close']=isset($menu['close'])?$menu['close']:false;
+			$list[$previous_id]['last-item']=true;
+			$list[$last]['last']=true;
+			$list[$previous_id]['level_close']=$list[$previous_id]['level']-1;
 		}
 		$this->render('adminMenu',array(
-			'list_menus'=>$list_menus,
+			'list'=>$list,
 		));
 	}
 	}
-}
 ?>

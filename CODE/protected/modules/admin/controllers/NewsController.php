@@ -108,8 +108,8 @@ class NewsController extends Controller
 		}
 		//Group categories that contains news
 		$group=new Category();		
-		$group->group=Category::GROUP_NEWS;
-		$list_category=$group->list_categories;
+		$group->type=Category::TYPE_NEWS;
+		$list_category=$group->list_nodes;
 		if (! Yii::app ()->getRequest ()->getIsAjaxRequest ())
 				Yii::app ()->session ['checked-suggest-list'] = array();
 		//Handler list suggest news		
@@ -122,8 +122,8 @@ class NewsController extends Controller
 		
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('create',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
@@ -166,14 +166,10 @@ class NewsController extends Controller
 				$this->redirect(array('update','id'=>$model->id));
 			}
 		}
-		//Group categories that contains news
+		//Group categories 
 		$group=new Category();		
-		$group->group=Category::GROUP_NEWS;
-		$list=$group->list_categories;
-		$list_category=array();
-		foreach ($list as $id=>$cat){
-			$list_category[$id]=$cat;
-		}
+		$group->type=Category::TYPE_NEWS;
+		$list_category=$group->list_nodes;
 		if (! Yii::app ()->getRequest ()->getIsAjaxRequest ())
 				Yii::app ()->session ['checked-suggest-list'] = array_diff ( explode ( ',', $model->list_suggest ), array ('' ) );
 		//Handler list suggest news
@@ -186,8 +182,8 @@ class NewsController extends Controller
 			
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('update',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
@@ -230,7 +226,7 @@ class NewsController extends Controller
 		$list_checked = Yii::app()->session["checked-news-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'news_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = News::model ()->findByPk ( (int)$id );
 						if (isset ( $item ))
@@ -245,6 +241,7 @@ class NewsController extends Controller
 				}
 				break;
 			case 'copy' :
+				if (Yii::app ()->user->checkAccess ( 'news_copy')) {
 				foreach ( $list_checked as $id ) {
 					$copy=News::copy((int)$id);
 					if(!isset($copy))
@@ -252,6 +249,11 @@ class NewsController extends Controller
 						echo 'false';
 						Yii::app ()->end ();
 					}
+				}
+				}
+				else {
+					echo 'false';
+					Yii::app ()->end ();
 				}
 				break;
 		}
@@ -273,13 +275,12 @@ class NewsController extends Controller
 			$model->attributes=$_GET['News'];	
 		//Group categories that contains news
 		$group=new Category();		
-		$group->group=Category::GROUP_NEWS;
-		$list=$group->list_categories;
-		$list_category=$list;	
+		$group->type=Category::TYPE_NEWS;
+		$list_category=$group->list_nodes;
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		
 		$this->render('index',array(
 			'model'=>$model,

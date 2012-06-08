@@ -1,0 +1,101 @@
+body{
+	overflow-x: hidden;
+	word-wrap: break-word;
+	background: url(../images/trailer-bg.jpg) no-repeat top center #004158;
+}
+.trailer-wrapper{
+	width:860px;
+	margin:0 auto;
+}
+.trailer-header{
+	background:url(../images/trailer-header.png) no-repeat center center;
+	height:117px;
+	border-bottom:1px solid #003647;
+}
+.trailer-logo{
+	float:left;
+	width:280px;
+	height:75px;
+	margin:25px 0 0;
+}
+.trailer-main{
+	border-top:1px solid #0981a4;
+	border-bottom:1px solid #0981a4;
+	padding:8px 0;
+}
+.trailer-button{
+	border-top:1px solid #003647;
+	text-align:center;
+	padding:12px 0;
+}
+.trailer-button a{
+	display:block;
+	font-size:14px;
+	font-weight:normal;
+	color:#e8e8e8;
+	display:inline-block;
+	vertical-align:middle;
+	padding:0 20px 2px;
+}
+.trailer-button .trailer-verline{
+	display:inline-block;
+	width:1px;
+	height:20px;
+	background:#000;
+	border-right:1px solid #0981a4;
+	vertical-align:middle;
+}
+.trailer-button a:hover{
+	color:#fff;
+}
+.trailer-loading{
+	height:485px;
+	background:url(../images/trailer-loading.jpg) no-repeat top center #000;
+}
+#loadingZone{  
+margin:0 auto;  
+width:300px;  
+text-align:center;  
+}  
+#loadingBar{
+background:#002e3d;  
+border:1px solid #005771;  
+height:18px;  
+text-align:left;  
+line-height:0;  
+margin:0;  
+padding:0;  
+overflow:hidden; /*fix for IE 6*/ 
+-moz-border-radius:4px;
+-webkit-border-radius:4px;
+border-radius:4px; 
+}  
+#progressBar{  
+height:18px;  
+line-height:0;  
+margin:0;  
+padding:0;  
+background: url(../images/trailer-progressBar.jpg) repeat-x top left #006787;  
+width:0%;  
+}  
+#loadingSms{  
+color:#004358;  
+float:left;  
+padding:10px 2px;
+display:none;  
+}  
+#infoProgress{  
+color:#004358;  
+float:right;  
+padding:10px 2px;
+font-size:16px; 
+font-family:Tahoma; 
+}  
+#infoLoading{  
+padding:40px 0 0;  
+color:#004358;  
+font-size:16px;
+font-family:Arial;
+text-transform:uppercase;
+letter-spacing:4px; 
+}  

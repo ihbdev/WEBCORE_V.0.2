@@ -74,7 +74,7 @@ class Keyword extends CActiveRecord
 	public function getAmount() {
 		$result=0;
 		$cat=$this->category;
-		$list_parents=$cat->bread_crumb;
+		$list_parents=$cat->ancestor_nodes;
 		foreach ($list_parents as $id){
 			$parent_cat= Category::model()->findByPk($id);
 			$result += $parent_cat->amount;
@@ -91,7 +91,7 @@ class Keyword extends CActiveRecord
 		//Filter keyword category
 		$cat = Category::model ()->findByPk ( $this->catid );
 		if ($cat != null) {
-			$child_categories = $cat->child_categories;
+			$child_categories = $cat->child_nodes;
 			$list_child_id = array ();
 			//Set itself
 			$list_child_id [] = $cat->id;
@@ -136,7 +136,7 @@ class Keyword extends CActiveRecord
 		$criteria = new CDbCriteria ();
 		$cat=Category::model()->findByPk($catid);
 		if(isset($cat)){
-		$child_categories=$cat->child_categories;
+		$child_categories=$cat->child_nodes;
  		$list_child_id=array();
  		//Set itself
  		$list_child_id[]=$cat->id;
@@ -157,7 +157,7 @@ class Keyword extends CActiveRecord
 		$criteria = new CDbCriteria ();
 		$cat=Category::model()->findByPk($catid);
 		if(isset($cat)){
-		$child_categories=$cat->child_categories;
+		$child_categories=$cat->child_nodes;
  		$list_child_id=array();
  		//Set itself
  		$list_child_id[]=$cat->id;
@@ -184,7 +184,7 @@ class Keyword extends CActiveRecord
 		$criteria = new CDbCriteria ();
 		$cat=Category::model()->findByPk($catid);
 		if(isset($cat)){
-		$child_categories=$cat->child_categories;
+		$child_categories=$cat->child_nodes;
  		$list_child_id=array();
  		//Set itself
  		$list_child_id[]=$cat->id;
@@ -216,7 +216,7 @@ class Keyword extends CActiveRecord
 			$criteria = new CDbCriteria ();
 			$cat = Category::model ()->findByPk ( $keyword->catid );
 			if (isset ( $cat )) {
-				$child_categories = $cat->bread_crumb;
+				$child_categories = $cat->ancestor_nodes;
  				foreach ($child_categories as $id){
 	 				$list_categories[]=$id;
 	 			}
@@ -231,7 +231,7 @@ class Keyword extends CActiveRecord
 		$list_categories=array();
 		$cat = Category::model ()->findByPk ( $keyword->catid );
 			if (isset ( $cat )) {
-				$child_categories = $cat->bread_crumb;
+				$child_categories = $cat->ancestor_nodes;
  				foreach ($child_categories as $id){
 	 				$list_categories[]=$id;
 	 			}

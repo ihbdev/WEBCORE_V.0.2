@@ -46,7 +46,7 @@
 					<div class="row">
                     <li>
                         <?php echo $form->labelEx($model,'role'); ?>
-                        <?php echo $form->dropDownList($model,'role',$model->list_label_roles,array('style'=>'width:150px','multiple' => 'multiple')); ?>
+                        <?php echo $form->dropDownList($model,'role',$model->list_label_roles,array('style'=>'width:150px','multiple' => 'multiple','size'=>10)); ?>
                   		<?php echo $form->error($model, 'role'); ?>
                     </li>
                     </div>

@@ -16,7 +16,7 @@ $this->bread_crumbs=array(
           			<div class="box-item">
                 	<div class="b-title"><?php echo $data->name?></div>
                 	<a class="b-image" href="<?php echo $data->url?>">
-                   		<?php echo $data->getThumb_url('introimage');?>
+                   		<?php echo $data->getThumb_url('introimage','img');?>
                     </a>
                     <div class="b-detail">
                       	<h5><?php echo Language::t('Giá')?>: <?php if($data->num_price!='') echo number_format($data->num_price, 0, ',', '.').' '.$data->unit_price?></h5>
@@ -34,7 +34,7 @@ $this->bread_crumbs=array(
              <div class="product-new">
              <?php foreach ($list_news as $data):?>
              	<div class="grid">
-                	<a href="<?php echo $data->url?>"><?php echo $data->getThumb_url('introimage');?></a>
+                	<a href="<?php echo $data->url?>"><?php echo $data->getThumb_url('introimage','img');?></a>
                     <a class="viewmore" href="<?php echo $data->url?>"><?php echo Language::t('Chi tiết')?></a>
                 	<div class="g-content">
                     	<div class="g-row"><a class="g-title" href="<?php echo $data->url?>"><?php echo $data->title?></a><span><?php echo date("(d/m/Y)"); ?></span></div>

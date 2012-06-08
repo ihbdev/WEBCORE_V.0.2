@@ -99,7 +99,7 @@ class GalleryVideo extends CActiveRecord
 	 * Get thumb of this video
 	 * @return string, html code of this video thumb image
 	 */
-	public function getThumb_url($type){
+	public function getThumb_url($type,$class){
 		$alt=$this->title;
 		if($this->introimage>0){
 			$image=Image::model()->findByPk($this->introimage);
@@ -110,13 +110,13 @@ class GalleryVideo extends CActiveRecord
 			else {
 				$src=Image::getDefaultThumb('GalleryVideo', $type);
 			}
-			return '<img class="img" src="'.$src.'" alt="'.$alt.'">';
+			return '<img class="'.$class.'" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {			
 			//return '<img class="img" src="'.Image::getDefaultThumb('GalleryVideo', $type).'" alt="">';
 					//Get thumb youtube
 		parse_str( parse_url( $this->link, PHP_URL_QUERY ), $vars );
-		return '<img class="img" src="http://img.youtube.com/vi/'.$vars['v'].'/1.jpg" alt="'.$alt.'">';
+		return '<img class="'.$class.'" src="http://img.youtube.com/vi/'.$vars['v'].'/1.jpg" alt="'.$alt.'">';
 		}
 	}
 
@@ -447,7 +447,7 @@ class GalleryVideo extends CActiveRecord
 		//Filter catid
 		$cat = Category::model ()->findByPk ( $this->catid );
 		if ($cat != null) {
-			$child_categories = $cat->child_categories;
+			$child_categories = $cat->child_nodes;
 			$list_child_id = array ();
 			//Set itself
 			$list_child_id [] = $cat->id;
@@ -460,7 +460,7 @@ class GalleryVideo extends CActiveRecord
 		//Filter keyword category
 		$cat = Category::model ()->findByPk ( $this->keyword );
 		if ($cat != null) {
-			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
+			$criteria->addInCondition ( 'keyword', $cat->ancestor_nodes );
 		}	
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);

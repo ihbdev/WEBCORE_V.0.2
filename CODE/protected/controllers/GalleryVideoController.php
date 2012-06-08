@@ -26,14 +26,12 @@ class GalleryVideoController extends Controller
 	 */
 	public function actionList($cat_alias)
 	{	
-		$criteria=new CDbCriteria;
-		$criteria->compare('alias',$cat_alias);
-		$list_cat=Category::model()->findAll($criteria);
-		foreach ($list_cat as $category) {
-			if($category->findGroup() == Category::GROUP_GALLERYVIDEO) $cat=$category;
-		}
-		if(isset($cat)) {
-				$child_categories=$cat->child_categories;
+		$criteria = new CDbCriteria ();
+		$criteria->compare ( 'alias', $cat_alias );
+		$criteria->compare('type',Category::TYPE_GALLERYVIDEO);
+		$cat = Category::model ()->find( $criteria );
+		if(isset($cat)){
+				$child_categories=$cat->child_nodes;
  				$list_child_id=array();
  				//Set itself
  				$list_child_id[]=$cat->id;
@@ -60,11 +58,9 @@ class GalleryVideoController extends Controller
 	{	
 		$criteria = new CDbCriteria ();
 		$criteria->compare ( 'alias', $cat_alias );
-		$list_cat = Category::model ()->findAll ( $criteria );
-		foreach ( $list_cat as $category ) {
-			if ($category->findGroup () == Category::GROUP_GALLERYVIDEO)
-				$cat = $category;
-		}
+		$criteria->compare('type',Category::TYPE_GALLERYVIDEO);
+		$cat = Category::model ()->find( $criteria );
+		if(isset($cat)){
 		$criteria = new CDbCriteria ();
 		if (isset ( $cat ))
 			$criteria->compare ( 'catid', $cat->id );
@@ -74,6 +70,7 @@ class GalleryVideoController extends Controller
 			$video->visits=$video->visits+1;
 			$video->save();
 			$this->render ( 'video', array ('cat' => $cat, 'video' => $video ) );
+		}
 		}
 	}			
 }

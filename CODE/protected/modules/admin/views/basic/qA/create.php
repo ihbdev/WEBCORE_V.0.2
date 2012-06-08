@@ -20,7 +20,7 @@
 			<!--begin left content-->
 			<div class="fl">
 				<ul>
-					<div id="above_row">
+				<div id="above_row">
 					<div id="left_row">
 					<div class="row">
 					<li>
@@ -29,6 +29,24 @@
 						<?php echo $form->error($model,'title'); ?>
 					</li>	
 					</div>
+						<?php 
+						$list=array();
+						foreach ($list_category as $id=>$level){
+							$cat=Category::model()->findByPk($id);
+							$view = "";
+							for($i=1;$i<$level;$i++){
+								$view .="---";
+							}
+							$list[$id]=$view." ".$cat->name." ".$view;
+						}
+						?>
+						<div class="row">
+						<li>
+							<?php echo $form->labelEx($model,'category'); ?>
+							<?php echo $form->dropDownList($model,'catid',$list,array('style'=>'width:200px')); ?>
+							<?php echo $form->error($model, 'catid'); ?>
+						</li>
+						</div>	
 					<div class="row">
 						<li>
 							<?php echo $form->labelEx($model,'lang'); ?>
@@ -78,17 +96,45 @@
 						<?php echo $form->textArea($model,'question',array('style'=>'width:280px;','rows'=>6))?>
 						<?php echo $form->error($model,'question'); ?>
 					</li>	
+					</div>
+					<div class="row">
+							<li>
+								<?php echo $form->labelEx($model,'metadesc'); ?>
+								<?php echo $form->textArea($model,'metadesc',array('style'=>'width:280px;max-width:280px;','rows'=>6)); ?>			
+							</li>
 					</div>	
-					</div>				
+					<?php 
+						$list=array();
+						foreach ($list_keyword_categories as $id=>$level){
+							$cat=Category::model()->findByPk($id);
+							$view = "";
+							for($i=1;$i<$level;$i++){
+								$view .="---";
+							}
+							$keywords=Keyword::viewListKeyword($id);
+							if($keywords != "")
+								$list[$id]=$view." ".$cat->name." (".$keywords.") ".$view;
+							else 	
+								$list[$id]=$view." ".$cat->name." ".$view;
+						}
+						?>
+						<div class="row">
+						<li>
+							<?php echo $form->labelEx($model,'keyword'); ?>
+							<?php echo $form->dropDownList($model,'keyword',$list,array('style'=>'width:200px')); ?>
+							<?php echo $form->error($model, 'keyword'); ?>
+						</li>
+						</div>	
+					</div>
 					<!-- end right -->
 					</div>
 					<div class="row">
 					<li>
+						<?php echo $form->error($model,'answer'); ?>
 						<?php echo $form->labelEx($model,'answer'); ?>
 						<?php                         
                         $this->widget('application.extensions.tinymce.ETinyMce',array('model'=>$model,'attribute'=>'answer','editorTemplate'=>'full','htmlOptions'=>array('style'=>'width:700px;height:500px'))); 
-                        ?>
-						<?php echo $form->error($model,'answer'); ?>
+                        ?>						
 					</li>	
 					</div>			
                     <li>

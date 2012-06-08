@@ -177,7 +177,7 @@ class ContactController extends Controller
 		$list_checked = Yii::app()->session["checked-contact-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'contact_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = Contact::model ()->findByPk ( $id );
 						if (isset ( $item ))

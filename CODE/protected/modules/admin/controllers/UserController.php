@@ -307,7 +307,7 @@ class UserController extends Controller
 		$list_checked = Yii::app()->session["checked-user-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'user_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = User::model ()->findByPk ( $id );
 						if (isset ( $item ))

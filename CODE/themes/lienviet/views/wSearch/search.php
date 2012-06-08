@@ -1,7 +1,7 @@
 <div class="search-product">
             	<h3>Tùy chọn</h3>
             	<div style="margin-left:10px">
-            	<?php $form=$this->beginWidget('CActiveForm', array('method'=>'post','enableAjaxValidation'=>false,'action'=>Yii::app()->createUrl('site/search'))); ?>	
+            	<?php $form=$this->beginWidget('CActiveForm', array('method'=>'get','enableAjaxValidation'=>false,'action'=>Yii::app()->createUrl('site/search'))); ?>	
                 <?php echo $form->textField($search,'name'); ?>	
                 <?php 
 						$list=array(''=>'Tất cả');

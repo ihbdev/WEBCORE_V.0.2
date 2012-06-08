@@ -5,7 +5,7 @@
                         	if($list_news!=NULL): $news = $list_news[0];?>
 							<div class="grid">
 	                        	<div class="g-row"><a class="g-title" href="<?php echo $news->url?>"><?php echo $news->title?></a></div>
-	                        	<a href="<?php echo $news->url?>"><?php echo $news->getThumb_url('introhome_image')?></a>
+	                        	<a href="<?php echo $news->url?>"><?php echo $news->getThumb_url('introhome_image','img')?></a>
 	                            <div class="g-content">
 	                            	<div class="g-row">
 	                                	<?php echo iPhoenixString::createIntrotext($news->introtext,Setting::s('LIST_INTROHOME_LENGTH','News'));?> 

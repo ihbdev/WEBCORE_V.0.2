@@ -25,14 +25,12 @@ class AlbumController extends Controller
 	 */
 	public function actionList($cat_alias)
 	{	
-		$criteria=new CDbCriteria;
-		$criteria->compare('alias',$cat_alias);
-		$list_cat=Category::model()->findAll($criteria);
-		foreach ($list_cat as $category) {
-			if($category->findGroup() == Category::GROUP_ALBUM) $cat=$category;
-		}
+		$criteria = new CDbCriteria ();
+		$criteria->compare ( 'alias', $cat_alias );
+		$criteria->compare('type',Category::TYPE_ALBUM);
+		$cat = Category::model ()->find( $criteria );
 		if(isset($cat)) {
-				$child_categories=$cat->child_categories;
+				$child_categories=$cat->child_nodes;
  				$list_child_id=array();
  				//Set itself
  				$list_child_id[]=$cat->id;
@@ -59,11 +57,9 @@ class AlbumController extends Controller
 	{
 		$criteria = new CDbCriteria ();
 		$criteria->compare ( 'alias', $cat_alias );
-		$list_cat = Category::model ()->findAll ( $criteria );
-		foreach ( $list_cat as $category ) {
-			if ($category->findGroup () == Category::GROUP_ALBUM)
-				$cat = $category;
-		}
+		$criteria->compare('type',Category::TYPE_ALBUM);
+		$cat = Category::model ()->find( $criteria );
+		if(isset($cat)) {
 		$criteria = new CDbCriteria ();
 		if (isset ( $cat ))
 			$criteria->compare ( 'catid', $cat->id );
@@ -73,6 +69,7 @@ class AlbumController extends Controller
 			$album->visits=$album->visits+1;
 			$album->save();
 			$this->render ( 'album', array ('cat' => $cat, 'album' => $album ) );
+		}
 		}
 	}			
 }

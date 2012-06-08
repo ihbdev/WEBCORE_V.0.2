@@ -9,7 +9,7 @@ return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'language'=> 'vi',
 	'name'=>'My Web Application',
-	'theme'=>'dogo',
+	'theme'=>'go',
 	// preloading 'log' component
 	'preload'=>array('log'),
 
@@ -55,11 +55,16 @@ return array(
 				'tin-tuc/<cat_alias>'=>'news/list',
 				'tin-tuc'=>'news/index',
 		
+				'ung-dung/<cat_alias>/<app_alias>'=>array('app/view','urlSuffix'=>'.html'),
+				'ung-dung/<cat_alias>'=>'app/list',
+				'ung-dung'=>'app/index',
+		
 				'thong-tin/<cat_alias>/<staticPage_alias>'=>array('staticPage/view','urlSuffix'=>'.html'),
 				'thong-tin/<cat_alias>'=>'staticPage/list',
 				'thong-tin'=>'staticPage/index',
 		
-				'hoi-dap/<qa_alias>'=>array('qA/view','urlSuffix'=>'.html'),
+				'hoi-dap/<cat_alias>/<qa_alias>'=>array('qA/view','urlSuffix'=>'.html'),
+				'hoi-dap/<cat_alias>'=>'qA/list',
 				'hoi-dap'=>'qA/index',
 		
 				'album/<cat_alias>/<album_alias>'=>array('album/view','urlSuffix'=>'.html'),
@@ -69,6 +74,9 @@ return array(
 				'video/<cat_alias>/<video_alias>'=>array('galleryVideo/view','urlSuffix'=>'.html'),
 				'video/<cat_alias>'=>'galleryVideo/list',
 				'video'=>'galleryVideo/index',
+		
+				'tuyen-dung/<recruitment_alias>'=>array('recruitment/view','urlSuffix'=>'.html'),
+				'tuyen-dung'=>'recruitment/list',
 		
 				'tim-kiem'=>'search/product',
 		
@@ -92,7 +100,7 @@ return array(
 		*/
 		// uncomment the following to use a MySQL database
 		'db'=>array(
-			'connectionString' => 'mysql:host=localhost;dbname=cms',
+			'connectionString' => 'mysql:host=localhost;dbname=go',
 			'emulatePrepare' => true,
 			'username' => 'root',
 			'password' => 'thanhdaica',

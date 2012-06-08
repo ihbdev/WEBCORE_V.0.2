@@ -40,7 +40,22 @@
 								'style'=>'width:230px;',
 								),
 						)); ?>								
-                        </li>  
+                        </li> 
+                    <?php 
+					$list=array(''=>'Tất cả các thư mục');
+					foreach ($list_category as $id=>$level){
+						$cat=Category::model()->findByPk($id);
+						$view = "";
+						for($i=1;$i<$level;$i++){
+							$view .="---";
+						}
+						$list[$id]=$view." ".$cat->name." ".$view;
+					}
+					?>
+					<li>
+						<?php echo $form->labelEx($model,'catid'); ?>
+						<?php echo $form->dropDownList($model,'catid',$list,array('style'=>'width:200px')); ?>
+					</li>     
                         <?php 
 							$list=array(''=>'Không lọc');
 							$list += QA::getList_label_specials();
@@ -79,16 +94,17 @@
                     </li> 
                     <?php 
 						$list=array(''=>'Tất cả các nhóm');
-						foreach ($list_keyword_categories as $id=>$cat){
+						foreach ($list_keyword_categories as $id=>$level){
+							$cat=Category::model()->findByPk($id);
 							$view = "";
-							for($i=1;$i<$cat['level'];$i++){
+							for($i=1;$i<$level;$i++){
 								$view .="---";
 							}
 							$keywords=Keyword::viewListKeyword($id);
 							if($keywords != "")
-								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
+								$list[$id]=$view." ".$cat->name." (".$keywords.") ".$view;
 							else 	
-								$list[$id]=$view." ".$cat['name']." ".$view;
+								$list[$id]=$view." ".$cat->name." ".$view;
 						}
 						?>
 						<li>

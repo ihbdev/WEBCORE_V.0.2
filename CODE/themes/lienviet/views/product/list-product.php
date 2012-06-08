@@ -14,7 +14,10 @@ $this->bread_crumbs=array(
 						'dataProvider'=>$list_product,
 						'itemView'=>'_product',
 						'template'=>"{items}\n{pager}",
-	            		'pager'=>array('class'=>'iPhoenixLinkPager'),
+	            		'pager'=>array(
+	            			'class'=>'iPhoenixLinkPager',
+	            			'maxButtonCount'=>3
+	            		),
 	            		'itemsCssClass'=>'product-list',
 	            		'pagerCssClass'=>'pages-inner',
 					)); ?>

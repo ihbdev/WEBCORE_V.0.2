@@ -43,7 +43,7 @@ class Contact extends CActiveRecord
 	 * this attribute no need to search	 
 	 */
 	public $old_answer;
-	private $config_other_attributes=array('modified','address','content','phone','email','fullname','metakey','metadesc');	
+	private $config_other_attributes=array('modified','address','content','phone','email','fullname','fax','with','metakey','metadesc');	
 	
 	private $list_other_attributes;
 	
@@ -123,6 +123,7 @@ class Contact extends CActiveRecord
 			array('content', 'length', 'max'=>1024,'on'=>'create'),
 			array('email','email','on'=>'create'),
 			array('phone', 'length', 'max'=>13,'on'=>'create'),
+			array('with,fax', 'safe', 'on'=>'create'),
 			array('status','safe','on'=>'search'),
 		);
 	}
@@ -152,6 +153,8 @@ class Contact extends CActiveRecord
 			'fullname' => 'Họ và tên', 
 			'address'=>'Địa chỉ', 
 			'created_date'=> 'Ngày tạo',
+			'fax'=>'Fax',
+			'with'=>'Liên hệ với phòng, ban'
 		);
 	}
 /**

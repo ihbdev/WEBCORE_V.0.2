@@ -42,12 +42,13 @@
 					</div>						 
 					 <?php 
 						$list=array();
-						foreach ($list_category as $id=>$cat){
+						foreach ($list_category as $id=>$level){
+							$cat=Category::model()->findByPk($id);
 							$view = "";
-							for($i=1;$i<$cat['level'];$i++){
+							for($i=1;$i<$level;$i++){
 								$view .="---";
 							}
-							$list[$id]=$view." ".$cat['name']." ".$view;
+							$list[$id]=$view." ".$cat->name." ".$view;
 						}
 						?>
 						<div class="row">
@@ -75,11 +76,38 @@
 			<ul>
 				<div class="row">
 					<li>
-						<?php echo $form->labelEx($model,'description'); ?>
+						<?php echo $form->labelEx($model,'description',array('style'=>'width:150px !important')); ?>
 						<?php echo $form->textArea($model,'description',array('style'=>'width:280px;','rows'=>6))?>
 						<?php echo $form->error($model,'description'); ?>
 					</li>	
-					</div>
+				</div>	
+				<div class="row">
+							<li>
+								<?php echo $form->labelEx($model,'metadesc',array('style'=>'width:150px !important')); ?>
+								<?php echo $form->textArea($model,'metadesc',array('style'=>'width:280px;max-width:280px;','rows'=>6)); ?>			
+							</li>
+						</div>
+						<?php 
+						$list=array();
+						foreach ($list_keyword_categories as $id=>$level){
+							$cat=Category::model()->findByPk($id);
+							$view = "";
+							for($i=1;$i<$level;$i++){
+								$view .="---";
+							}
+							$keywords=Keyword::viewListKeyword($id);
+							if($keywords != "")
+								$list[$id]=$view." ".$cat->name." (".$keywords.") ".$view;
+							else 	
+								$list[$id]=$view." ".$cat->name." ".$view;
+						}
+						?>
+						<div class="row">
+						<li>
+							<?php echo $form->labelEx($model,'keyword'); ?>
+							<?php echo $form->dropDownList($model,'keyword',$list,array('style'=>'width:200px')); ?>
+							<?php echo $form->error($model, 'keyword'); ?>
+						</li>
 				<div class="row">
 						<li>
 							<?php echo $form->labelEx($model,'introimage'); ?>

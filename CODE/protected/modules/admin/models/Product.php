@@ -52,9 +52,14 @@ class Product extends CActiveRecord
 	public $old_name;
 	public $old_keyword;
 	public $list_special;
-	private $config_other_attributes=array('list_suggest','modified','unit','year','warranty','parameter','description','unit_price','introimage','otherimage','metakey','metadesc');	
+	private $config_other_attributes=array('list_suggest','modified','unit_price','introimage','otherimage','metakey','metadesc');	
 	private $list_other_attributes;
-	
+	public $config_other_tag;
+	public function init(){
+			parent::init();
+			$configFile = Yii::app ()->theme->basePath.'/config/config_product.php';
+    		$this->config_other_tag=require($configFile); 
+	}
 	/**
 	 * Get image url which display status of contact
 	 * @return string path to enable.png if this status is STATUS_ACTIVE
@@ -110,7 +115,7 @@ class Product extends CActiveRecord
 	 * Get url product thumb image
 	 * @return string, absoluted path of thumb image
 	 */
-	public function getThumb_url($type){
+	public function getThumb_url($type,$class="img"){
 		$alt=$this->name;
 		if($this->introimage>0){
 			$image=Image::model()->findByPk($this->introimage);
@@ -121,11 +126,11 @@ class Product extends CActiveRecord
 			else {
 				$src=Image::getDefaultThumb('Product', $type);
 			}
-			return '<img class="img" src="'.$src.'" alt="'.$alt.'">';
+			return '<img class="'.$class.'" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {
 			
-			return '<img class="img" src="'.Image::getDefaultThumb('Product', $type).'" alt="'.$alt.'">';
+			return '<img class="'.$class.'" src="'.Image::getDefaultThumb('Product', $type).'" alt="'.$alt.'">';
 		}
 	}
 
@@ -217,7 +222,8 @@ class Product extends CActiveRecord
 	 */
 	public function __set($name,$value)
 	{
-		if(in_array($name,$this->config_other_attributes))
+		$list= array_merge($this->config_other_attributes,array_keys($this->config_other_tag));
+		if(in_array($name,$list))
 			$this->list_other_attributes[$name]=$value;
 		else 
 			parent::__set($name,$value);
@@ -230,7 +236,8 @@ class Product extends CActiveRecord
 	 */
 	public function __get($name)
 	{
-		if(in_array($name,$this->config_other_attributes))
+		$list= array_merge($this->config_other_attributes,array_keys($this->config_other_tag));
+		if(in_array($name,$list))
 			if(isset($this->list_other_attributes[$name])) 
 				return $this->list_other_attributes[$name];
 			else 
@@ -254,9 +261,10 @@ class Product extends CActiveRecord
 	{
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
+		$other_tag=implode(',',array_keys($this->config_other_tag));
 		return array(
 			array('name,catid,code,introimage,manufacturer_id','required','on'=>'write'),
-			array('description,parameter,list_special,lang,unit_price,otherimage,list_suggest,metadesc,keyword', 'safe','on'=>'write'),
+			array($other_tag.',list_special,lang,unit_price,otherimage,list_suggest,metadesc,keyword', 'safe','on'=>'write'),
 			array('num_price', 'numerical', 'integerOnly'=>true,'on'=>'write'),
 			array('name,lang, manufacturer_id, catid,special, amount_status, keyword','safe','on'=>'search'),	
 		);
@@ -463,7 +471,7 @@ class Product extends CActiveRecord
 		//Filter catid
 		$cat = Category::model ()->findByPk ( $this->catid );
 		if ($cat != null) {
-			$child_categories = $cat->child_categories;
+			$child_categories = $cat->child_nodes;
 			$list_child_id = array ();
 			//Set itself
 			$list_child_id [] = $cat->id;
@@ -476,7 +484,7 @@ class Product extends CActiveRecord
 		//Filter manufacturer
 		$cat = Category::model ()->findByPk ( $this->manufacturer_id );
 		if ($cat != null) {
-			$child_categories = $cat->child_categories;
+			$child_categories = $cat->child_nodes;
 			$list_child_id = array ();
 			//Set itself
 			$list_child_id [] = $cat->id;
@@ -489,7 +497,7 @@ class Product extends CActiveRecord
 		//Filter keyword category
 		$cat = Category::model ()->findByPk ( $this->keyword );
 		if ($cat != null) {
-			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
+			$criteria->addInCondition ( 'keyword', $cat->ancestor_nodes );
 		}
 		if (isset ( $_GET ['pageSize'] ))
 			Yii::app ()->user->setState ( 'pageSize', $_GET ['pageSize'] );
@@ -588,87 +596,5 @@ class Product extends CActiveRecord
 			return $src;
 		}
 		else return false;
-	}
-	
-	/**
-	 * 
-	 * static function, get all manufacturer
-	 * @return array, list of all manufacturer
-	 */
-	public static function getManufacturerOption()
-	{
-		//List manufacturer
-		$group=new Category();		
-		$group->group=Category::GROUP_MANUFACTURER;
-		$list=$group->list_categories;
-		
-		$list_manufacturer=array();
-		foreach ($list as $id=>$manufacturer){			
-			//var_dump($manufacturer['parent_id']);
-			//exit;
-			$tmp = Category::model()->findByPk($id);
-			if($tmp['parent_id']==Category::GROUP_MANUFACTURER) 
-				$list_manufacturer[$id]=$manufacturer['name'];
-		}
-		
-		return $list_manufacturer;
-	}
-	
-	
-	/**
-	 * 
-	 * static function, get all manufacturer and group of product
-	 * @return array, list of all manufacturer
-	 */
-	public static function getAllManufacturerOption()
-	{
-		//List manufacturer
-		$group=new Category();		
-		$group->group=Category::GROUP_MANUFACTURER;
-		$list=$group->list_categories;
-		
-		$list_manufacturer=array();
-		foreach ($list as $id=>$manufacturer){			
-			//var_dump($manufacturer['parent_id']);
-			//exit;
-			$tmp = Category::model()->findByPk($id);
-			$list_manufacturer[$id]=$manufacturer['name'];
-		}
-		
-		return $list_manufacturer;
 	}	
-	
-	/**
-	 * 
-	 * Get all category option, used in dropDownList in create, update and import product
-	 * @return array of existing category
-	 */
-	public static function getAllCategoryOption()
-	{
-		//List manufacturer
-		$group=new Category();		
-		$group->group=Category::GROUP_PRODUCT;
-		$list=$group->list_categories;		
-		$list_manufacturer=array();
-		foreach ($list as $id=>$manufacturer){			
-			$tmp = Category::model()->findByPk($id);
-			$list_manufacturer[$id]=$manufacturer['name'];
-		}
-		
-		return $list_manufacturer;
-	}
-	/**
-	 * 
-	 * Used to display hyperlink site/contactproduct if this product doesn't have price
-	 */
-	public function checkprice()
-	{
-		$returnvalue = $this->num_price;
-		if($returnvalue == '')
-		{
-			$returnvalue = CHtml::link('Hỏi Hàng',array('site/contactproduct'));
-		}
-		
-		return $returnvalue;
-	}
 }

@@ -13,7 +13,7 @@
  */
 class Setting extends CActiveRecord
 {
-	public $list=array('System'=>'System','Contact'=>'Contact','News'=>'News','Product'=>'Product','QA'=>'QA','StaticPage'=>'StaticPage','GalleryVideo'=>'GalleryVideo','Album'=>'Album');
+	public $list=array('System'=>'System','Contact'=>'Contact','News'=>'News','Product'=>'Product','QA'=>'QA','StaticPage'=>'StaticPage','GalleryVideo'=>'GalleryVideo','Album'=>'Album','Support'=>'Support','Application'=>'Application');
 	public static function model($className=__CLASS__)
 	{
 		return parent::model($className);

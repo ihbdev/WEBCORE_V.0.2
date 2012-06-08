@@ -112,8 +112,8 @@ class ProductController extends Controller
 		
 		//List category product
 		$group=new Category();		
-		$group->group=Category::GROUP_PRODUCT;
-		$list=$group->list_categories;
+		$group->type=Category::TYPE_PRODUCT;
+		$list=$group->list_nodes;
 		$list_category=array();
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
@@ -121,8 +121,8 @@ class ProductController extends Controller
 		
 		//List manufacturer
 		$group=new Category();		
-		$group->group=Category::GROUP_MANUFACTURER;
-		$list=$group->list_categories;
+		$group->type=Category::TYPE_MANUFACTURER;
+		$list=$group->list_nodes;
 		$list_manufacturer=array();
 		foreach ($list as $id=>$manufacturer){
 			$list_manufacturer[$id]=$manufacturer;
@@ -139,8 +139,8 @@ class ProductController extends Controller
 		$suggest->attributes=$_GET['SuggestProduct'];
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('create',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
@@ -170,8 +170,8 @@ class ProductController extends Controller
 			}
 			//List category product
 		$group=new Category();		
-		$group->group=Category::GROUP_PRODUCT;
-		$list=$group->list_categories;
+		$group->type=Category::TYPE_PRODUCT;
+		$list=$group->list_nodes;
 		$list_category=array();
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
@@ -179,8 +179,8 @@ class ProductController extends Controller
 		
 		//List manufacturer
 		$group=new Category();		
-		$group->group=Category::GROUP_MANUFACTURER;
-		$list=$group->list_categories;
+		$group->type=Category::TYPE_MANUFACTURER;
+		$list=$group->list_nodes;
 		$list_manufacturer=array();
 		foreach ($list as $id=>$manufacturer){
 			$list_manufacturer[$id]=$manufacturer;
@@ -197,8 +197,8 @@ class ProductController extends Controller
 			$suggest->attributes=$_GET['SuggestProduct'];
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		
 		$this->render ( 'update', array ('model' => $model,
 			'list_category'=>$list_category,
@@ -243,18 +243,17 @@ class ProductController extends Controller
 			$model->attributes=$_GET['Product'];
 		//Group categories 
 		$group=new Category();		
-		$group->group=Category::GROUP_PRODUCT;
-		$list=$group->list_categories;
-		$list_category=$list;
+		$group->type=Category::TYPE_PRODUCT;
+		$list_category=$group->list_nodes;
 		//Group manufacture
 		$group=new Category();		
-		$group->group=Category::GROUP_MANUFACTURER;
-		$list=$group->list_categories;
+		$group->type=Category::TYPE_MANUFACTURER;
+		$list=$group->list_nodes;
 		$list_manufacturer=$list;
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('index',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
@@ -347,7 +346,7 @@ class ProductController extends Controller
 		$list_checked = Yii::app()->session["checked-product-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'product_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = Product::model ()->findByPk ( $id );
 						if (isset ( $item ))

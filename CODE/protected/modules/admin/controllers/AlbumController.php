@@ -75,16 +75,16 @@ class AlbumController extends Controller
 		}
 		//List category product
 		$group=new Category();		
-		$group->group=Category::GROUP_ALBUM;
-		$list=$group->list_categories;
+		$group->type=Category::TYPE_ALBUM;
+		$list=$group->list_nodes;
 		$list_category=array();
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('create',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
@@ -114,16 +114,16 @@ class AlbumController extends Controller
 			}
 		//List category product
 		$group=new Category();		
-		$group->group=Category::GROUP_ALBUM;
-		$list=$group->list_categories;
+		$group->type=Category::TYPE_ALBUM;
+		$list=$group->list_nodes;
 		$list_category=array();
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render ( 'update', array (
 			'model' => $model, 
 			'list_category'=>$list_category,
@@ -165,16 +165,16 @@ class AlbumController extends Controller
 			$model->attributes=$_GET['Album'];
 	//List category product
 		$group=new Category();		
-		$group->group=Category::GROUP_ALBUM;
-		$list=$group->list_categories;
+		$group->type=Category::TYPE_ALBUM;
+		$list=$group->list_nodes;
 		$list_category=array();
 		foreach ($list as $id=>$cat){
 			$list_category[$id]=$cat;
 		}
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('index',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
@@ -246,7 +246,7 @@ class AlbumController extends Controller
 		$list_checked = Yii::app()->session["checked-album-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'album_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = Album::model ()->findByPk ( $id );
 						if (isset ( $item ))

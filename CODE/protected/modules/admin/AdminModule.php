@@ -12,7 +12,8 @@ class AdminModule extends CWebModule
 			'admin.models.*',
 			'admin.components.*',
 		));
-		if (!isset ( Yii::app ()->session ['view'] )) Yii::app ()->session ['view']=basic;
+		if (!isset ( Yii::app ()->session ['view'] )) 
+			Yii::app ()->session ['view']='basic';
 		else 
 		{
 			if (Yii::app ()->session ['view'] != 'advance')

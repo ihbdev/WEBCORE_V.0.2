@@ -18,6 +18,19 @@
                    			<?php echo $form->error($model, 'name'); ?>
                     	</li>
                     </div> 
+                    <?php 
+                    $configFile = dirname ( __FILE__ ).'/../../../config/'.DIRECTORY_SEPARATOR.'config_operations.php';
+    				$group=require($configFile);
+    				if($model->category == '') $model->category='product';
+                    ?>
+                    <div class="row">
+                    <li>        
+                        <?php echo $form->labelEx($model,'category'); ?>
+                        <?php echo $form->dropDownList($model,'category',$group,array('style'=>'width:200px'));?>
+                  		<?php echo $form->error($model, 'category'); ?>
+					</li>
+                    </div>
+                    
                     <div class="row">
                     <li>
                         <?php echo $form->labelEx($model,'parent_id'); ?>

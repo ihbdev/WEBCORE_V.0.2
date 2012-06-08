@@ -8,5 +8,7 @@ class Article extends CActiveRecord
 	const ARTICLE_VIDEO=5;
 	const ARTICLE_BANNER=6;
 	const ARTICLE_CONTACT=7;
+	const ARTICLE_RECRUITMENT=8;
+	const ARTICLE_APP=9;
 }
 ?>

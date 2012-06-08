@@ -2,7 +2,7 @@
 Yii::import('zii.widgets.CPortlet');
 class wMenu extends CPortlet
 {
-	public $group;
+	public $type;
 	public $view;
 	public function init(){
 		parent::init();
@@ -10,54 +10,48 @@ class wMenu extends CPortlet
 	}
 	protected function renderContent()
 	{
-		$model=Category::model()->findByPk($this->group);
-		$model->group=$this->group;
-		$list=$model->list_Categories;	
+		$model=new Menu();
+		$model->type=$this->type;
+		//Create list menu which are used when view menu
+		$list_nodes=$model->list_nodes;
+		foreach ($list_nodes as $id=>$level) {
+			$menu=Menu::model()->findByPk($id);	
+			if($menu->url == '')
+				unset($list_nodes[$id]);			
+		}
+		$list=array();
+		$list_active_menu_id=$model->findActiveMenu();		
 		$previous_id=0;
 		$finish=0;
-		if(sizeof($list)>0){
+		if(sizeof($list_nodes)>0){
 			$first=true;
-			foreach ($list as $id=>$menu) {
+			foreach ($list_nodes as $id=>$level) {
+				$list[$id]['level']=$level;
 				if($first==true) {
-					$list[$id]['class']='first';
+					$list[$id]['first']=true;
 					$first=false;
 				}
-				if($menu['level']==1)$last=$id;
-				if($previous_id>0 && $list[$previous_id]['level']<$menu['level']){
-					if($list[$previous_id]['level']==1){
-						$list[$previous_id]['havechild']=true;		
-					}
-					else {
-						$list[$previous_id]['class']='x';
-					}
-					$list[$id]['class']='first-item';			
+				if($level==1)$last=$id;
+				if($previous_id>0 && $list[$previous_id]['level']<$level){
+					$list[$previous_id]['havechild']=true;		
+					$list[$id]['first-item']=true;			
 				}
-				if($previous_id>0 && $list[$previous_id]['level']>$menu['level']){
-					$list[$previous_id]['class']='last-item';	
-					$list[$previous_id]['close']=$list[$previous_id]['level']-$menu['level'];			
+				if($previous_id>0 && $list[$previous_id]['level']>$level){
+					$list[$id]['last-item']=true;		
+					$list[$previous_id]['level_close']=$list[$previous_id]['level']-$level;			
+				}
+				if(in_array($id,$list_active_menu_id)){
+					$list[$id]['active'] =true;
 				}
 				$previous_id=$id;
 			}
-			$list[$previous_id]['class']='last-item';
-			$list[$last]['class']='last';
-			$list[$previous_id]['close']=$list[$previous_id]['level']-1;
-		}
-		$list_menus=array();
-		$list_active_menu_id=$model->findActiveMenu();			
-		foreach ($list as $id=>$menu) {
-			$list_menus[$id]['name']=$menu['name'];
-			$list_menus[$id]['url']=$menu['url'];
-			if(isset($list_menus[$id]['root']))
-			$list_menus[$id]['root']=$menu['root'];
-				$list_menus[$id]['class']=isset($menu['class'])?$menu['class']:'';
-			if(in_array($id,$list_active_menu_id)){
-				$list_menus[$id]['class'] .=" active";
-			}
-			$list_menus[$id]['havechild']=isset($menu['havechild'])?$menu['havechild']:false;
-			$list_menus[$id]['close']=isset($menu['close'])?$menu['close']:false;
+			$list[$previous_id]['last-item']=true;
+			$list[$last]['last']=true;
+			$list[$previous_id]['level_close']=$list[$previous_id]['level']-1;
 		}
 		$this->render($this->view,array(
-			'list_menus'=>$list_menus,
+			'list_menus'=>$list,
+			'group'=>$this->type
 		));
 	}
 }

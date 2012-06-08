@@ -37,7 +37,7 @@
 </div><!--header-->
 <div class="menu">
 	<div class="wrapper">
-         	<?php $this->widget('wMenu',array('group'=>Category::GROUP_USER_MENU,'view'=>'front-end-menu'))?>
+         	<?php $this->widget('wMenu',array('type'=>Menu::TYPE_USER_MENU,'view'=>'front-end-menu'))?>
          	<?php $this->widget('wQuickSearch')?>
     </div><!--wrapper-->
 </div><!--menu-->
@@ -47,9 +47,7 @@
             <?php $this->widget('wBanner',array('code'=>Banner::CODE_HEADLINE,'view'=>'head-line'))?>
       	</div><!--slider-wrapper-->
       	<div class="slider-right">
-        	<div class="box">
        			<?php $this->widget('wVideo',array('view'=>'video'));?> 
-            </div><!--box-->
             <div class="box">
             	<div class="box-title"><label><?php echo Language::t('Hướng dẫn','layout');?></label></div>
                 <div class="box-content">
@@ -76,7 +74,7 @@
     <div class="bground">
     	<div class="sidebar">
         	<div class="box">
-            	<?php $this->widget('wMenu',array('group'=>Category::GROUP_PRODUCT,'view'=>'menu-left'));?> 
+            	<?php $this->widget('wCategory',array('type'=>Category::TYPE_PRODUCT,'view'=>'menu-left'));?> 
             </div><!--box-->
             <div class="box">
             	<?php $this->widget('wProduct',array('view'=>'remark','special'=>Product::SPECIAL_REMARK,'limit'=>Setting::s('SIZE_REMARK_PRODUCT','Product')));?> 
@@ -93,7 +91,7 @@
 </div><!--wrapper-->
 <div class="menu-bottom">
 	<div class="wrapper">
-    <?php $this->widget('wMenu',array('group'=>Category::GROUP_USER_MENU,'view'=>'front-end-menu'))?>
+    <?php $this->widget('wMenu',array('type'=>Menu::TYPE_USER_MENU,'view'=>'front-end-menu'))?>
 	</div><!--wrapper-->
 </div><!--menu-bottom-->
 <div class="footer">

@@ -195,7 +195,7 @@ class Album extends CActiveRecord
 	 * Get url of first image
 	 * @return url of the first image in this album
 	 */
-	public function getThumb_url($type){
+	public function getThumb_url($type,$class){
 		$alt=$this->title;
 		if($this->thumb_id>0){
 			$image=Image::model()->findByPk($this->thumb_id);
@@ -206,10 +206,10 @@ class Album extends CActiveRecord
 			else {
 				$src=Image::getDefaultThumb('Album', $type);
 			}
-			return '<img align="middle" class="img" src="'.$src.'" alt="'.$alt.'">';
+			return '<img align="middle" class="'.$class.'" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {
-			return '<img align="middle" class="img" src="'.Image::getDefaultThumb('Album',$type).'" alt="'.$alt.'">';
+			return '<img align="middle" class="'.$class.'" src="'.Image::getDefaultThumb('Album',$type).'" alt="'.$alt.'">';
 		}
 	}
 	/**
@@ -455,7 +455,7 @@ class Album extends CActiveRecord
 		//Filter catid
 		$cat = Category::model ()->findByPk ( $this->catid );
 		if ($cat != null) {
-			$child_categories = $cat->child_categories;
+			$child_categories = $cat->child_nodes;
 			$list_child_id = array ();
 			//Set itself
 			$list_child_id [] = $cat->id;
@@ -468,7 +468,7 @@ class Album extends CActiveRecord
 		//Filter keyword category
 		$cat = Category::model ()->findByPk ( $this->keyword );
 		if ($cat != null) {
-			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
+			$criteria->addInCondition ( 'keyword', $cat->ancestor_nodes );
 		}
 		if(isset($_GET['pageSize']))
 				Yii::app()->user->setState('pageSize',$_GET['pageSize']);

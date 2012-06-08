@@ -83,7 +83,7 @@ class StaticPage extends CActiveRecord
 	/*
 	 * Get thumb of video
 	 */
-	public function getThumb_url($type){
+	public function getThumb_url($type,$class){
 		$alt=$this->title;
 		if($this->introimage>0){
 			$image=Image::model()->findByPk($this->introimage);
@@ -94,7 +94,7 @@ class StaticPage extends CActiveRecord
 			else {
 				$src=Image::getDefaultThumb('StaticPage', $type);
 			}
-			return '<img class="img" src="'.$src.'" alt="'.$alt.'">';
+			return '<img class="'.$class.'" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {
 			
@@ -482,7 +482,7 @@ class StaticPage extends CActiveRecord
 		//Filter catid
 		$cat = Category::model ()->findByPk ( $this->catid );
 		if ($cat != null) {
-			$child_categories = $cat->child_categories;
+			$child_categories = $cat->child_nodes;
 			$list_child_id = array ();
 			//Set itself
 			$list_child_id [] = $cat->id;
@@ -495,7 +495,7 @@ class StaticPage extends CActiveRecord
 		//Filter keyword category
 		$cat = Category::model ()->findByPk ( $this->keyword );
 		if ($cat != null) {
-			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
+			$criteria->addInCondition ( 'keyword', $cat->ancestor_nodes );
 		}
 		if (isset ( $_GET ['pageSize'] ))
 			Yii::app ()->user->setState ( 'pageSize', $_GET ['pageSize'] );

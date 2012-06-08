@@ -17,13 +17,10 @@ class ProductController extends Controller {
 	public function actionList($cat_alias) {
 		$criteria = new CDbCriteria ();
 		$criteria->compare ( 'alias', $cat_alias );
-		$list_cat = Category::model ()->findAll ( $criteria );
-		foreach ( $list_cat as $category ) {
-			if ($category->findGroup () == Category::GROUP_PRODUCT)
-				$cat = $category;
-		}
+		$criteria->compare('type',Category::TYPE_PRODUCT);
+		$cat = Category::model ()->find( $criteria );
 		if (isset ( $cat )) {
-			$child_categories = $cat->child_categories;
+			$child_categories = $cat->child_nodes;
 			$list_child_id = array ();
 			//Set itself
 			$list_child_id [] = $cat->id;
@@ -44,11 +41,9 @@ class ProductController extends Controller {
 	public function actionView($cat_alias, $product_alias) {
 		$criteria = new CDbCriteria ();
 		$criteria->compare ( 'alias', $cat_alias );
-		$list_cat = Category::model ()->findAll ( $criteria );
-		foreach ( $list_cat as $category ) {
-			if ($category->findGroup () == Category::GROUP_PRODUCT)
-				$cat = $category;
-		}
+		$criteria->compare('type',Category::TYPE_PRODUCT);
+		$cat = Category::model ()->find( $criteria );
+		if (isset ( $cat )) {
 		$criteria = new CDbCriteria ();
 		if (isset ( $cat ))
 			$criteria->compare ( 'catid', $cat->id );
@@ -58,6 +53,7 @@ class ProductController extends Controller {
 			$product->visits=$product->visits+1;
 			$product->save();
 			$this->render ( 'product', array ('cat' => $cat, 'product' => $product ) );
+		}
 		}
 	}
 }

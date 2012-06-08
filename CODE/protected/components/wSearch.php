@@ -9,19 +9,16 @@ class wSearch extends CPortlet
 	protected function renderContent()
 	{
 		$search=new SearchForm();
-		if(isset($_POST['SearchForm']))
-			$search->attributes=$_POST['SearchForm'];
+		$search->name='Tìm kiếm...';
+		if(isset($_GET['SearchForm']))
+			$search->attributes=$_GET['SearchForm'];
 		//List category product
-		$group=new Category();		
-		$group->group=Category::GROUP_PRODUCT;
-		$list=$group->list_categories;
-		$list_category=array();
-		foreach ($list as $id=>$cat){
-			$list_category[$id]=$cat;
-		}
+		$model=new Category();		
+		$model->type=Category::TYPE_PRODUCT;
+		$list=$model->list_nodes;
 		$this->render('search',array(
 			'search'=>$search,
-			'list_category'=>$list_category
+			'list_category'=>$list
 		));
 	}
 }

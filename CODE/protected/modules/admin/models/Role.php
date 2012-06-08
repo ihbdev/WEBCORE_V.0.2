@@ -71,6 +71,7 @@ class Role extends CActiveRecord
 		$criteria=new CDbCriteria;
 		$criteria->compare('type', $this->type);
 		$criteria->compare('parent_id', 0);
+		$criteria->order='category';
 		$list_roles=self::model()->findAll($criteria);	
 		foreach ($list_roles as $role){
 			$result += array($role->id => 1);
@@ -250,7 +251,7 @@ class Role extends CActiveRecord
 			array('value','safe'),
 			array('parent_id','validatorParent'),
 			array('name', 'length', 'max'=>64),
-			array('description,bizRule','safe')
+			array('description,bizRule,category','safe')
 			
 		);
 	}
@@ -298,7 +299,8 @@ class Role extends CActiveRecord
 			'parent_id'	=> 'Thuộc',
 			'max_rank'=>'Mức cấp con',
 			'value'=>'Gán quyền',
-			'description'=>'Miêu tả'
+			'description'=>'Miêu tả',
+			'category'=>'Nhóm'
 		);
 	}
 	

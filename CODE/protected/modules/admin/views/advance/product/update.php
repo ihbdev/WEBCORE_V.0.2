@@ -44,12 +44,13 @@
 	                    </div>
 						<?php 
 						$list=array();
-						foreach ($list_category as $id=>$cat){
+						foreach ($list_category as $id=>$level){
+							$cat=Category::model()->findByPk($id);
 							$view = "";
-							for($i=1;$i<$cat['level'];$i++){
+							for($i=1;$i<$level;$i++){
 								$view .="---";
 							}
-							$list[$id]=$view." ".$cat['name']." ".$view;
+							$list[$id]=$view." ".$cat->name." ".$view;
 						}
 						?>
 						<div class="row">
@@ -61,12 +62,13 @@
 						</div>		
 						<?php 
 						$list=array();
-						foreach ($list_manufacturer as $id=>$cat){
+						foreach ($list_manufacturer as $id=>$level){
+							$cat=Category::model()->findByPk($id);
 							$view = "";
-							for($i=1;$i<$cat['level'];$i++){
+							for($i=1;$i<$level;$i++){
 								$view .="---";
 							}
-							$list[$id]=$view." ".$cat['name']." ".$view;
+							$list[$id]=$view." ".$cat->name." ".$view;
 						}
 						?>
 						<div class="row">
@@ -100,16 +102,17 @@
 						</div>
 						<?php 
 						$list=array();
-						foreach ($list_keyword_categories as $id=>$cat){
+						foreach ($list_keyword_categories as $id=>$level){
+							$cat=Category::model()->findByPk($id);
 							$view = "";
-							for($i=1;$i<$cat['level'];$i++){
+							for($i=1;$i<$level;$i++){
 								$view .="---";
 							}
 							$keywords=Keyword::viewListKeyword($id);
 							if($keywords != "")
-								$list[$id]=$view." ".$cat['name']." (".$keywords.") ".$view;
+								$list[$id]=$view." ".$cat->name." (".$keywords.") ".$view;
 							else 	
-								$list[$id]=$view." ".$cat['name']." ".$view;
+								$list[$id]=$view." ".$cat->name." ".$view;
 						}
 						?>
 						<div class="row">
@@ -139,49 +142,31 @@
 					</div><!--end above content-->
 					<div class="row">
                     	<li>
-	                    	<div id="tabContainer">
+<div id="tabContainer">
                         		<div id="tabMenu">
                             		<ul class="menu">
-                                		<li><a id="select1" class="active"><span>Tính năng nổi bật</span></a></li>
-                                		<li><a id="select2"><span>Thông số kĩ thuật</span></a></li>
-                                		<!--  
-                                    	<li><a id="select3"><span>Showroom bán hàng</span></a></li>
-                                    	<li><a id="select4"><span>Văn phòng giao dịch</span></a></li>
-                                    	<li><a id="select5"><span>Nhận xét</span></a></li>
-                                    	-->
+                            			<?php 
+                            			$i=1;
+                            			foreach ($model->config_other_tag as $index=>$label):
+                            			?>
+                                		<li><a id="select<?php echo $i?>" class="<?php if($i==1) echo "active"?>"><span><?php echo $label?></span></a></li>
+                                		<?php $i=$i+1;?>
+                            			<?php endforeach;?>
                                 	</ul>
                             	</div>
                             	<div id="tabContent">
-                            		<div id="tab1" class="content active">
-                                    <div class="clear"></div>
+                            		<?php 
+                            			$i=1;
+                            			foreach ($model->config_other_tag as $index=>$label):
+                            			?>
+                                		<div id="tab<?php echo $i?>" class="content <?php if($i==1) echo "active"?>">
+                                   		<div class="clear"></div>
 										<?php  
-                        					$this->widget('application.extensions.tinymce.ETinyMce',array('model'=>$model,'attribute'=>'description','editorTemplate'=>'full','htmlOptions'=>array('style'=>'width:950px;height:500px'))); 
+                        					$this->widget('application.extensions.tinymce.ETinyMce',array('model'=>$model,'attribute'=>$index,'editorTemplate'=>'full','htmlOptions'=>array('style'=>'width:950px;height:500px'))); 
                         				?>
-                                	</div>
-                                	<div id="tab2" class="content">
-                                    <div class="clear"></div>
-										<?php  
-                        					$this->widget('application.extensions.tinymce.ETinyMce',array('model'=>$model,'attribute'=>'parameter','editorTemplate'=>'full','htmlOptions'=>array('style'=>'width:950px;height:500px'))); 
-                        				?>
-                                	</div>
-                                	<div id="tab3" class="content">
-                                    <div class="clear"></div>
-                                    <?php  
-                        				//$this->widget('application.extensions.tinymce.ETinyMce',array('model'=>$model,'attribute'=>'showroom','editorTemplate'=>'full','htmlOptions'=>array('style'=>'width:950px;height:500px'))); 
-                        			?>
-                                	</div>
-                                	<div id="tab4" class="content">
-                                    <div class="clear"></div>
-                                    <?php  
-                        				//$this->widget('application.extensions.tinymce.ETinyMce',array('model'=>$model,'attribute'=>'store','editorTemplate'=>'full','htmlOptions'=>array('style'=>'width:950px;height:500px'))); 
-                        			?>
-                                	</div>
-                                	<div id="tab5" class="content">
-                                    <div class="clear"></div>
-                                    <?php  
-                        				//$this->widget('application.extensions.tinymce.ETinyMce',array('model'=>$model,'attribute'=>'comment','editorTemplate'=>'full','htmlOptions'=>array('style'=>'width:950px;height:500px'))); 
-                        			?>
-                                	</div>
+                                		</div>
+                                		<?php $i=$i+1;?>
+                                	<?php endforeach;?>                           		                         	
                             	</div>
                         	</div><!--end tabContainer-->
                         </li>
@@ -198,66 +183,23 @@
 	</div>
 	<!--end inside content-->
 <script type="text/javascript">
-$('#select1').click(function () {
-	$("#select1").attr("class","active");	
-	$("#select2").attr("class","");	
-	$("#select3").attr("class","");	
-	$("#select4").attr("class","");
-	$("#select5").attr("class","");
-    $('#tab1').attr("class","content active");	
-    $('#tab2').attr("class","content");	
-    $('#tab3').attr("class","content");	
-    $('#tab4').attr("class","content");
-    $('#tab5').attr("class","content");	
-});
-$('#select2').click(function () {
-	$("#select2").attr("class","active");	
-	$("#select1").attr("class","");	
-	$("#select3").attr("class","");	
-	$("#select4").attr("class","");
-	$("#select5").attr("class","");
-    $('#tab2').attr("class","content active");	
-    $('#tab1').attr("class","content");	
-    $('#tab3').attr("class","content");	
-    $('#tab4').attr("class","content");	
-    $('#tab5').attr("class","content");	
-});
-$('#select3').click(function () {
-	$("#select3").attr("class","active");	
-	$("#select1").attr("class","");	
-	$("#select2").attr("class","");	
-	$("#select4").attr("class","");
-	$("#select5").attr("class","");
-    $('#tab3').attr("class","content active");	
-    $('#tab1').attr("class","content");	
-    $('#tab2').attr("class","content");	
-    $('#tab4').attr("class","content");	
-    $('#tab5').attr("class","content");	
-});
-$('#select4').click(function () {
-	$("#select4").attr("class","active");	
-	$("#select1").attr("class","");	
-	$("#select2").attr("class","");	
-	$("#select3").attr("class","");
-    $("#select5").attr("class","");
-    $('#tab4').attr("class","content active");	
-    $('#tab1').attr("class","content");	
-    $('#tab2').attr("class","content");	
-    $('#tab3').attr("class","content");	
-    $('#tab5').attr("class","content");	
-});
-$('#select5').click(function () {
-	$("#select5").attr("class","active");	
-	$("#select1").attr("class","");	
-	$("#select2").attr("class","");	
-	$("#select3").attr("class","");
-    $("#select4").attr("class","");
-    $('#tab5').attr("class","content active");	
-    $('#tab1').attr("class","content");	
-    $('#tab2').attr("class","content");	
-    $('#tab3').attr("class","content");	
-    $('#tab4').attr("class","content");	
-});
+<?php for($i=1;$i<=sizeof($model->config_other_tag);$i++){
+echo "$('#select$i').click(function () {";
+for($j=1;$j<=sizeof($model->config_other_tag);$j++){
+	if($i != $j){
+		echo "$('#select$j').attr('class','');";
+		echo "$('#tab$j').attr('class','content');";
+	}
+	else 
+	{
+		echo "$('#select$j').attr('class','active');";
+		echo "$('#tab$j').attr('class','content active');";
+	}
+	
+}
+echo "});";
+}
+?>
 </script>
 <!-- Main popup -->
 <div class="bg-overlay"></div>
@@ -288,12 +230,13 @@ $('#select5').click(function () {
 						</li>
 						 <?php 
 					$list=array(''=>'Tất cả các nhóm');
-					foreach ($list_category as $id=>$cat){
+					foreach ($list_category as $id=>$level){
+						$cat=Category::model()->findByPk($id);
 						$view = "";
-						for($i=1;$i<$cat['level'];$i++){
+						for($i=1;$i<$level;$i++){
 							$view .="---";
 						}
-						$list[$id]=$view." ".$cat['name']." ".$view;
+						$list[$id]=$view." ".$cat->name." ".$view;
 					}
 					?>            
                    	<li>

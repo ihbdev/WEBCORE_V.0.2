@@ -25,7 +25,7 @@ class DefaultController extends Controller
 	public function filters()
     {
         return array(
-            'https +login,logout',
+            //'https +login,logout',
         );
     }
 	

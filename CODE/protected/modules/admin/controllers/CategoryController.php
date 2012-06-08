@@ -54,7 +54,7 @@ class CategoryController extends Controller
 				'roles'=>array('category_write'),
 			),
 			array('allow',  
-				'actions'=>array('validateCategory'),
+				'actions'=>array('validate'),
 				'roles'=>array('category_validateCategory'),
 			),
 			array('allow', 
@@ -87,78 +87,25 @@ class CategoryController extends Controller
 	/**
 	 * Creates a new model.
 	 * If creation is successful, the browser will be redirected to the 'view' page.
-	 * @param $group group of category, like below constant
+	 * @param $type type of category, like below constant
 	 */
-	public function actionCreate($group)
+	public function actionCreate($type)
 	{
 			$action="create";
 			$model=new Category();			
-			//Define group of category
-			$model->group=$group;
-			switch ($group){
-				case 
-				Category::GROUP_ADVANCE_ADMIN_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case 
-				Category::GROUP_ADMIN_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case 
-				Category::GROUP_KEYWORD: 
-				$model->scenario='keyword';	
-				$form='_form_keyword';
-				break;
-				case 
-				Category::GROUP_USER_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case Category::GROUP_ROOT: 
-				$model->scenario='root';	
-				$form="_form_root";
-				break;
-				case				
-				Category::GROUP_NEWS: 
-				$model->scenario='news';	
-				$form="_form_news";
-				break;
-				case				
-				Category::GROUP_GALLERYVIDEO: 
-				$model->scenario='video';	
-				$form="_form_video";
-				break;
-				case				
-				Category::GROUP_ALBUM: 
-				$model->scenario='album';	
-				$form="_form_album";
-				break;
-				case				
-				Category::GROUP_STATICPAGE: 
-				$model->scenario='staticPage';	
-				$form="_form_static_page";
-				break;
-				case
-				Category::GROUP_PRODUCT: 
-				$model->scenario='product';	
-				$form="_form_product";
-				break;
-				case
-				Category::GROUP_MANUFACTURER: 
-				$model->scenario='manufacturer';	
-				$form="_form_manufacturer";
-				break;
-				
-			}
+			//Define type of category
+			$model->type=$type;	
+			if(isset($model->config_type[$type]['form']))		
+				$form=$model->config_type[$type]['form'];
+			else 
+				$form='_form';
 			Yii::app()->clientScript->scriptMap['jquery.js'] = false;
 			$html_tree=$this->renderPartial('_tree',array(
-					'list'=>$model->list_categories,
+					'list_nodes'=>$model->list_nodes,
 			),true);
 			
 			$html_form = $this->renderPartial($form,array(
-					'model'=>$model,'group'=>$group,'action'=>$action
+					'model'=>$model,'type'=>$type,'action'=>$action
 				),true,true); 
 			echo $html_form.$html_tree;
 	}
@@ -168,75 +115,22 @@ class CategoryController extends Controller
 	 * If update is successful, the browser will be redirected to the 'view' page.
 	 * @param integer $id the ID of the model to be updated
 	 */
-	public function actionUpdate($id,$group)
+	public function actionUpdate($id)
 	{
 			$action="update";
 			$model=$this->loadModel($id);
-			//Define group of category
-			$model->group=$group;
-			switch ($group){
-				case 
-				Category::GROUP_ADVANCE_ADMIN_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case 
-				Category::GROUP_ADMIN_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case 
-				Category::GROUP_KEYWORD: 
-				$model->scenario='keyword';	
-				$form='_form_keyword';
-				break;
-				case 
-				Category::GROUP_USER_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case Category::GROUP_ROOT: 
-				$model->scenario='root';	
-				$form="_form_root";
-				break;
-				case				
-				Category::GROUP_NEWS: 
-				$model->scenario='news';	
-				$form="_form_news";
-				break;
-				case				
-				Category::GROUP_GALLERYVIDEO: 
-				$model->scenario='video';	
-				$form="_form_video";
-				break;
-				case				
-				Category::GROUP_ALBUM: 
-				$model->scenario='album';	
-				$form="_form_album";
-				break;
-				case				
-				Category::GROUP_STATICPAGE: 
-				$model->scenario='staticPage';	
-				$form="_form_static_page";
-				break;
-				case
-				Category::GROUP_PRODUCT: 
-				$model->scenario='product';	
-				$form="_form_product";
-				break;
-				case
-				Category::GROUP_MANUFACTURER: 
-				$model->scenario='manufacturer';	
-				$form="_form_manufacturer";
-				break;
-				
-			}
+			//Define type of category
+			$type=$model->type;	
+			if(isset($model->config_type[$type]['form']))		
+				$form=$model->config_type[$type]['form'];
+			else 
+				$form='_form';
 			Yii::app()->clientScript->scriptMap['jquery.js'] = false;
 			$html_tree=$this->renderPartial('_tree',array(
-					'list'=>$model->list_categories,
+					'list_nodes'=>$model->list_nodes,
 			),true);
 			$html_form = $this->renderPartial($form,array(
-					'model'=>$model,'group'=>$group,'action'=>$action
+					'model'=>$model,'action'=>$action
 				),true,true); 
 			echo $html_form.$html_tree;
 	}
@@ -246,94 +140,38 @@ class CategoryController extends Controller
 	 * If deletion is successful, the browser will be redirected to the 'admin' page.
 	 * @param integer $id the ID of the model to be deleted
 	 */
-	public function actionDelete($id,$current_id,$group)
+	public function actionDelete($id,$current_id)
 	{
 			$result=array();
 			$model=$this->loadModel($id);
-			//Define group of category
-			$model->group=$group;
-			switch ($group){
-				case 
-				Category::GROUP_ADVANCE_ADMIN_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case 
-				Category::GROUP_ADMIN_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case 
-				Category::GROUP_KEYWORD: 
-				$model->scenario='keyword';	
-				$form='_form_keyword';
-				break;
-				case 
-				Category::GROUP_USER_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case Category::GROUP_ROOT: 
-				$model->scenario='root';	
-				$form="_form_root";
-				break;
-				case				
-				Category::GROUP_NEWS: 
-				$model->scenario='news';	
-				$form="_form_news";
-				break;
-				case				
-				Category::GROUP_GALLERYVIDEO: 
-				$model->scenario='video';	
-				$form="_form_video";
-				break;
-				case				
-				Category::GROUP_ALBUM: 
-				$model->scenario='album';	
-				$form="_form_album";
-				break;
-				case				
-				Category::GROUP_STATICPAGE: 
-				$model->scenario='staticPage';	
-				$form="_form_staticPage";
-				break;
-				case
-				Category::GROUP_PRODUCT: 
-				$model->scenario='product';	
-				$form="_form_product";
-				break;
-				case
-				Category::GROUP_MANUFACTURER: 
-				$model->scenario='manufacturer';	
-				$form="_form_manufacturer";
-				break;
-				
-			}
+			//Define type of category
+			$type=$model->type;
+			if(isset($model->config_type[$type]['form']))		
+				$form=$model->config_type[$type]['form'];
+			else 
+				$form='_form';
 			switch ($model->checkDelete($id))	{
 				case Category::DELETE_OK:		
 					if($model->delete()) {
 						$result['status']=true;
 						if($id!=$current_id && $current_id!=0){
 							$model=$this->loadModel($current_id);
-							//Define group of category
-							$model->group=$group;
-							if($group==0) $model->scenario = 'root';
+							//Define type of category
 							$action="update";
 						}
 						else {
 							$model=new Category();
-							//Define group of category
-							$model->group=$group;
-							if($group==0) $model->scenario = 'root';
+							//Define type of category
+							$model->type=$type;
 							$action="create";
 						}
 						Yii::app()->clientScript->scriptMap['jquery.js'] = false;
-						$model->group=$group;
+						$model->type=$type;
 						$html_tree=$this->renderPartial('_tree',array(
-							'list'=>$model->list_categories,
+							'list_nodes'=>$model->list_nodes,
 							),true);
 						$html_form = $this->renderPartial($form,array(
-							'model'=>$model,'group'=>$group,'action'=>$action
+							'model'=>$model,'type'=>$type,'action'=>$action
 							),true,true); 
 						$result['content']=$html_form.$html_tree;	
 					}
@@ -360,10 +198,10 @@ class CategoryController extends Controller
 
 	/**
 	 * Validate category
-	 * @param Group $group of category
+	 * @param type $type of category
 	 * @return 
 	 */
-	public function actionValidateCategory($group)
+	public function actionValidate($type)
 	{
 		if(Yii::app()->getRequest()->getIsAjaxRequest())
 		{
@@ -372,54 +210,7 @@ class CategoryController extends Controller
 			}
 			else {
 				$model=new Category();
-			}
-			$model->group=$group;
-			switch ($group){
-				case 
-				Category::GROUP_ADVANCE_ADMIN_MENU: 
-				$model->scenario='menu';	
-				break;
-				case 
-				Category::GROUP_ADMIN_MENU: 
-				$model->scenario='menu';	
-				break;
-				case 
-				Category::GROUP_KEYWORD: 
-				$model->scenario='keyword';	
-				$form='_form_keyword';
-				break;
-				case 
-				Category::GROUP_USER_MENU: 
-				$model->scenario='menu';	
-				break;
-				case Category::GROUP_ROOT: 
-				$model->scenario='root';	
-				break;
-				case				
-				Category::GROUP_NEWS: 
-				$model->scenario='news';	
-				break;
-				case				
-				Category::GROUP_GALLERYVIDEO: 
-				$model->scenario='video';	
-				break;
-				case				
-				Category::GROUP_ALBUM: 
-				$model->scenario='album';	
-				break;
-				case				
-				Category::GROUP_STATICPAGE: 
-				$model->scenario='staticPage';	
-				break;
-				case
-				Category::GROUP_PRODUCT: 
-				$form="_form_product";
-				break;
-				case
-				Category::GROUP_MANUFACTURER: 	
-				$form="_form_manufacturer";
-				break;
-				
+				$model->type=$type;
 			}
 			echo CActiveForm::validate($model);
 			Yii::app()->end();
@@ -427,72 +218,25 @@ class CategoryController extends Controller
 	}
 	/**
 	 * Display list of category.
-	 * @param integer $group, id of menu group
+	 * @param integer $type, id of menu type
 	 * @return
 	 */
-	public function actionIndex($group)
+	public function actionIndex($type)
 	{
 		$model=new Category();
-		$model->group=$group;
-		switch ($group){
-				case 
-				Category::GROUP_ADVANCE_ADMIN_MENU: 
-				$model->scenario='menu';	
-				break;
-				case 
-				Category::GROUP_ADMIN_MENU: 
-				$model->scenario='menu';	
-				break;
-				case 
-				Category::GROUP_KEYWORD: 
-				$model->scenario='keyword';	
-				$form='_form_keyword';
-				break;
-				case 
-				Category::GROUP_USER_MENU: 
-				$model->scenario='menu';	
-				break;
-				case Category::GROUP_ROOT: 
-				$model->scenario='root';	
-				break;
-				case				
-				Category::GROUP_NEWS: 
-				$model->scenario='news';	
-				break;
-				case				
-				Category::GROUP_GALLERYVIDEO: 
-				$model->scenario='video';	
-				break;
-				case				
-				Category::GROUP_ALBUM: 
-				$model->scenario='album';	
-				break;
-				case				
-				Category::GROUP_STATICPAGE: 
-				$model->scenario='staticPage';	
-				break;
-				case
-				Category::GROUP_PRODUCT: 
-				$model->scenario='product';	
-				break;
-				case
-				Category::GROUP_MANUFACTURER: 
-				$form="_form_manufacturer";
-				break;
-				
-			}
+		$model->type=$type;	
 		$this->render('index',array(
 			'model'=>$model,
-			'group'=>$group,
+			'type'=>$type,
 			'action'=>'create'
 		));
 	}
 	/**
 	 * Creates and updates a new Category model.
-	 * @param integer $group, id of menu group
+	 * @param integer $type, id of menu type
 	 * @return 
 	 */
-	public function actionWrite($group)
+	public function actionWrite($type)
 	{	
 		if(isset($_POST['Category']))
 		{
@@ -504,90 +248,32 @@ class CategoryController extends Controller
 			else {
 				$action="create";
 				$model=new Category();
-			}
-			$model->group=$group;
-			switch ($group){
-				case 
-				Category::GROUP_ADVANCE_ADMIN_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case 
-				Category::GROUP_ADMIN_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case 
-				Category::GROUP_KEYWORD: 
-				$model->scenario='keyword';	
-				$form='_form_keyword';
-				break;
-				case 
-				Category::GROUP_USER_MENU: 
-				$model->scenario='menu';	
-				$form='_form_menu';
-				break;
-				case Category::GROUP_ROOT: 
-				$model->scenario='root';	
-				$form="_form_root";
-				break;
-				case				
-				Category::GROUP_NEWS: 
-				$model->scenario='news';	
-				$form="_form_news";
-				break;
-				case				
-				Category::GROUP_GALLERYVIDEO: 
-				$model->scenario='video';	
-				$form="_form_video";
-				break;
-				case				
-				Category::GROUP_ALBUM: 
-				$model->scenario='album';	
-				$form="_form_album";
-				break;
-				case				
-				Category::GROUP_STATICPAGE: 
-				$model->scenario='staticPage';	
-				$form="_form_static_page";
-				break;
-				case
-				Category::GROUP_PRODUCT: 
-				$model->scenario='product';	
-				$form="_form_product";
-				break;
-				case
-				Category::GROUP_MANUFACTURER: 
-				$model->scenario='manufacturer';	
-				$form="_form_manufacturer";
-				break;
-				
-			}
+				$model->type=$type;
+			}	
+			if(isset($model->config_type[$type]['form']))		
+				$form=$model->config_type[$type]['form'];
+			else 
+				$form='_form';
 			$model->attributes=$_POST['Category'];
-			if(!isset($_POST['Category']['params']) &&  $model->scenario=="menu"){
-				$model->params="";
-			}
-			if(!isset($_POST['Category']['list_special']) && ($model->scenario=="staticPage" || $model->scenario=="news" || $model->scenario=="product")) $model->list_special=array();
+			$model->list_special=array();
 			if(!isset($model->parent_id)){
-					$model->parent_id=$group;
+					$model->parent_id=$type;
 			}
 			if($model->save()){
-				if(($model->scenario == "menu" || $model->scenario=="staticPage" || $model->scenario == 'news' || $model->scenario == 'product') && $action!="create")
-				{	
+				if($action == 'update')
 					$model->changeOrderView();
-				}
 				if($action=="create"){
 					$model=new Category();
-					$model->group=$group;
+					$model->type=$type;
 				}
 			}
 			Yii::app()->clientScript->scriptMap['jquery.js'] = false;
 			$html_tree=$this->renderPartial('_tree',array(
-					'list'=>$model->list_categories,
+					'list_nodes'=>$model->list_nodes,
 				),true)
 				;
 			$html_form = $this->renderPartial($form,array(
-					'model'=>$model,'group'=>$group,'action'=>$action
+					'model'=>$model,'type'=>$type,'action'=>$action
 				),true,true); 
 			echo $html_form.$html_tree;
 		}
@@ -603,50 +289,7 @@ class CategoryController extends Controller
 		$max_order=sizeof($list)+1;
 		echo $max_order;
 	}
-	/**
-	 * Updates list params that create url for menus
-	 * @param integer $id, id of model
-	 * @param controller $controller, controller of url
-	 * @param action $action, action of url
-	 */
-	public function actionConfigUrl($id,$controller,$action)
-	{
-		$model= new Category();
-		if(isset($_GET['group']))
-			$model->group=$_GET['group'];
-		$list_action = $model->codeUrl ( 'action', array ('controller' => $controller ) );
-		$result ['list_action'] = $list_action;
-		$key = array_keys ( $list_action );
-		$select_action = $key ['0'];
-		$select_param="";
-		if ($id > 0) {
-			$model = Category::model ()->findByPk ( $id );
-			if (isset ( $model->controller ) && $model->controller == $controller) {
-				if (isset ( $model->action )) {
-					if($action == "")
-					{
-						$select_action = $model->action;
-						$action=$select_action;
-					}
-					else {
-						if ($model->action == $action) {
-							$select_param = $model->params;
-						} 
-					}
-				} 
-			}
-		}
-		if($action == "") $action=$key['0'];
-		$list_params = Category::getListParams ( $controller, $action );
-		$result = array ();
-		$result ['count'] = sizeof ( $list_params );
-		$result ['list_params'] = $list_params;
-		$result ['list_action'] = $list_action;
-		$result ['selected_params'] = $select_param;
-		$result ['selected_action'] = $select_action;
-		echo json_encode ( $result );
-	}
-	
+		
 	/**
 	 * 
 	 * action set menu active in the admin cp 

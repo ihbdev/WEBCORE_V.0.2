@@ -10,8 +10,8 @@ class wQuickSearch extends CPortlet
 	{
 		$search=new SearchForm();
 		$search->name='Tìm kiếm...';
-		if(isset($_POST['SearchForm']))
-			$search->attributes=$_POST['SearchForm'];
+		if(isset($_GET['SearchForm']))
+			$search->attributes=$_GET['SearchForm'];
 		$this->render('quick-search',array(
 			'search'=>$search
 		));

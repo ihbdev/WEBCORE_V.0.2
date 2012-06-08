@@ -87,8 +87,8 @@ class StaticPageController extends Controller
 		}
 		//Group categories that contains staticPage
 		$group=new Category();		
-		$group->group=Category::GROUP_STATICPAGE;
-		$list_category=$group->list_categories;
+		$group->type=Category::TYPE_STATICPAGE;
+		$list_category=$group->list_nodes;
 		if (! Yii::app ()->getRequest ()->getIsAjaxRequest ())
 				Yii::app ()->session ['checked-suggest-list'] = array();
 		//Handler list suggest staticPage		
@@ -100,8 +100,8 @@ class StaticPageController extends Controller
 			$suggest->attributes=$_GET['SuggestStaticPage'];
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;	
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('create',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
@@ -127,9 +127,7 @@ class StaticPageController extends Controller
 	 */
 	public function actionUpdate($id)
 	{
-		$model=$this->loadModel($id);
-		if(Yii::app()->user->checkAccess('update', array('post' => $model)))	
-		{	
+		$model=$this->loadModel($id);	
 		$model->scenario = 'write';
 		// Ajax validate
 		$this->performAjaxValidation($model);	
@@ -144,12 +142,9 @@ class StaticPageController extends Controller
 		}
 		//Group categories that contains staticPage
 		$group=new Category();		
-		$group->group=Category::GROUP_STATICPAGE;
-		$list=$group->list_categories;
-		$list_category=array();
-		foreach ($list as $id=>$cat){
-			$list_category[$id]=$cat;
-		}
+		$group->type=Category::TYPE_STATICPAGE;
+		$list_category=$group->list_nodes;
+		
 		if (! Yii::app ()->getRequest ()->getIsAjaxRequest ())
 				Yii::app ()->session ['checked-suggest-list'] = array_diff ( explode ( ',', $model->list_suggest ), array ('' ) );
 		//Handler list suggest staticPage
@@ -161,17 +156,14 @@ class StaticPageController extends Controller
 			$suggest->attributes=$_GET['SuggestStaticPage'];
 			//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;	
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('update',array(
 			'model'=>$model,
 			'list_category'=>$list_category,
 			'suggest'=>$suggest,
 			'list_keyword_categories'=>$list_keyword_categories
 		));		
-		}
-		else 
-			throw new CHttpException(403,Yii::t('yii','You are not authorized to perform this action.'));
 	}
 
 	/**
@@ -205,7 +197,7 @@ class StaticPageController extends Controller
 		$list_checked = Yii::app()->session["checked-staticPage-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'static_page_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = StaticPage::model ()->findByPk ( (int)$id );
 						if (isset ( $item ))
@@ -248,13 +240,12 @@ class StaticPageController extends Controller
 			$model->attributes=$_GET['StaticPage'];	
 		//Group categories that contains staticPage
 		$group=new Category();		
-		$group->group=Category::GROUP_STATICPAGE;
-		$list=$group->list_categories;
-		$list_category=$list;	
+		$group->type=Category::TYPE_STATICPAGE;
+		$list_category=$group->list_nodes;	
 		//Group keyword
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_keyword_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_keyword_categories=$group->list_nodes;
 		$this->render('index',array(
 			'model'=>$model,
 			'list_category'=>$list_category,

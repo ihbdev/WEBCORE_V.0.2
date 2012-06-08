@@ -44,54 +44,6 @@ class Image extends CActiveRecord
     	$list=require($configFile); 
     	return $list;
 	}
-	/*
-	static $config_thumb_size=array(
-		'News'=>array(
-			'introimage'=>array('h'=>100,'w'=>130),
-			'introhome_image'=>array('h'=>90,'w'=>130),
-			'intro_left_home_image'=>array('h'=>50,'w'=>50)
-		),
-		'Product'=>array(
-			'introimage'=>array('h'=>144,'w'=>137),
-			'detail_introimage'=>array('h'=>234,'w'=>382),
-			'otherimage'=>array('h'=>234,'w'=>382),
-			'thumb_otherimage'=>array('h'=>117,'w'=>191),
-		),
-		'StaticPage'=>array(
-			'introimage'=>array('h'=>100,'w'=>130)
-		),
-		'Album'=>array(
-			'thumb_upload'=>array('h'=>100,'w'=>125),
-			'thumb'=>array('h'=>100,'w'=>125)
-		),
-		'Banner'=>array(
-			'thumb_upload'=>array('h'=>100,'w'=>'100'),
-			'thumb_headline'=>array('h'=>130,'w'=>300),
-			'headline'=>array('h'=>260,'w'=>596),
-			'thumb_top'=>array('h'=>100,'w'=>260),
-			'top'=>array('h'=>295,'w'=>780),
-			'left'=>array('h'=>252,'w'=>210),
-			'thumb_left'=>array('h'=>252,'w'=>210),
-			'right'=>array('h'=>450,'w'=>300),
-			'thumb_right'=>array('h'=>450,'w'=>300),
-			'footer'=>array('h'=>80,'w'=>160),
-			'thumb_footer'=>array('h'=>60,'w'=>100),
-			'bocghe'=>array('h'=>122,'w'=>180),
-			'thumb_bocghe'=>array('h'=>60,'w'=>100),
-			'doxe'=>array('h'=>122,'w'=>180),
-			'thumb_doxe'=>array('h'=>60,'w'=>100),
-			'sonxe'=>array('h'=>122,'w'=>180),
-			'thumb_sonxe'=>array('h'=>60,'w'=>100)
-		),
-		'GalleryVideo'=>array(
-			'thumb_upload'=>array('h'=>100,'w'=>'100'),
-			'thumb'=>array('h'=>50,'w'=>50)
-		),
-		'Image'=>array(
-		),
-		'Category'=>array(
-		)	
-	);	
 	/**
 	 * Config thumb_type 
 	 * declare thumb_type images
@@ -172,10 +124,10 @@ class Image extends CActiveRecord
 				$thumb->save($url);
 			}
 		}
-		if(file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension))
-			$src=Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$size_type.'/'.$this->filename.'.'.$this->extension;
+		if(file_exists(Yii::getPathOfAlias('webroot').'/'.$this->src.'/'.$type.'/'.$this->filename.'.'.$this->extension))
+			$src=Yii::app()->request->getBaseUrl(true).'/'.$this->src.'/'.$type.'/'.$this->filename.'.'.$this->extension;
 		else 
-			$src=self::getDefaultThumb($category,$type);
+			$src=self::getDefaultThumb($category=null,$type);
 		return '<img class="img" src="'.$src.'" alt="'.$this->title.'">';
 	}
 	/**
@@ -316,6 +268,7 @@ class Image extends CActiveRecord
  	public function getParent()
  	{
  			if ($this->parent_id > 0) {
+ 				/*
 				switch ($this->category) {
 					case self::$config_category ['News'] :
 						$parent = News::model ()->findByPk ( $this->parent_id );
@@ -336,6 +289,9 @@ class Image extends CActiveRecord
 						$parent = GalleryVideo::model ()->findByPk ( $this->parent_id );
 						break;
 				}
+				*/
+ 				$class=$this->category;
+ 				$parent = $class::model()->findByPk($this->parent_id);
 				return $parent;
  			}
 			else {
@@ -488,6 +444,7 @@ class Image extends CActiveRecord
 	{
 		if($this->isNewRecord){
 			if ($this->parent_id > 0) {
+				/*
 				switch ($this->category) {
 					case self::$config_category ['News'] :
 						$parent = News::model ()->findByPk ( $this->parent_id );
@@ -518,6 +475,10 @@ class Image extends CActiveRecord
 						$parent->scenario = 'upload-image';
 						break;
 				}
+			*/
+			$class=$this->category;
+ 			$parent = $class::model()->findByPk($this->parent_id);
+ 			$parent->scenario = 'upload-image';
 			$attribute=$this->parent_attribute;
 			$old_attributes = array_diff ( explode ( ',', $parent->$attribute ), array ('' ) );
 			if(!in_array($this->id,$old_attributes)) 
@@ -555,6 +516,7 @@ class Image extends CActiveRecord
 				}
 			}
 		if ($this->parent_id > 0) {
+				/*
 				switch ($this->category) {
 					case self::$config_category ['News'] :
 						$parent = News::model ()->findByPk ( $this->parent_id );
@@ -578,6 +540,10 @@ class Image extends CActiveRecord
 						$parent = Category::model ()->findByPk ( $this->parent_id );
 						break;
 				}
+				*/
+				$class=$this->category;
+ 				$parent = $class::model()->findByPk($this->parent_id);
+ 				
 				$attribute = $this->parent_attribute;
 				$old_attributes = array_diff ( explode ( ',', $parent->$attribute ), array ('' ) );
 				foreach ( $old_attributes as $id => $image_id ) {

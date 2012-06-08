@@ -5,7 +5,7 @@
                         	<div class="box-featured">
                         		<?php foreach ($list_product as $product):?>
                                 <div class="grid">
-                                    <a href="<?php echo $product->url?>"><?php echo $product->getThumb_url('introimage');?></a>
+                                    <a href="<?php echo $product->url?>"><?php echo $product->getThumb_url('introimage','img');?></a>
                                     <div class="g-content">
                                         <div class="g-row"><a class="g-title" href="<?php echo $product->url?>"><?php echo $product->code?></a></div>
                                         <div class="g-row"><?php if($product->num_price!='') echo number_format($product->num_price, 0, ',', '.').' '.$product->unit_price?></div>

@@ -1,8 +1,9 @@
 <?php
 Yii::import('zii.widgets.CListView');
+Yii::import('theme.components.iPhoenixLinkPager');
 class iPhoenixListView extends CListView
 {
-/**
+	/**
 	 * Renders the pager.
 	 */
 	public function renderPager()
@@ -10,7 +11,7 @@ class iPhoenixListView extends CListView
 		if(!$this->enablePagination)
 			return;
 		$pager=array();
-		$class='CLinkPager';
+		$class='iPhoenixLinkPager';
 		if(is_string($this->pager))
 			$class=$this->pager;
 		else if(is_array($this->pager))
@@ -23,17 +24,7 @@ class iPhoenixListView extends CListView
 			}
 		}
 		$pager['pages']=$this->dataProvider->getPagination();
-
-		if($pager['pages']->getPageCount()>1)
-		{
-			echo '<div class="pages">';
-			echo '<div class="'.$this->pagerCssClass.'">';
-			$this->widget($class,$pager);
-			echo '</div>';
-			echo '</div>';
-		}
-		else
-			$this->widget($class,$pager);
+		$this->widget($class,$pager);
 	}
 }
 ?>

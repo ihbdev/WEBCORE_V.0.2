@@ -22,7 +22,7 @@ else
             <div class="product-detail">
             	<div class="pd-left">
                 	<div class="pd-image">
-               	    	<?php echo $product->getThumb_url('detail_introimage');?>
+               	    	<?php echo $product->getThumb_url('detail_introimage','img');?>
                     </div><!--pd-image-->
                     <?php 
                     $list_id = array_diff ( explode ( ',', $product->otherimage ), array ('' ) );
@@ -87,7 +87,7 @@ else
             	<div class="box-item">
                 	<div class="b-title"><?php echo $similar_product->name?></div>
                 	<a class="b-image" href="<?php echo $similar_product->url?>">
-                   		<?php echo $similar_product->getThumb_url('introimage');?>
+                   		<?php echo $similar_product->getThumb_url('introimage','img');?>
                     </a>
                    <div class="b-detail">
                       	<h5><?php echo Language::t('Giá')?>: <?php if($similar_product->num_price!='') echo number_format($similar_product->num_price, 0, ',', '.').' '.$similar_product->unit_price?></h5>

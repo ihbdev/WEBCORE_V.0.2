@@ -29,6 +29,8 @@ class News extends CActiveRecord
 			'condition'=>'type = '.Article::ARTICLE_NEWS,
 		);	
 	}
+	const GROUP_NEWS=179;
+	const GROUP_APP=180;
 	/**
 	 * Config status of news
 	 */
@@ -118,7 +120,7 @@ class News extends CActiveRecord
 	/*
 	 * Get thumb of video
 	 */
-	public function getThumb_url($type){
+	public function getThumb_url($type,$class){
 		$alt=$this->title;
 		if($this->introimage>0){
 			$image=Image::model()->findByPk($this->introimage);
@@ -129,11 +131,11 @@ class News extends CActiveRecord
 			else {
 				$src=Image::getDefaultThumb('News', $type);
 			}
-			return '<img class="img" src="'.$src.'" alt="'.$alt.'">';
+			return '<img class="'.$class.'" src="'.$src.'" alt="'.$alt.'">';
 		}
 		else {
 			
-			return '<img class="img" src="'.Image::getDefaultThumb('News', $type).'" alt="'.$alt.'">';
+			return '<img class="'.$class.'" src="'.Image::getDefaultThumb('News', $type).'" alt="'.$alt.'">';
 		}
 	}
 	/**
@@ -569,7 +571,7 @@ class News extends CActiveRecord
 		//Filter catid
 		$cat = Category::model ()->findByPk ( $this->catid );
 		if ($cat != null) {
-			$child_categories = $cat->child_categories;
+			$child_categories = $cat->child_nodes;
 			$list_child_id = array ();
 			//Set itself
 			$list_child_id [] = $cat->id;
@@ -582,7 +584,7 @@ class News extends CActiveRecord
 		//Filter keyword category
 		$cat = Category::model ()->findByPk ( $this->keyword );
 		if ($cat != null) {
-			$criteria->addInCondition ( 'keyword', $cat->bread_crumb );
+			$criteria->addInCondition ( 'keyword', $cat->ancestor_nodes );
 		}
 		if (isset ( $_GET ['pageSize'] ))
 			Yii::app ()->user->setState ( 'pageSize', $_GET ['pageSize'] );

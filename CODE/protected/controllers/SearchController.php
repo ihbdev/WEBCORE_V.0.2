@@ -9,10 +9,22 @@ class SearchController extends Controller
 	{
 		$search=new SearchForm();
 		$criteria = new CDbCriteria ();
-		if(isset($_POST['SearchForm'])){
-			$search->attributes=$_POST['SearchForm'];
+		if(isset($_GET['SearchForm'])){
+			$search->attributes=$_GET['SearchForm'];
 			$criteria->compare ( 'name', $search->name, true );
-			$criteria->compare ( 'catid', $search->catid );
+			//Filter catid
+			$cat = Category::model ()->findByPk ( $search->catid );
+			if ($cat != null) {
+				$child_categories = $cat->child_nodes;
+				$list_child_id = array ();
+				//Set itself
+				$list_child_id [] = $cat->id;
+				if ($child_categories != null)
+					foreach ( $child_categories as $id => $child_cat ) {
+						$list_child_id [] = $id;
+					}
+				$criteria->addInCondition ( 'catid', $list_child_id );
+			}
 			if($search->end_price != '')
 				$criteria->addCondition('num_price <= '.$search->end_price);
 			if($search->start_price != '')

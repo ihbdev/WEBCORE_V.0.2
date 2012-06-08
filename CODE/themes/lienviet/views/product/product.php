@@ -17,7 +17,7 @@ $this->bread_crumbs=array(
                         <div class="product-maindetail">
                         	<span class="thumbnail">
 							<?php 
-								echo $product->getThumb_url('detail_introimage');
+								echo $product->getThumb_url('detail_introimage','img');
 							?>
 							</span>
                             <div class="product-title"><?php echo $product->name;?></div>
@@ -69,7 +69,7 @@ $this->bread_crumbs=array(
                     	<div class="item">
                         	<div class="item-top"></div>
                         	<h3><?php echo $similar_product->name;?></h3>
-                            <a class="item-img" href="<?php echo $similar_product->url;?>"><?php echo $similar_product->getThumb_url('introimage')?></a>
+                            <a class="item-img" href="<?php echo $similar_product->url;?>"><?php echo $similar_product->getThumb_url('introimage','img')?></a>
                             <div class="item-view">
                             	<h4>Giá <?php if($product->num_price!=0) echo number_format($similar_product->num_price, 0, ',', '.').' '.$similar_product->unit_price; else echo "CALL";?></h4>
                                 <a class="view-more" href="<?php echo $similar_product->url;?>">Chi tiết</a>

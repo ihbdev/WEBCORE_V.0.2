@@ -11,7 +11,7 @@ $this->bread_crumbs=array(
                 	<div class="news-detail">
                         <div class="news-title"><?php echo $page->title?></div>
                         <div class="news-maindetail">
-                        	<span class="thumbnail"><?php echo $page->getThumb_url('introimage')?></span>
+                        	<span class="thumbnail"><?php echo $page->getThumb_url('introimage','img')?></span>
                             <span class="news-time"><?php echo date("(d/m/Y | h'm')",$page->created_date);?></span>
                             <?php echo $page->fulltext?>
                         </div><!--news-maindetail-->

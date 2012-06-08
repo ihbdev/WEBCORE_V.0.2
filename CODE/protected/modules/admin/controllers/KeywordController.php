@@ -93,8 +93,8 @@ class KeywordController extends Controller
 			
 		//Group categories that contains news
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_categories=$group->list_nodes;
 		
 		$this->render('create',array(
 			'model'=>$model,
@@ -122,8 +122,8 @@ class KeywordController extends Controller
 		
 		//Group categories that contains news
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_categories=$group->list_nodes;
 			
 		$this->render('update',array(
 			'model'=>$model,
@@ -162,7 +162,7 @@ class KeywordController extends Controller
 		$list_checked = Yii::app()->session["checked-keyword-list"];
 		switch ($action) {
 			case 'delete' :
-				if (Yii::app ()->user->checkAccess ( 'update')) {
+				if (Yii::app ()->user->checkAccess ( 'keyword_delete')) {
 					foreach ( $list_checked as $id ) {
 						$item = Keyword::model ()->findByPk ( $id );
 						if (isset ( $item ))
@@ -194,12 +194,12 @@ class KeywordController extends Controller
 			$model->attributes=$_GET['Keyword'];	
 		//Group categories that contains news
 		$group=new Category();		
-		$group->group=Category::GROUP_KEYWORD;
-		$list_categories=$group->list_categories;
+		$group->type=Category::TYPE_KEYWORD;
+		$list_category=$group->list_nodes;
 				
 		$this->render('index',array(
 			'model'=>$model,
-			'list_categories'=>$list_categories
+			'list_category'=>$list_category
 		));
 	}
 	/**
