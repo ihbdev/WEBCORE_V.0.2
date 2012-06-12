@@ -95,7 +95,7 @@ class LanguageForm extends CFormModel
 	 */    
     static function getList_all_languages(){
     	//Get list all language
-		$configFile = dirname ( __FILE__ ).'/../config/'.DIRECTORY_SEPARATOR.'config_languages.php';
+		$configFile = Yii::app ()->theme->basePath.'/config/config_languages.php';
     	$list=require($configFile); 
     	return $list;
     }

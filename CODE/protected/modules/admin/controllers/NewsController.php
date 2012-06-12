@@ -235,6 +235,7 @@ class NewsController extends Controller
 								Yii::app ()->end ();
 							}
 					}
+					Yii::app ()->session ["checked-news-list"] = array ();
 				} else {
 					echo 'false';
 					Yii::app ()->end ();
@@ -250,6 +251,7 @@ class NewsController extends Controller
 						Yii::app ()->end ();
 					}
 				}
+				Yii::app ()->session ["checked-news-list"] = array ();
 				}
 				else {
 					echo 'false';

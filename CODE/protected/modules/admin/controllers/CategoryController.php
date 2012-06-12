@@ -150,7 +150,7 @@ class CategoryController extends Controller
 				$form=$model->config_type[$type]['form'];
 			else 
 				$form='_form';
-			switch ($model->checkDelete($id))	{
+			switch ((int)$model->checkDelete($id))	{
 				case Category::DELETE_OK:		
 					if($model->delete()) {
 						$result['status']=true;

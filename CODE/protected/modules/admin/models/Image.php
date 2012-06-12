@@ -74,16 +74,24 @@ class Image extends CActiveRecord
 	 * Get width of this origin image
 	 */
 	public function getWidth(){
-		$size=getimagesize($this->pathOrigin);
-		return $size[0];
+		if(file_exists($this->pathOrigin)){
+			$size=getimagesize($this->pathOrigin);
+			return $size[0];
+		}
+		else
+			return 0;
 	}
 	
 	/**
 	 * Get height of this origin image
 	 */
 	public function getHeight(){
-		$size=getimagesize($this->pathOrigin);
-		return $size[1];
+		if(file_exists($this->pathOrigin)){
+			$size=getimagesize($this->pathOrigin);
+			return $size[1];
+		}
+		else
+			 return 0;
 	}
 	
 	/**
@@ -552,10 +560,12 @@ class Image extends CActiveRecord
 					}
 				}
 				$parent->$attribute = implode ( ',', $old_attributes);
-			if($parent->save())
-				return true;
-			else 
-				return false;
+			if(isset($parent->id)){
+				if($parent->save())
+					return true;
+				else 
+					return false;
+				}
 			}
 			else {
 				return true;

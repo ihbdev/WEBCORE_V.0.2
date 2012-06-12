@@ -70,7 +70,7 @@ class Category extends CActiveRecord
 	public function init(){
 			parent::init();
 			//Get list all language
-			$configFile = dirname ( __FILE__ ).'/../config/'.DIRECTORY_SEPARATOR.'config_categories.php';
+			$configFile = Yii::app ()->theme->basePath.'/config/config_categories.php';
     		$this->config_type=require($configFile); 
 	}
 	/**
@@ -582,6 +582,7 @@ class Category extends CActiveRecord
 		if(sizeof($list_category)>0){
 			return self::DELETE_HAS_CHILD;
 		}
+		/*
 		switch($this->type){
 			case self::TYPE_NEWS:
 				$list_news=News::model()->findAll('catid = '. $id);
@@ -617,6 +618,11 @@ class Category extends CActiveRecord
 				break;
 			
 		}
+		*/
+		$class=$this->config_type[$this->type]['class'];
+		$list=$class::model()->findAll('catid = '. $id);
+		if(sizeof($list)>0) 
+			return self::DELETE_HAS_ITEMS;
 		return self::DELETE_OK;
 	}
 
@@ -634,6 +640,7 @@ class Category extends CActiveRecord
 	 * @return string, the url of menu
 	 */
 	public function getUrl() {
+		/*
 		switch ($this->type){
 			case Category::TYPE_NEWS:		
  			$cat_alias=$this->alias;
@@ -664,6 +671,9 @@ class Category extends CActiveRecord
  			$url=Yii::app()->createUrl("/qA/list",array('cat_alias'=>$cat_alias));
 			break;
 		}
+		*/
+		$cat_alias=$this->alias;
+		$url=Yii::app()->createUrl("/".$this->config_type[$this->type]['code']."/list",array('cat_alias'=>$cat_alias));
 		return $url;
 	}
 	/**

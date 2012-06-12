@@ -19,7 +19,7 @@
                     	</li>
                     </div> 
                     <?php 
-                    $configFile = dirname ( __FILE__ ).'/../../../config/'.DIRECTORY_SEPARATOR.'config_operations.php';
+                    $configFile = Yii::app ()->theme->basePath.'/config/config_operations.php';
     				$group=require($configFile);
     				if($model->category == '') $model->category='product';
                     ?>

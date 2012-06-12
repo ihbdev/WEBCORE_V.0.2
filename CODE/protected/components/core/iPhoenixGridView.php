@@ -36,6 +36,14 @@ class iPhoenixGridView extends CGridView
 			type:'GET',
 			url:$(this).attr('href'),
 			success:function(data) {
+				if(data){
+					name=$('thead :checkbox').attr('name');
+					name=name.substring(0, name.length - 4) + '[]';
+					list_checked=new Array();
+					$('input[name=\''+name+'\']:checked').each(function(i){
+						$(this).removeAttr('checked');
+					});	
+				}
 				$.fn.yiiGridView.update('{$this->id}');
 				return false;
 			},

@@ -473,9 +473,9 @@ class Menu extends CActiveRecord
 	 * @return array
 	 */
 	public function codeUrl($type,$value=array()){
-		$configFile = dirname ( __FILE__ ).'/../config/'.DIRECTORY_SEPARATOR.'/menu/config_menu_controller.php';
+		$configFile = Yii::app ()->theme->basePath.'/config/menu/config_menu_controller.php';
     	$config_controller=require($configFile); 
-    	$configFile = dirname ( __FILE__ ).'/../config/'.DIRECTORY_SEPARATOR.'/menu/config_menu_action.php';
+    	$configFile = Yii::app ()->theme->basePath.'/config/menu/config_menu_action.php';
     	$config_action=require($configFile); 		
 		switch ($type) {
 			case 'controller': 
@@ -494,7 +494,7 @@ class Menu extends CActiveRecord
 	static function getListParams($controller, $action) {
 		
 		//Get params for action view_categories
-		$configFile = dirname ( __FILE__ ).'/../config/'.DIRECTORY_SEPARATOR.'/config_categories.php';
+		$configFile = Yii::app ()->theme->basePath.'/config/config_categories.php';
     	$config_categories=require($configFile); 
 		$result = array ();
 		if ($action == 'view_categories') {
@@ -567,7 +567,7 @@ class Menu extends CActiveRecord
 	 * @return string the corresponding url of this controller/action
 	 */	
 	public function getRoute(){
-		$configFile = dirname ( __FILE__ ).'/../config/'.DIRECTORY_SEPARATOR.'/menu/config_menu_route.php';
+		$configFile = Yii::app ()->theme->basePath.'/config/menu/config_menu_route.php';
     	$config_route=require($configFile); 
 		if(isset($config_route [$this->controller] [$this->action]))
 			return $config_route [$this->controller] [$this->action];
@@ -579,7 +579,7 @@ class Menu extends CActiveRecord
 	 * @return string, the url of menu
 	 */
 	public function getUrl() {	
-		$configFile = dirname ( __FILE__ ).'/../config/'.DIRECTORY_SEPARATOR.'/menu/config_menu_params.php';
+		$configFile = Yii::app ()->theme->basePath.'/config/menu/config_menu_params.php';
     	$config_params=require($configFile);	
 			if ($this->params != "") {
 				$params = ( array ) json_decode ( $this->params );

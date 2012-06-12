@@ -98,7 +98,7 @@ class KeywordController extends Controller
 		
 		$this->render('create',array(
 			'model'=>$model,
-			'list_categories'=>$list_categories			
+			'list_category'=>$list_categories			
 		));
 	}
 	/**
@@ -127,7 +127,7 @@ class KeywordController extends Controller
 			
 		$this->render('update',array(
 			'model'=>$model,
-			'list_categories'=>$list_categories			
+			'list_category'=>$list_categories			
 		));
 	}
 	

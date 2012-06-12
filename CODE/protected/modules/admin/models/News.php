@@ -411,8 +411,7 @@ class News extends CActiveRecord
 		$introtext=$this->introtext;
 		$this->introtext=CHtml::decode($introtext);
 		//Store old title
-		$this->old_title=$this->title;
-		
+		$this->old_title=$this->title;		
 		if(isset($this->list_other_attributes['modified']))
 			$this->list_other_attributes['modified']=(array)json_decode($this->list_other_attributes['modified']);
 		else 
@@ -448,10 +447,10 @@ class News extends CActiveRecord
 			else {
 				$modified=$this->modified;
 				$modified[time()]=Yii::app()->user->id;
-				$this->modified=json_encode($modified);	
+				$this->modified=json_encode($modified);
 				if($this->title != $this->old_title) {
-					$alias=iPhoenixString::createAlias($this->title);
-					while(sizeof(News::model()->findAll('alias = "'.$alias.'"'))>0){
+				$alias=iPhoenixString::createAlias($this->title);
+				while(sizeof(News::model()->findAll('alias = "'.$alias.'"'))>0){
 					$suffix=rand(1,99);
 					$alias =$alias.'-'.$suffix;
 				}
@@ -546,13 +545,9 @@ class News extends CActiveRecord
 			//Delete introimage		
 			$introimage = Image::model()->findByPk($this->introimage);
 			if(isset($introimage)){
-				if($introimage->delete()) 
-					return true;
-				else 
-					return false;	
-			}
-			else 	
-				return true;		
+				$introimage->delete();
+			}	
+			return true;		
 		}
 	}
 	/**

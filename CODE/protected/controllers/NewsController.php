@@ -51,7 +51,7 @@ class NewsController extends Controller
 					'cat'=>$cat,
 					'list_news'=>$list_news
 				));
-		}	
+		}
 	}	
 	public function actionView($cat_alias,$news_alias)
 	{
