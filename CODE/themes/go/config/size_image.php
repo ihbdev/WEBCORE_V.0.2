@@ -2,7 +2,8 @@
 return array(
 		'News'=>array(
 			'introimage'=>array('h'=>100,'w'=>140),
-			'thumb_introimage'=>array('h'=>62,'w'=>84)
+			'thumb_introimage'=>array('h'=>62,'w'=>84),
+			'thumb_homepage'=>array('h'=>68,'w'=>68)
 		),
 		'Product'=>array(
 			'introimage'=>array('h'=>174,'w'=>174),

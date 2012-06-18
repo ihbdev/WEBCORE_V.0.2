@@ -7,7 +7,7 @@ return array(
 			'introimage'=>array('h'=>144,'w'=>137),
 			'detail_introimage'=>array('h'=>234,'w'=>382),
 			'otherimage'=>array('h'=>234,'w'=>382),
-			'thumb_otherimage'=>array('h'=>117,'w'=>191),
+			'thumb_otherimage'=>array('h'=>117,'w'=>191),			
 		),
 		'StaticPage'=>array(
 			'introimage'=>array('h'=>100,'w'=>130)

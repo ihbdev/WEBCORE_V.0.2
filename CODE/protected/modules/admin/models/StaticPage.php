@@ -42,6 +42,7 @@ class StaticPage extends CActiveRecord
 	const GUIDE_CATEGORY=59;
 	const ALIAS_PRESENT_CATEGORY='gioi-thieu';
 	const ALIAS_GUIDE_CATEGORY='huong-dan';
+	const HOMEPAGE_ID=2;
 	
 	public $old_fulltext;
 	public $old_introimage;

@@ -31,7 +31,7 @@ LoadBar.prototype.run = function(){
 		var head = document.getElementsByTagName("head")[0];
 		var script = document.createElement("script");
 		script.type = "text/javascript";
-		script.src = "js/" + source
+		script.src = "themes/go/js/" + source
 		head.appendChild(script);
 	}	
 };

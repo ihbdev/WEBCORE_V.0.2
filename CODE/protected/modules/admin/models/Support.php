@@ -220,7 +220,7 @@ class Support extends CActiveRecord
 			return false;
 	}
 	public function checkSkypeOnline(){
-		 //$data = file_get_contents('http://mystatus.skype.com/' . urlencode($this->skype) . '.num');
+		$data = file_get_contents('http://mystatus.skype.com/' . urlencode($this->skype) . '.num');
 		if ($data == 2) 
 			return true;
 		else

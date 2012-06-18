@@ -20,7 +20,7 @@ return array(
 		'application.components.*',
 		'application.models.*',
 	),
-	'defaultController'=>'site/home',
+	'defaultController'=>'site',
 	'modules'=>array(
 		// uncomment the following to enable the Gii tool
 		'gii'=>array(

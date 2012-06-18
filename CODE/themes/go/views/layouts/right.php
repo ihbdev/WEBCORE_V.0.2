@@ -53,12 +53,5 @@
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl?>/js/style.js"></script>
 <script type="text/javascript" src="<?php echo Yii::app()->theme->baseUrl?>/js/tab.js"></script>
 <script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
-<script type="text/javascript">
-$(document).ready(function(){
-<?php if(Yii::app()->controller->id != "site" || Yii::app()->controller->action->id != "index"):?>
-$(window).scrollTop($(".bground").offset().top); 
-<?php endif;?>
-});
-</script>
 </body>
 </html>

@@ -3,11 +3,19 @@
 class SiteController extends Controller
 {
 	/**
+	 * This is the action to handle view home page
+	 */
+	public function actionIndex()
+	{
+		$this->layout="index";
+		$this->render( 'index');
+	}
+	/**
 	 * This is the action to handle external exceptions.
 	 */
 	public function actionError()
 	{
-			$this->layout="";
+			$this->layout="main";
 			if ($error = Yii::app ()->errorHandler->error) {
 				if (Yii::app ()->request->isAjaxRequest)
 					echo $error ['message'];
@@ -34,33 +42,26 @@ class SiteController extends Controller
 	 */
 	public function actionHome()
 	{
-		/*
+		$this->layout='right';
+		//List products
 		$criteria=new CDbCriteria;
 		$criteria->compare('status', Product::STATUS_ACTIVE);
-		$criteria->order='id desc';
-		$criteria->limit=Setting::s('SIZE_REMARK_PRODUCT','Product');
+		$criteria->limit=4;
+		$criteria->order='id desc';		
 		$list_product=Product::model()->findAll($criteria);
-		
+		//List news
 		$criteria=new CDbCriteria;
 		$criteria->compare('status', Product::STATUS_ACTIVE);
-		$criteria->addNotInCondition('catid', array(News::PRESENT_CATEGORY,News::GUIDE_CATEGORY));
-		$criteria->order='id desc';
-		$criteria->limit=Setting::s('SIZE_HOME_NEWS','News');
+		$criteria->limit=2;
+		$criteria->order='id desc';		
 		$list_news=News::model()->findAll($criteria);
-		
-		$this->render( 'home' ,array('list_news'=>$list_news,'list_product'=>$list_product));
-		*/
-		$criteria=new CDbCriteria;
-		$criteria->compare('status', Product::STATUS_ACTIVE);
-		$criteria->order='id desc';
-		
-		$list_product=new CActiveDataProvider('Product', array(
-					'pagination'=>array(
-						'pageSize'=>Setting::s('HOME_PRODUCT_PAGE_SIZE','Product'),
-					),
-					'criteria'=>$criteria,
-				));
-		$this->render( 'home' ,array('list_product'=>$list_product));
+		//Static Page
+		$static_page=StaticPage::model()->findByPk(StaticPage::HOMEPAGE_ID);
+		$this->render( 'home' ,array(
+			'list_product'=>$list_product,
+			'list_news'=>$list_news,
+			'static_page'=>$static_page
+			));
 	}	
 	/**
 	 * This is the action to handle view search page

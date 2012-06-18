@@ -27,8 +27,8 @@
 					foreach ($list_menus as $id=>$item){
 						$menu=Category::model()->findByPk($id);
 						$class='';
-						if($item['active']) $class = 'active';
-						if($item['havechild'] && $item['level']==1){
+						if(isset($item['active']) && $item['active']) $class = 'active';
+						if(isset($item['havechild']) && $item['havechild'] && $item['level']==1){
 							echo '<li class="'.$class.'">';
 							echo '<a class="firstlink" id="'.$id.'" href="'.$menu->url.'">'.Language::t($menu->name,'layout').'</a>';
 							echo '<ul>';
@@ -38,7 +38,7 @@
 							echo '<a id="'.$id.'" href="'.$menu->url.'">'.Language::t($menu->name,'layout').'</a>';
 							echo '</li>';
 						}
-						if($item['level_close']) {
+						if(isset($item['level_close'])&& $item['level_close']) {
 							for ($i=0;$i<$item['level_close'];$i++) {
 									echo '</ul>';
 									echo '</li>';
