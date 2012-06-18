@@ -620,7 +620,8 @@ class Category extends CActiveRecord
 		}
 		*/
 		$class=$this->config_type[$this->type]['class'];
-		$list=$class::model()->findAll('catid = '. $id);
+		$object= new $class;
+		$list=$object->findAll('catid = '. $id);
 		if(sizeof($list)>0) 
 			return self::DELETE_HAS_ITEMS;
 		return self::DELETE_OK;

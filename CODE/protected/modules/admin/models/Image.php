@@ -299,7 +299,8 @@ class Image extends CActiveRecord
 				}
 				*/
  				$class=$this->category;
- 				$parent = $class::model()->findByPk($this->parent_id);
+				$object=new $class;
+ 				$parent = $object->findByPk($this->parent_id);
 				return $parent;
  			}
 			else {
@@ -485,7 +486,8 @@ class Image extends CActiveRecord
 				}
 			*/
 			$class=$this->category;
- 			$parent = $class::model()->findByPk($this->parent_id);
+			$object= new $class;
+ 			$parent = $object->findByPk($this->parent_id);
  			$parent->scenario = 'upload-image';
 			$attribute=$this->parent_attribute;
 			$old_attributes = array_diff ( explode ( ',', $parent->$attribute ), array ('' ) );
@@ -550,7 +552,8 @@ class Image extends CActiveRecord
 				}
 				*/
 				$class=$this->category;
- 				$parent = $class::model()->findByPk($this->parent_id);
+				$object=new $class;
+ 				$parent = $object->findByPk($this->parent_id);
  				
 				$attribute = $this->parent_attribute;
 				$old_attributes = array_diff ( explode ( ',', $parent->$attribute ), array ('' ) );

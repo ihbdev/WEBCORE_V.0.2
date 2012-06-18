@@ -1680,6 +1680,7 @@ class CWebApplication extends CApplication
 	}
 	public function runController($route)
 	{
+		
 		if(($ca=$this->createController($route))!==null)
 		{
 			list($controller,$actionID)=$ca;
